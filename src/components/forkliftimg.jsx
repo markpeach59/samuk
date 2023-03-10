@@ -5,7 +5,7 @@ const ForkliftImg = props => {
 
   //console.log("IMG:", imgName);
 
-  const imgNam = "https://fbtbucket.s3.eu-west-2.amazonaws.com/" + imgName;
+  const imgNam = "https://maximalforklifts.s3.eu-west-2.amazonaws.com/" + imgName;
 
   //console.log("IMG:", imgNam);
 
