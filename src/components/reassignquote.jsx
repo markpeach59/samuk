@@ -10,7 +10,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import "typeface-roboto";
 
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/Inputlabel";
+import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 
 const Reassignquote = (props) => {
