@@ -995,11 +995,11 @@ class ForkliftDetail extends Component {
             <br />
             {this.state.engType !== "Warehouse" ? (
               <React.Fragment>
-                ISO Safety System
+                OPS Safety System
                 <br />
-                Full LED Road Lighting
+                Full LED Lighting
                 <br />
-                Amber Beacon, Safety Blue Spot
+                Amber Beacon
                 <br />
                 Reverse Alarm
                 <br />
