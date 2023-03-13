@@ -648,6 +648,11 @@ class ForkliftDetail extends Component {
               this.state.selectedMastSize.closedheight
                 ? " , " + this.state.selectedMastSize.closedheight + "mm"
                 : null}
+
+              {this.state.selectedMastSize &&
+              this.state.selectedMastSize.freeliftheight
+                ? " , " + this.state.selectedMastSize.freeliftheight + "mm"
+                : null}   
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.selectedValve}
