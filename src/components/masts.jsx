@@ -24,6 +24,25 @@ const Masts = props => {
     //console.log("AYA", aa);
   }
 
+  function displayMastDetails (mastsize) {return mastsize.freeliftheight ? (
+                          
+                              mastsize.mastlength +
+                              "mm,  " +
+                              mastsize.closedheight +
+                              "mm," +
+                              mastsize.freeliftheight +
+                              "mm"
+                            
+                        ): (
+                          
+                              mastsize.mastlength +
+                              "mm,  " +
+                              mastsize.closedheight +
+                              "mm"
+                            
+                        )
+  }
+
   return (
     <React.Fragment>
       <Grid container spacing={2}>
@@ -41,10 +60,7 @@ const Masts = props => {
                         value={mastsize.mastlength}
                         control={<Radio color="primary" />}
                         label={
-                          mastsize.mastlength +
-                          "mm,  " +
-                          mastsize.closedheight +
-                          "mm"
+                          displayMastDetails(mastsize)
                         }
                         onChange={() => onMastSizeSel(mastsize, mast.masttype)}
                         checked={
