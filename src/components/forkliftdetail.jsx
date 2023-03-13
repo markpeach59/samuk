@@ -25,6 +25,8 @@ import Armguards from "./armguard";
 import Fork2ds from "./fork2d";
 import Bfs from "./bfs";
 
+import Safetybluespot from "./safetybluespot";
+
 import Upsweptexhausts from "./upsweptexhaust";
 
 import Trolley from "./trolley";
@@ -100,6 +102,9 @@ class ForkliftDetail extends Component {
 
       batterys: forky.batteries,
       bfss: forky.bfs,
+
+      safetybluespots:forky.safetybluespot,
+
       trolleys: forky.trolley,
       blinkeys: forky.blinkey,
       sideextractionbatterys: forky.sideextractionbattery,
@@ -149,6 +154,9 @@ class ForkliftDetail extends Component {
 
       selectedFork2d: undefined,
       selectedBfs: undefined,
+
+      selectedSafetybluespot: undefined,
+
       selectedTrolley: undefined,
       selectedBlinkey: undefined,
 
@@ -229,6 +237,7 @@ class ForkliftDetail extends Component {
       quote.fork2d = this.state.selectedFork2d.forklength;
 
     if (this.state.selectedBfs) quote.bfs = true;
+    if (this.state.selectedsafetybluespot) quote.safetybluespot = true;
 
     //console.log("Quote", quote);
     try {
@@ -371,6 +380,14 @@ class ForkliftDetail extends Component {
 
     this.setState({ selectedBfs: bfs, totalprice: newprice });
   };
+
+  handleSafetybluespotSel = (safetybluespot) => {
+    const oldprice = this.state.selectedSafetybluespot ? this.state.selectedSafetybluespot.price : 0;
+    const newprice = this.state.totalprice + safetybluespot.price - oldprice;
+
+    this.setState({ selectedSafetybluespot: safetybluespot, totalprice: newprice });
+  };
+
 
   handleTrolleySel = (trolley) => {
     const oldprice = this.state.selectedTrolley
@@ -866,6 +883,20 @@ class ForkliftDetail extends Component {
             >
               {this.state.selectedBfs ? "with BFS" : null}
             </ConditionalWrapper>
+            
+            <ConditionalWrapper
+              condition={this.state.selectedSafetybluespot}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedSafetybluespot ? "Safety Blue Spot" : null}
+            </ConditionalWrapper>
+
+
             <ConditionalWrapper
               condition={this.state.selectedTrolley}
               wrapper={(children) => (
@@ -1199,6 +1230,15 @@ class ForkliftDetail extends Component {
                 onBfsSel={this.handleBfsSel}
               />
             ) : null}
+
+            {this.state.safetybluespots && this.state.safetybluespots.length > 0 ? (
+              <Safetybluespot
+                safetybluespots={this.state.safetybluespots}
+                selectedSafetybluespot={this.state.selectedSafetybluespot}
+                onSafetybluespotSel={this.handleSafetybluespotSel}
+              />
+            ) : null}   
+
 
             {this.state.trolleys && this.state.trolleys.length > 0 ? (
               <Trolley
