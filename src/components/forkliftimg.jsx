@@ -11,7 +11,9 @@ const ForkliftImg = props => {
 
   return (
     <React.Fragment>
-      <img src={imgNam} alt="" />
+      <img src={imgNam}  
+      style={{ width: 300, paddingTop: 20, paddingBottom: 40 }}
+      alt="" />
     </React.Fragment>
   );
 };
