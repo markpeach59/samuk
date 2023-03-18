@@ -336,19 +336,40 @@ class ForkliftDetail extends Component {
       ? this.state.selectedForkpositioner.price
       : 0;
 
-
       console.log ("3rd + 4th Valve should be selected");
 
-    const newprice = this.state.totalprice + forkpositioner.price - oldprice;
+      const newprice = this.state.totalprice + forkpositioner.price - oldprice;
 
-    
+      
+      if(!this.state.selectedValve){
+        console.log("Adding 3rd+4th Valve");
+        const adjustedprice = newprice + this.state.valves[1].price;
+        this.setState({
+          selectedForkpositioner: forkpositioner,
+          selectedValve: this.state.valves[1],
+          totalprice: adjustedprice
+        });
+      }
+      else if (this.state.selectedValve == this.state.valves[0]){
+        console.log("upgrade 3rd to 3rd+4th Valve");
+        const oldvalveprice = this.state.valves[0].price;
+        const adjustedprice = newprice + this.state.valves[1].price - oldvalveprice;
+        this.setState({
+          selectedForkpositioner: forkpositioner,
+          selectedValve: this.state.valves[1],
+          totalprice: adjustedprice
+        });
 
-      this.setState({
-        selectedForkpositioner: forkpositioner,
-        totalprice: newprice,
-      });
+      } else {
+        console.log("3rd+4th Valve already selected")
+        this.setState({
+          selectedForkpositioner: forkpositioner,
+          totalprice: newprice,
+        });
 
-    
+      }
+
+ 
     
   };
 
@@ -1101,6 +1122,7 @@ class ForkliftDetail extends Component {
               <Valves
                 valves={this.state.valves}
                 selectedValve={this.state.selectedValve}
+                selectedForkpositioner={this.state.selectedForkpositioner}
                 onValveSel={this.handleValveSel}
               />
             ) : null}
