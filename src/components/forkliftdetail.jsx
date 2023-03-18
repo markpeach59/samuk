@@ -308,21 +308,48 @@ class ForkliftDetail extends Component {
     const oldprice = this.state.selectedSideShift
       ? this.state.selectedSideShift.price
       : 0;
+      
+      	console.log("3rd Valve should be selected");
+      
+      
     const newprice = this.state.totalprice + sideshift.price - oldprice;
+    
+    if(!this.state.selectedValve){
+      console.log("Adding 3rd Valve")
 
-    this.setState({ selectedSideShift: sideshift, totalprice: newprice });
+      const adjustedprice = newprice + this.state.valves[0].price;
+      this.setState({ selectedSideShift: sideshift, 
+        selectedValve: this.state.valves[0],
+        totalprice: adjustedprice });
+
+    } else {
+      console.log("Valve is already selected")
+      this.setState({ selectedSideShift: sideshift, 
+        totalprice: newprice });
+
+    }
+   
   };
 
   handleForkpositionerSel = (forkpositioner) => {
     const oldprice = this.state.selectedForkpositioner
       ? this.state.selectedForkpositioner.price
       : 0;
+
+
+      console.log ("3rd + 4th Valve should be selected");
+
     const newprice = this.state.totalprice + forkpositioner.price - oldprice;
 
-    this.setState({
-      selectedForkpositioner: forkpositioner,
-      totalprice: newprice,
-    });
+    
+
+      this.setState({
+        selectedForkpositioner: forkpositioner,
+        totalprice: newprice,
+      });
+
+    
+    
   };
 
   handleValveSel = (valve) => {
@@ -1119,6 +1146,14 @@ class ForkliftDetail extends Component {
               />
             ) : null}
 
+            {this.state.safetybluespots && this.state.safetybluespots.length > 0 ? (
+              <Safetybluespot
+                safetybluespots={this.state.safetybluespots}
+                selectedSafetybluespot={this.state.selectedSafetybluespot}
+                onSafetybluespotSel={this.handleSafetybluespotSel}
+              />
+            ) : null}   
+
             {this.state.upsweptexhausts && this.state.upsweptexhausts.length > 0 ? (
               <Upsweptexhausts
                 upsweptexhausts={this.state.upsweptexhausts}
@@ -1231,13 +1266,6 @@ class ForkliftDetail extends Component {
               />
             ) : null}
 
-            {this.state.safetybluespots && this.state.safetybluespots.length > 0 ? (
-              <Safetybluespot
-                safetybluespots={this.state.safetybluespots}
-                selectedSafetybluespot={this.state.selectedSafetybluespot}
-                onSafetybluespotSel={this.handleSafetybluespotSel}
-              />
-            ) : null}   
 
 
             {this.state.trolleys && this.state.trolleys.length > 0 ? (
