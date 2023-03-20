@@ -350,7 +350,7 @@ class ForkliftDetail extends Component {
           totalprice: adjustedprice
         });
       }
-      else if (this.state.selectedValve == this.state.valves[0]){
+      else if (this.state.selectedValve === this.state.valves[0]){
         console.log("upgrade 3rd to 3rd+4th Valve");
         const oldvalveprice = this.state.valves[0].price;
         const adjustedprice = newprice + this.state.valves[1].price - oldvalveprice;
