@@ -73,6 +73,10 @@ class ForkliftDetail extends Component {
 
       liftcapacity: forky.capacity,
 
+      series: forky.series,
+      loadcenter: forky.loadcenter,
+      defaulttyre: forky.defaulttyre,
+
       engines: forky.engines,
       masts: forky.masts,
       valves: forky.valves,
@@ -258,6 +262,7 @@ class ForkliftDetail extends Component {
     const oldprice = this.state.selectedEngine
       ? this.state.selectedEngine.price
       : 0;
+
     const newprice = this.state.totalprice + engine.price - oldprice;
 
     this.setState({
@@ -663,11 +668,14 @@ class ForkliftDetail extends Component {
     this.setState({ selectedAircon: aircon, totalprice: newprice });
   };
 
+  
+
   render() {
     const ConditionalWrapper = ({ condition, wrapper, children }) =>
       condition ? wrapper(children) : null;
 
-    //console.log("CC", this.state.selectedMastSize);
+    console.log("Series", this.state.series);
+   
     return (
       <React.Fragment>
         <Grid container spacing={2}>
@@ -676,14 +684,22 @@ class ForkliftDetail extends Component {
             {this.state.imgName && this.state.imgName.length > 0 ? (
               <ForkliftImg imgName={this.state.imgName} />
             ) : null}
-            <h2>{this.state.rangeCat}</h2>
-            {this.state.model} {this.state.rangeCat} {this.state.engType}{" "}
-            forklift
+
             <br />
-            {this.state.liftcapacity}Kg
+            Capacity : {this.state.liftcapacity}Kg
             <br /> {this.state.engType}
             <br />
             {this.state.powertrain ? this.state.powertrain : null}
+            <br />        
+            
+            {this.state.series ? this.state.series.map(item => {return (<ConditionalWrapper key={item._id} condition={item.description} wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />      
+                </React.Fragment>
+              )}>{item.description}</ConditionalWrapper>)}): null}
+
+
             <br />
             <ConditionalWrapper
               condition={this.state.selectedMast}

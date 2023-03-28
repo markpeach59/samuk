@@ -21,7 +21,7 @@ const Batterys = props => {
   var batterys1 = batterys.slice(0,1);
   var batterys2 = batterys.slice(1);
 
-  console.log("BC - ", batteryConstraint)
+  /*console.log("BC - ", batteryConstraint)*/
 
   return (
     <React.Fragment>
