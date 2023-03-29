@@ -691,7 +691,21 @@ class ForkliftDetail extends Component {
             <br />
             {this.state.powertrain ? this.state.powertrain : null}
             <br />        
-            
+
+          <ConditionalWrapper
+              condition={this.state.loadcenter}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br /><br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.loadcenter
+                ? "Load Center : " + this.state.loadcenter + "mm"
+                : null}
+            </ConditionalWrapper>
+
             {this.state.series ? this.state.series.map(item => {return (<ConditionalWrapper key={item._id} condition={item.description} wrapper={(children) => (
                 <React.Fragment>
                   {children}
@@ -870,17 +884,20 @@ class ForkliftDetail extends Component {
             >
               {this.state.selectedSteering ? "Electronic Steering " : null}
             </ConditionalWrapper>
+
+
+            {this.state.selectedTyre ? null: this.state.defaulttyre  + " Tyres"}
+
             <ConditionalWrapper
               condition={this.state.selectedTyre}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
               {this.state.selectedTyre
-                ? "Tyre - " + this.state.selectedTyre.tyretype
+                ? this.state.selectedTyre.tyretype
                 : null}
             </ConditionalWrapper>
 
