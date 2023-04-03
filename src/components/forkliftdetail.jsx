@@ -699,7 +699,7 @@ class ForkliftDetail extends Component {
 
             
             <br /> {this.state.engType}
-            <br />
+            
             {this.state.powertrain ? this.state.powertrain : null}
             <br />      
             Capacity : {this.state.liftcapacity}Kg 
@@ -708,7 +708,6 @@ class ForkliftDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br /><br />
                 </React.Fragment>
               )}
             >
@@ -716,6 +715,8 @@ class ForkliftDetail extends Component {
                 ? " @" + this.state.loadcenter + "mm LC"
                 : null}
             </ConditionalWrapper>
+
+<br />
 
             {this.state.modeldescription ? this.state.modeldescription.map(item => {return (<ConditionalWrapper key={item._id} condition={item.description} wrapper={(children) => (
                 <React.Fragment>
@@ -896,14 +897,26 @@ class ForkliftDetail extends Component {
               {this.state.selectedSteering ? "Electronic Steering " : null}
             </ConditionalWrapper>
 
+            <ConditionalWrapper
+              condition={!this.state.selectedTyre}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedTyre ? null: this.state.defaulttyre  + " Tyres"}
+            </ConditionalWrapper>
 
-            {this.state.selectedTyre ? null: this.state.defaulttyre  + " Tyres"}
+            
 
             <ConditionalWrapper
               condition={this.state.selectedTyre}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
+                  <br />
                 </React.Fragment>
               )}
             >
@@ -938,6 +951,10 @@ class ForkliftDetail extends Component {
                 ? "Battery Compartment - " + this.state.selectedBatterycompartment.batterycompartmenttype
                 : null}
             </ConditionalWrapper>
+
+
+            
+
             <ConditionalWrapper
               condition={this.state.selectedBattery}
               wrapper={(children) => (
@@ -1045,7 +1062,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedSeat
-                ? "Seat - " + this.state.selectedSeat.seattype
+                ? this.state.selectedSeat.seattype + " Seat"
                 : null}
             </ConditionalWrapper>
             <ConditionalWrapper
@@ -1058,7 +1075,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedCabin
-                ? "Cabin - " + this.state.selectedCabin.cabinoption
+                ? this.state.selectedCabin.cabinoption
                 : null}
             </ConditionalWrapper>
             <ConditionalWrapper
@@ -1084,12 +1101,10 @@ class ForkliftDetail extends Component {
               {this.state.selectedAircon ? "Aircon " : null}
             </ConditionalWrapper>
 
-            <br />
+            <br /><br />
             {this.state.engType !== "Warehouse" ? (
               <React.Fragment>
                 OPS Safety System
-                <br />
-                Full LED Lighting
                 <br />
                 Amber Beacon
                 <br />
@@ -1134,12 +1149,18 @@ class ForkliftDetail extends Component {
               </React.Fragment>
             ) : null}
 
-
+            {this.state.engType !== "Warehouse" ? (
+              <React.Fragment>
+                Full LED Lighting
+                <br />
+              </React.Fragment>
+            ) : null}
+<br />
 <ConditionalWrapper
-              condition={this.state.defaultbattery}
+              condition={this.state.defaultbattery &&! this.state.selectedBattery}
               wrapper={(children) => (
                 <React.Fragment>
-                  {children}
+                  {children} Battery
                   <br />
                 </React.Fragment>
               )}
