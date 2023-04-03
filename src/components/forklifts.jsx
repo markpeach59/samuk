@@ -61,7 +61,7 @@ class Forklifts extends Component {
       : models;
 
     // this is hardcoding tolerances for the capacity filter to pick up immediate cap values
-    var catchment = 310;
+    var catchment = 100;
     if (this.state.selectedCapacityFilter)
       if (this.state.selectedCapacityFilter.capFilter > 1500) catchment = 100;
 

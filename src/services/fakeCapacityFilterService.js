@@ -1,4 +1,6 @@
 export const capacityFilters = [
+  { _id: "1014", capFilter: 1000 },
+  { _id: "1015", capFilter: 1200 },
   { _id: "1001", capFilter: 1500 },
   { _id: "1012", capFilter: 1600 },
   { _id: "1002", capFilter: 1800 },

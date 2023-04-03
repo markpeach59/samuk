@@ -73,7 +73,7 @@ class ForkliftDetail extends Component {
 
       liftcapacity: forky.capacity,
 
-      series: forky.series,
+      modeldescription: forky.modeldescription,
       loadcenter: forky.loadcenter,
       defaulttyre: forky.defaulttyre,
 
@@ -95,6 +95,8 @@ class ForkliftDetail extends Component {
       platforms: forky.platform,
       armguards: forky.armguard,
 
+      pincodes: forky.pincode,
+
       steerings: forky.steering,
       loadbackrests: forky.loadbackrest,
       fork2ds: forky.forks2d,
@@ -105,6 +107,12 @@ class ForkliftDetail extends Component {
       batterycompartments: forky.batterycompartment,
 
       batterys: forky.batteries,
+
+      defaultbattery:forky.defaultbattery,
+      defaultcharger:forky.defaultcharger,
+
+      optionalbatteries: forky.optionalbatteries,
+
       bfss: forky.bfs,
 
       safetybluespots:forky.safetybluespot,
@@ -153,6 +161,8 @@ class ForkliftDetail extends Component {
       selectedArmguard: undefined,
       selectedPlatform: undefined,
 
+      selectedPincode: undefined,
+
       selectedLoadbackrest: undefined,
       selectedSteering: undefined,
 
@@ -183,6 +193,8 @@ class ForkliftDetail extends Component {
     quote.engtype = this.state.engType;
     quote.powertrain = this.state.powertrain;
     quote.baseprice = this.state.basePrice;
+
+    quote.modeldescription = this.state.modeldescription;
 
     if (this.state.selectedEngine)
       quote.powertrain = this.state.selectedEngine.enginetype;
@@ -674,7 +686,7 @@ class ForkliftDetail extends Component {
     const ConditionalWrapper = ({ condition, wrapper, children }) =>
       condition ? wrapper(children) : null;
 
-    console.log("Series", this.state.series);
+    console.log("modeldescription", this.state.modeldescription);
    
     return (
       <React.Fragment>
@@ -685,13 +697,12 @@ class ForkliftDetail extends Component {
               <ForkliftImg imgName={this.state.imgName} />
             ) : null}
 
-            <br />
-            Capacity : {this.state.liftcapacity}Kg
+            
             <br /> {this.state.engType}
             <br />
             {this.state.powertrain ? this.state.powertrain : null}
-            <br />        
-
+            <br />      
+            Capacity : {this.state.liftcapacity}Kg 
           <ConditionalWrapper
               condition={this.state.loadcenter}
               wrapper={(children) => (
@@ -702,11 +713,11 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.loadcenter
-                ? "Load Center : " + this.state.loadcenter + "mm"
+                ? " @" + this.state.loadcenter + "mm LC"
                 : null}
             </ConditionalWrapper>
 
-            {this.state.series ? this.state.series.map(item => {return (<ConditionalWrapper key={item._id} condition={item.description} wrapper={(children) => (
+            {this.state.modeldescription ? this.state.modeldescription.map(item => {return (<ConditionalWrapper key={item._id} condition={item.description} wrapper={(children) => (
                 <React.Fragment>
                   {children}
                   <br />      
@@ -1072,7 +1083,22 @@ class ForkliftDetail extends Component {
             >
               {this.state.selectedAircon ? "Aircon " : null}
             </ConditionalWrapper>
+
             <br />
+            {this.state.engType !== "Warehouse" ? (
+              <React.Fragment>
+                OPS Safety System
+                <br />
+                Full LED Lighting
+                <br />
+                Amber Beacon
+                <br />
+                Reverse Alarm
+                <br />
+              </React.Fragment>
+            ) : null}
+            
+
             {this.state.engType === "Electric" ? (
               <React.Fragment>
                 Rear Grab Handle with Horn
@@ -1094,7 +1120,6 @@ class ForkliftDetail extends Component {
                 <br />
               </React.Fragment>
             ) : null}
-
             {this.state.engType === "LPG" ? (
               <React.Fragment>
                 Rear Grab Handle with Horn
@@ -1109,20 +1134,51 @@ class ForkliftDetail extends Component {
               </React.Fragment>
             ) : null}
 
+
+<ConditionalWrapper
+              condition={this.state.defaultbattery}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.defaultbattery ? this.state.defaultbattery : null}
+            </ConditionalWrapper>
+
+
+<br />
+<ConditionalWrapper
+              condition={this.state.defaultcharger}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.defaultcharger ? this.state.defaultcharger : null}
+            </ConditionalWrapper>
             <br />
-            {this.state.engType !== "Warehouse" ? (
+{this.state.modeldescription && this.state.modeldescription[0].description === "Sit-on Reach" ? (
               <React.Fragment>
-                OPS Safety System
-                <br />
-                Full LED Lighting
-                <br />
-                Amber Beacon
-                <br />
-                Reverse Alarm
+                Note for Mast sizes above 9m please call for details
                 <br />
               </React.Fragment>
             ) : null}
-            <br />
+
+
+
+<br />
+            {!this.state.selectedSeat  ? (
+              <React.Fragment>
+                Please select a Seat Option
+              </React.Fragment>
+            ) : null}
+
+<br /><br />
+
             <strong>
               Quote Price : £
               {this.state.totalprice + parseInt(this.state.markup)}
