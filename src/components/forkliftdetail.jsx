@@ -84,6 +84,9 @@ class ForkliftDetail extends Component {
       sideshifts: forky.sideshift,
       forkpositioners: forky.forkpositioner,
       tyres: forky.tyres,
+
+      seatrequired: forky.seatrequired,
+
       seats: forky.seat,
       coldstoreprots: forky.coldstoreprot,
       cabins: forky.cabin,
@@ -686,7 +689,7 @@ class ForkliftDetail extends Component {
     const ConditionalWrapper = ({ condition, wrapper, children }) =>
       condition ? wrapper(children) : null;
 
-    console.log("modeldescription", this.state.modeldescription);
+    //console.log("modeldescription", this.state.modeldescription);
    
     return (
       <React.Fragment>
@@ -1182,7 +1185,8 @@ class ForkliftDetail extends Component {
               {this.state.defaultcharger ? this.state.defaultcharger : null}
             </ConditionalWrapper>
             <br />
-{this.state.modeldescription && this.state.modeldescription[0].description === "Sit-on Reach" ? (
+            
+{typeof this.state.modeldescription !== 'undefined' && this.state.modeldescription.length > 0 && this.state.modeldescription[0].description === "Sit-on Reach" ? (
               <React.Fragment>
                 Note for Mast sizes above 9m please call for details
                 <br />
@@ -1192,7 +1196,7 @@ class ForkliftDetail extends Component {
 
 
 <br />
-            {!this.state.selectedSeat  ? (
+            {( !this.state.selectedSeat && this.state.seatrequired ) ? (
               <React.Fragment>
                 Please select a Seat Option
               </React.Fragment>
