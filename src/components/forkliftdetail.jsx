@@ -701,10 +701,21 @@ class ForkliftDetail extends Component {
             ) : null}
 
             
-            <br /> {this.state.engType}
+            <br /> {this.state.engType}<br />
             
-            {this.state.powertrain ? this.state.powertrain : null}
-            <br />      
+            <ConditionalWrapper
+              condition={this.state.powertrain}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}<br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.powertrain}
+            </ConditionalWrapper>
+
+  
+             
             Capacity : {this.state.liftcapacity}Kg 
           <ConditionalWrapper
               condition={this.state.loadcenter}
@@ -739,7 +750,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Mast Type - " + this.state.selectedMast}
+              {this.state.selectedMast}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.selectedMastSize}
@@ -751,7 +762,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedMastSize
-                ? "Mast Size " + this.state.selectedMastSize.mastlength + "mm"
+                ? this.state.selectedMastSize.mastlength + "mm"
                 : null}
 
               {this.state.selectedMastSize &&
@@ -774,7 +785,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedValve
-                ? "Valve - " + this.state.selectedValve.valvetype
+                ? this.state.selectedValve.valvetype + " Valve"
                 : null}
             </ConditionalWrapper>
             <ConditionalWrapper
@@ -787,7 +798,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedFork
-                ? "Fork Length - " + this.state.selectedFork.forklength
+                ? this.state.selectedFork.forklength + " Forks"
                 : null}
             </ConditionalWrapper>
             <ConditionalWrapper
@@ -901,7 +912,7 @@ class ForkliftDetail extends Component {
             </ConditionalWrapper>
 
             <ConditionalWrapper
-              condition={!this.state.selectedTyre}
+              condition={this.state.defaulttyre && !this.state.selectedTyre}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
@@ -909,7 +920,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.selectedTyre ? null: this.state.defaulttyre  + " Tyres"}
+              {this.state.defaulttyre  + " Tyres"}
             </ConditionalWrapper>
 
             
@@ -968,7 +979,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedBattery
-                ? "Battery - " + this.state.selectedBattery.batterytype
+                ? this.state.selectedBattery.batterytype + " Battery"
                 : null}
             </ConditionalWrapper>
             <ConditionalWrapper
@@ -981,7 +992,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedCharger
-                ? "Charger - " + this.state.selectedCharger.chargertype
+                ? this.state.selectedCharger.chargertype + " Charger"
                 : null}
             </ConditionalWrapper>
             <ConditionalWrapper
