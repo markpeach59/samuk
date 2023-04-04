@@ -325,46 +325,56 @@ class ForkliftDetail extends Component {
   };
 
   handleSideShiftSel = (sideshift) => {
-    const oldprice = this.state.selectedSideShift
+    const oldssprice = this.state.selectedSideShift
       ? this.state.selectedSideShift.price
       : 0;
       
-      	console.log("3rd Valve should be selected");
+     const oldfpprice = this.state.selectedForkpositioner
+      ? this.state.selectedForkpositioner.price
+      : 0;
       
-      
-    const newprice = this.state.totalprice + sideshift.price - oldprice;
+      // price with latest sideshift - no FP selection enforced
+      const newprice = this.state.totalprice + sideshift.price - oldssprice - oldfpprice;
     
+
     if(!this.state.selectedValve){
-      console.log("Adding 3rd Valve")
+      console.log("Adding first Valve")
 
       const adjustedprice = newprice + this.state.valves[0].price;
       this.setState({ selectedSideShift: sideshift, 
+      	selectedForkpositioner: undefined,
         selectedValve: this.state.valves[0],
         totalprice: adjustedprice });
 
     } else {
       console.log("Valve is already selected")
       this.setState({ selectedSideShift: sideshift, 
+        selectedForkpositioner: undefined,
         totalprice: newprice });
 
     }
    
   };
 
+
   handleForkpositionerSel = (forkpositioner) => {
-    const oldprice = this.state.selectedForkpositioner
-      ? this.state.selectedForkpositioner.price
-      : 0;
-
-      console.log ("3rd + 4th Valve should be selected");
-
-      const newprice = this.state.totalprice + forkpositioner.price - oldprice;
-
+  
+    const oldssprice = this.state.selectedSideShift
+       ? this.state.selectedSideShift.price
+       : 0;
+       
+      const oldfpprice = this.state.selectedForkpositioner
+       ? this.state.selectedForkpositioner.price
+       : 0;
+      
+       // price with latest FP - no sideshift selection enforced
+       const newprice = this.state.totalprice + forkpositioner.price - oldssprice - oldfpprice;
       
       if(!this.state.selectedValve){
         console.log("Adding 3rd+4th Valve");
         const adjustedprice = newprice + this.state.valves[1].price;
         this.setState({
+          selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
           selectedValve: this.state.valves[1],
           totalprice: adjustedprice
@@ -375,6 +385,7 @@ class ForkliftDetail extends Component {
         const oldvalveprice = this.state.valves[0].price;
         const adjustedprice = newprice + this.state.valves[1].price - oldvalveprice;
         this.setState({
+          selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
           selectedValve: this.state.valves[1],
           totalprice: adjustedprice
@@ -383,6 +394,7 @@ class ForkliftDetail extends Component {
       } else {
         console.log("3rd+4th Valve already selected")
         this.setState({
+          selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
           totalprice: newprice,
         });
