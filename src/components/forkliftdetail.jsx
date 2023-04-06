@@ -25,6 +25,11 @@ import Armguards from "./armguard";
 import Fork2ds from "./fork2d";
 import Bfs from "./bfs";
 
+import Rollers from "./rollers";
+import Pincode from "./pincode";
+import Displaywithcamera from "./displaywithcamera";
+import Liftybutton from "./liftybutton";
+
 import Safetybluespot from "./safetybluespot";
 
 import Upsweptexhausts from "./upsweptexhaust";
@@ -189,6 +194,11 @@ class ForkliftDetail extends Component {
       selectedTrolley: undefined,
       selectedBlinkey: undefined,
 
+      selectedPincode: undefined,
+      selectedRoller: undefined,
+      selectedLiftybutton: undefined,
+      selectedDisplaywithcamera: undefined,
+
       selectedSideextractionbattery: undefined,
 
       totalprice: this.state.baseprice,
@@ -270,6 +280,10 @@ class ForkliftDetail extends Component {
       quote.fork2d = this.state.selectedFork2d.forklength;
 
     if (this.state.selectedBfs) quote.bfs = true;
+
+    if (this.state.selectedDisplaywithcamera) quote.displaywithcamera = true;
+    if (this.state.selectedLiftybutton) quote.liftybutton = true;
+
     if (this.state.selectedsafetybluespot) quote.safetybluespot = true;
 
     //console.log("Quote", quote);
@@ -474,6 +488,36 @@ class ForkliftDetail extends Component {
 
     this.setState({ selectedBfs: bfs, totalprice: newprice });
   };
+
+  handleRollerSel = (roller) => {
+    const oldprice = this.state.selectedRoller ? this.state.selectedRoller.price : 0;
+    const newprice = this.state.totalprice + roller.price - oldprice;
+
+    this.setState({ selectedRoller: roller, totalprice: newprice });
+  };
+
+  handlePincodeSel = (pincode) => {
+    const oldprice = this.state.selectedPincode ? this.state.selectedPincode.price : 0;
+    const newprice = this.state.totalprice + pincode.price - oldprice;
+
+    this.setState({ selectedPincode: pincode, totalprice: newprice });
+  };
+
+  handleLiftybuttonSel = (liftybutton) => {
+    const oldprice = this.state.selectedLiftybutton ? this.state.selectedLiftybutton.price : 0;
+    const newprice = this.state.totalprice + liftybutton.price - oldprice;
+
+    this.setState({ selectedLiftybutton: liftybutton, totalprice: newprice });
+  };
+
+  handleDisplaywithcameraSel = (displaywithcamera) => {
+    const oldprice = this.state.selectedDisplaywithcamera ? this.state.selectedDisplaywithcamera.price : 0;
+    const newprice = this.state.totalprice + displaywithcamera.price - oldprice;
+
+    this.setState({ selectedDisplaywithcamera: displaywithcamera, totalprice: newprice });
+  };
+
+
 
   handleSafetybluespotSel = (safetybluespot) => {
     const oldprice = this.state.selectedSafetybluespot ? this.state.selectedSafetybluespot.price : 0;
@@ -877,6 +921,50 @@ class ForkliftDetail extends Component {
             >
               Side Lever Hydraulics
             </ConditionalWrapper>
+
+
+            <ConditionalWrapper
+              condition={this.state.selectedRoller}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedRoller ? "Roller" : null}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.selectedDisplaywithcamera}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedDisplaywithcamera ? "Display with camera" : null}
+            </ConditionalWrapper>
+
+
+            <ConditionalWrapper
+              condition={this.state.selectedPincode}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedPincode ? "Pincode" : null}
+            </ConditionalWrapper>
+
+
+
+
+
+
             <ConditionalWrapper
               condition={this.state.selectedColdStoreProt}
               wrapper={(children) => (
@@ -1389,6 +1477,40 @@ class ForkliftDetail extends Component {
               />
             ) : null}
 
+{this.state.rollers && this.state.rollers.length > 0 ? (
+              <Rollers
+                rollers={this.state.rollers}
+                selectedRoller={this.state.selectedRoller}
+                onRollerSel={this.handleRoller}
+              />
+            ) : null}
+
+{this.state.liftybuttons && this.state.liftybuttons.length > 0 ? (
+              <Liftybutton
+                liftybuttons={this.state.liftybuttons}
+                selectedLiftybutton={this.state.selectedLiftybutton}
+                onLiftybuttonSel={this.handleLiftybuttonSel}
+              />
+            ) : null}
+
+{this.state.displaywithcameras && this.state.displaywithcameras.length > 0 ? (
+              <Displaywithcamera
+                displaywithcameras={this.state.displaywithcameras}
+                selectedDisplaywithcamera={this.state.selectedDisplaywithcamera}
+                onDisplaywithcameraSel={this.handleDisplaywithcameraSel}
+              />
+            ) : null}
+
+
+            {this.state.pincodes && this.state.pincodes.length > 0 ? (
+              <Pincode
+                pincodes={this.state.pincodes}
+                selectedPincode={this.state.selectedPincode}
+                onPincodeSel={this.handlePincodeSel}
+              />
+            ) : null}
+
+
             {this.state.loadbackrests && this.state.loadbackrests.length > 0 ? (
               <Loadbackrests
                 loadbackrests={this.state.loadbackrests}
@@ -1432,6 +1554,9 @@ class ForkliftDetail extends Component {
                 onChargerSel={this.handleChargerSel}
               />
             ) : null}
+
+
+
 
             {this.state.bfss && this.state.bfss.length > 0 ? (
               <Bfs

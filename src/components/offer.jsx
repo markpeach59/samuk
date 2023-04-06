@@ -5,7 +5,7 @@ const Offer = props => {
 
     console.log('Offer Props', props, " ", offeron)
 
-    if (bigger){
+    if (offeron && bigger){
 
         const saving = Math.round(price * .15);
   
