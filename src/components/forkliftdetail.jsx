@@ -1246,7 +1246,7 @@ class ForkliftDetail extends Component {
               {this.state.totalprice + parseInt(this.state.markup)}
             </strong>
 
-            <Offer price={this.state.totalprice} offeron={this.state.offer} />
+            <Offer price={this.state.totalprice} offeron={this.state.offer} bigger={this.state.selectedBattery} />
             <QuoteSave onQuoteSave={this.handleQuoteSave} />
           </Grid>
           <Grid item xs={8}>
