@@ -44,7 +44,7 @@ import Chargers from "./charger";
 import Engines from "./engines";
 
 import QuoteSave from "./quotesave";
-
+import Offer from "./offer";
 import Markup from "./markup";
 
 import { getForkliftDetail } from "../services/forkliftDetailService";
@@ -100,6 +100,11 @@ class ForkliftDetail extends Component {
 
       pincodes: forky.pincode,
 
+      defaultroller:forky.defaultroller,
+      rollers:forky.roller,
+      displaywithcameras:forky.displaywithcamera,
+      liftybuttons:forky.liftybutton,
+
       steerings: forky.steering,
       loadbackrests: forky.loadbackrest,
       fork2ds: forky.forks2d,
@@ -126,6 +131,10 @@ class ForkliftDetail extends Component {
 
       totalprice: forky.basePrice,
       baseprice: forky.basePrice,
+
+      offer:forky.offer,
+      saving:0,
+
       markup: 0,
       batteryconstraint: false,
     });
@@ -165,6 +174,9 @@ class ForkliftDetail extends Component {
       selectedPlatform: undefined,
 
       selectedPincode: undefined,
+      selectedRoller: undefined,
+      selectedCamerawithdisplay: undefined,
+      selectedLiftybutton: undefined,
 
       selectedLoadbackrest: undefined,
       selectedSteering: undefined,
@@ -180,6 +192,8 @@ class ForkliftDetail extends Component {
       selectedSideextractionbattery: undefined,
 
       totalprice: this.state.baseprice,
+      offer: this.state.offer,
+
       batteryconstraint: false,
     });
   };
@@ -1231,6 +1245,8 @@ class ForkliftDetail extends Component {
               Quote Price : £
               {this.state.totalprice + parseInt(this.state.markup)}
             </strong>
+
+            <Offer price={this.state.totalprice} offeron={this.state.offer} />
             <QuoteSave onQuoteSave={this.handleQuoteSave} />
           </Grid>
           <Grid item xs={8}>
