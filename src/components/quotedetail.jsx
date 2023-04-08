@@ -47,6 +47,7 @@ class QuoteDetail extends Component {
       displaywithcamera: forky.displaywithcamera,
       liftybutton: forky.liftybutton,
       roller: forky.roller,
+      controller: forky.controller,
 
       tyre: forky.tyre,
       coldstoreprot: forky.coldstoreprot,
