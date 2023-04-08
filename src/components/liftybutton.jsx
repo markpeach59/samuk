@@ -19,7 +19,7 @@ const Liftybutton = props => {
   return (
     <React.Fragment>
       <FormControl component="fieldset">
-        <FormLabel component="legend">BFS</FormLabel>
+        <FormLabel component="legend">2 Sided Lifty Button</FormLabel>
 
         <RadioGroup aria-label="liftybuttons" name="liftybuttons" row={true}>
           {liftybuttons.map(liftybutton => (

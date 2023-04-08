@@ -30,6 +30,8 @@ import Pincode from "./pincode";
 import Displaywithcamera from "./displaywithcamera";
 import Liftybutton from "./liftybutton";
 
+import Controller from "./controller";
+
 import Safetybluespot from "./safetybluespot";
 
 import Upsweptexhausts from "./upsweptexhaust";
@@ -106,9 +108,11 @@ class ForkliftDetail extends Component {
       pincodes: forky.pincode,
 
       defaultroller:forky.defaultroller,
-      rollers:forky.roller,
+      rollers:forky.rollers,
       displaywithcameras:forky.displaywithcamera,
       liftybuttons:forky.liftybutton,
+
+      controllers: forky.controllers,
 
       steerings: forky.steering,
       loadbackrests: forky.loadbackrest,
@@ -183,6 +187,8 @@ class ForkliftDetail extends Component {
       selectedCamerawithdisplay: undefined,
       selectedLiftybutton: undefined,
 
+      selectedController: undefined,
+
       selectedLoadbackrest: undefined,
       selectedSteering: undefined,
 
@@ -193,11 +199,6 @@ class ForkliftDetail extends Component {
 
       selectedTrolley: undefined,
       selectedBlinkey: undefined,
-
-      selectedPincode: undefined,
-      selectedRoller: undefined,
-      selectedLiftybutton: undefined,
-      selectedDisplaywithcamera: undefined,
 
       selectedSideextractionbattery: undefined,
 
@@ -230,8 +231,12 @@ class ForkliftDetail extends Component {
 
     if (this.state.selectedMast) quote.masttype = this.state.selectedMast;
 
-    if (this.state.selectedMastSize)
+    if (this.state.selectedMastSize){
       quote.mastsize = this.state.selectedMastSize.mastlength;
+      quote.closedheight = this.state.selectedMastSize.closedheight;
+      quote.freeliftheight = this.state.selectedMastSize.freeliftheight;
+
+    }
 
     if (this.state.selectedValve)
       quote.valve = this.state.selectedValve.valvetype;
@@ -281,16 +286,19 @@ class ForkliftDetail extends Component {
 
     if (this.state.selectedBfs) quote.bfs = true;
 
+    if (this.state.selectedRoller) quote.roller = this.state.selectedRoller.rollertype;
     if (this.state.selectedDisplaywithcamera) quote.displaywithcamera = true;
     if (this.state.selectedLiftybutton) quote.liftybutton = true;
+    if (this.state.selectedPincode) quote.pincode = this.state.selectedPincode.pincodetype;
+    if (this.state.selectedController) quote.controller = this.state.selectedController.controllertype;
 
     if (this.state.selectedsafetybluespot) quote.safetybluespot = true;
 
-    //console.log("Quote", quote);
+    //console.log("Quote", quote);//being sent
     try {
       const x = await savequote(quote);
-      //console.log("quote was", x);
-      window.location = "/quotes/" + x.data._id;
+      //console.log("quote was", x);//recived back
+      window.location = "/quotes/" + x.data._id; // goto quote display
     } catch (error) {
       console.log("did not save quote");
     }
@@ -517,7 +525,14 @@ class ForkliftDetail extends Component {
     this.setState({ selectedDisplaywithcamera: displaywithcamera, totalprice: newprice });
   };
 
+  handleControllerSel = (controller) => {
+    const oldprice = this.state.selectedController
+      ? this.state.selectedController.price
+      : 0;
+    const newprice = this.state.totalprice + controller.price - oldprice;
 
+    this.setState({ selectedController: controller, totalprice: newprice });
+  };
 
   handleSafetybluespotSel = (safetybluespot) => {
     const oldprice = this.state.selectedSafetybluespot ? this.state.selectedSafetybluespot.price : 0;
@@ -922,6 +937,20 @@ class ForkliftDetail extends Component {
               Side Lever Hydraulics
             </ConditionalWrapper>
 
+            <ConditionalWrapper
+              condition={this.state.selectedController}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedController
+                ? this.state.selectedController.controllertype + "Controller"
+                : null}
+            </ConditionalWrapper>
+
 
             <ConditionalWrapper
               condition={this.state.selectedRoller}
@@ -932,7 +961,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.selectedRoller ? "Roller" : null}
+              {this.state.selectedRoller? this.state.selectedRoller.rollertype + " Roller": null}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -1401,6 +1430,14 @@ class ForkliftDetail extends Component {
               />
             ) : null}
 
+            {this.state.controllers && this.state.controllers.length > 0 ? (
+              <Controller
+                controllers={this.state.controllers}
+                selectedController={this.state.selectedController}
+                onControllerSel={this.handleControllerSel}
+              />
+            ) : null}
+
             {this.state.tyres && this.state.tyres.length > 0 ? (
               <Tyres
                 tyres={this.state.tyres}
@@ -1481,7 +1518,7 @@ class ForkliftDetail extends Component {
               <Rollers
                 rollers={this.state.rollers}
                 selectedRoller={this.state.selectedRoller}
-                onRollerSel={this.handleRoller}
+                onRollerSel={this.handleRollerSel}
               />
             ) : null}
 

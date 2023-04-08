@@ -8,7 +8,7 @@ export function getQuotes() {
 }
 
 export function savequote(quote) {
-  console.log("quote items ", quote);
+  //console.log("quote items ", quote);
 
   return http.post(apiEndPoint, quote);
 }

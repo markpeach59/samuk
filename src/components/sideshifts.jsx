@@ -11,7 +11,7 @@ import Divider from "@material-ui/core/Divider";
 const SideShift = props => {
   const { sideshifts, onSideShiftSel, selectedSideShift } = props;
 
-  var aa = "";
+  var aa = "X";
   if (selectedSideShift) {
     aa = selectedSideShift.sideshifttype;
     //console.log("AA", selectedEngine.name);

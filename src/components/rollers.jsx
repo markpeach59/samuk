@@ -13,7 +13,7 @@ const Rollers = props => {
 
   var aa = "";
   if (selectedRoller) {
-    aa = selectedRoller.rolleroption;
+    aa = selectedRoller.rollertype;
   }
 
   return (
@@ -25,11 +25,11 @@ const Rollers = props => {
           {rollers.map(roller => (
             <FormControlLabel
               key={roller._id}
-              value={roller.rolleroption}
+              value={roller.rollertype}
               control={<Radio color="primary" />}
-              label={roller.rolleroption}
+              label={roller.rollertype}
               onChange={() => onRollerSel(roller)}
-              checked={aa === roller.rolleroption}
+              checked={aa === roller.rollertype}
             />
           ))}
         </RadioGroup>

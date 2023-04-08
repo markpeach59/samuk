@@ -34,7 +34,7 @@ const Offer = props => {
       const newprice = price - saving;
 
       return (
-<React.Fragment>
+        <React.Fragment>
       <div>
         10% Saving : £{saving}<br />
         Offer Price : £{newprice}
