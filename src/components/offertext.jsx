@@ -1,14 +1,11 @@
 import React, { Component } from "react";
-import auth from "../services/authService";
-import { getDealerDetail } from "../services/dealerService";
+
 
 import Typography from "@material-ui/core/Typography";
 import "typeface-roboto";
 
 class Offertext extends Component {
-  constructor(props) {
-    super(props);
-  }
+  
 
 
   render() {
