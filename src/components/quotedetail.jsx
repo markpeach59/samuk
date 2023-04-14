@@ -48,6 +48,7 @@ class QuoteDetail extends Component {
       liftybutton: forky.liftybutton,
       roller: forky.roller,
       controller: forky.controller,
+      safetybluespot: forky.safetybluespot,
 
       tyre: forky.tyre,
       coldstoreprot: forky.coldstoreprot,
@@ -189,7 +190,7 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.forksn + " Forks"}
+              {this.state.forks + " Forks"}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -373,6 +374,20 @@ class QuoteDetail extends Component {
             >
               {"Rear Grab Handle"}
             </ConditionalWrapper>
+
+
+            <ConditionalWrapper
+              condition={this.state.safetybluespot}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {"Safety Blue Spot"}
+            </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.battery}
               wrapper={(children) => (

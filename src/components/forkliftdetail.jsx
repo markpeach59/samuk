@@ -292,7 +292,7 @@ class ForkliftDetail extends Component {
     if (this.state.selectedPincode) quote.pincode = this.state.selectedPincode.pincodetype;
     if (this.state.selectedController) quote.controller = this.state.selectedController.controllertype;
 
-    if (this.state.selectedsafetybluespot) quote.safetybluespot = true;
+    if (this.state.selectedSafetybluespot) quote.safetybluespot = true;
 
     //console.log("Quote", quote);//being sent
     try {
