@@ -217,6 +217,19 @@ class ForkliftDetail extends Component {
     quote.price = this.state.totalprice;
     quote.markup = this.state.markup;
 
+    quote.offer = this.state.offer;
+
+    if (this.state.offer){
+
+      if (this.state.defaultbattery) quote.saving = Math.round(quote.price * .10);
+      // now override if an optional choice has been made
+      if (this.state.selectedBattery) quote.saving = Math.round(quote.price * .15);
+      
+      quote.offerprice = quote.price - quote.saving;
+
+    }
+
+
     quote.capacity = this.state.liftcapacity;
     quote.engtype = this.state.engType;
     quote.powertrain = this.state.powertrain;
@@ -248,6 +261,8 @@ class ForkliftDetail extends Component {
 
     if (this.state.selectedForkpositioner) quote.forkpositioner = true;
 
+    if (this.state.defaulttyre) quote.tyre = this.state.defaulttyre;
+
     if (this.state.selectedTyre) quote.tyre = this.state.selectedTyre.tyretype;
 
     if (this.state.selectedUpsweptexhaust) quote.upsweptexhaust = true;
@@ -262,10 +277,19 @@ class ForkliftDetail extends Component {
     if (this.state.selectedReargrab) quote.reargrab = true;
     if (this.state.selectedSideleverhydraulic) quote.sideleverhydraulic = true;
 
+
     if (this.state.selectedBatterycompartment) quote.batterycompartment = this.state.selectedBatterycompartment.batterycompartmenttype;
 
+    if (this.state.defaultbattery)
+      quote.battery = this.state.defaultbattery;
+      // now override if an optional choice has been made
     if (this.state.selectedBattery)
       quote.battery = this.state.selectedBattery.batterytype;
+    
+    if (this.state.defaultcharger)
+      quote.charger = this.state.defaultcharger;
+      // now overide if optional
+
     if (this.state.selectedCharger)
       quote.charger = this.state.selectedCharger.chargertype;
 
@@ -883,9 +907,10 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedFork
-                ? this.state.selectedFork.forklength + " Forks"
+                ? this.state.selectedFork.forklength + "mm Forks"
                 : null}
             </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.selectedFork2d}
               wrapper={(children) => (
@@ -896,9 +921,10 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedFork2d
-                ? "Fork Length - " + this.state.selectedFork2d.forklength
+                ? this.state.selectedFork2d.forklength + "mm Forks"
                 : null}
             </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.selectedSideShift}
               wrapper={(children) => (
@@ -909,7 +935,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedSideShift
-                ? "Side Shift - " + this.state.selectedSideShift.sideshifttype
+                ? this.state.selectedSideShift.sideshifttype + " Side Shift"
                 : null}
             </ConditionalWrapper>
             <ConditionalWrapper
@@ -1029,7 +1055,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.selectedArmguard ? "with Arm Guard" : null}
+              {this.state.selectedArmguard ? "Arm Guard" : null}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.selectedPlatform}
@@ -1040,7 +1066,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.selectedPlatform ? "with Platform " : null}
+              {this.state.selectedPlatform ? "Platform " : null}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.selectedSteering}
@@ -1105,7 +1131,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedBatterycompartment
-                ? "Battery Compartment - " + this.state.selectedBatterycompartment.batterycompartmenttype
+                ? this.state.selectedBatterycompartment.batterycompartmenttype + " Battery Compartment"
                 : null}
             </ConditionalWrapper>
 
@@ -1147,7 +1173,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.selectedBfs ? "with BFS" : null}
+              {this.state.selectedBfs ? "BFS" : null}
             </ConditionalWrapper>
             
             <ConditionalWrapper
@@ -1172,7 +1198,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.selectedTrolley ? "with Trolley" : null}
+              {this.state.selectedTrolley ? "Trolley" : null}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.selectedBlinkey}
@@ -1183,7 +1209,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.selectedBlinkey ? "with Blinkey" : null}
+              {this.state.selectedBlinkey ? "Blinkey" : null}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.selectedSideextractionbattery}
@@ -1195,7 +1221,7 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedSideextractionbattery
-                ? "with Side Extraction Battery"
+                ? "Side Extraction Battery"
                 : null}
             </ConditionalWrapper>
             <ConditionalWrapper
@@ -1207,7 +1233,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.selectedLoadbackrest ? "with Load Backrest" : null}
+              {this.state.selectedLoadbackrest ? "Load Backrest" : null}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.selectedSeat}
@@ -1312,21 +1338,20 @@ class ForkliftDetail extends Component {
                 <br />
               </React.Fragment>
             ) : null}
-<br />
+
 <ConditionalWrapper
               condition={this.state.defaultbattery &&! this.state.selectedBattery}
               wrapper={(children) => (
                 <React.Fragment>
-                  {children} Battery
+                  {children}
                   <br />
                 </React.Fragment>
               )}
             >
-              {this.state.defaultbattery ? this.state.defaultbattery : null}
+              {this.state.defaultbattery ? this.state.defaultbattery + " Battery": null}
             </ConditionalWrapper>
 
 
-<br />
 <ConditionalWrapper
               condition={this.state.defaultcharger}
               wrapper={(children) => (
@@ -1336,7 +1361,7 @@ class ForkliftDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.defaultcharger ? this.state.defaultcharger : null}
+              {this.state.defaultcharger ? this.state.defaultcharger + " Charger": null}
             </ConditionalWrapper>
             <br />
             

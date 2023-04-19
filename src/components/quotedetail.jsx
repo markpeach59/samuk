@@ -112,7 +112,8 @@ class QuoteDetail extends Component {
               condition={this.state.powertrain}
               wrapper={(children) => (
                 <React.Fragment>
-                  {children}<br />
+                  {children}
+                  <br />
                 </React.Fragment>
               )}
             >
@@ -127,6 +128,7 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
+                  <br />
                 </React.Fragment>
               )}
             >
@@ -135,7 +137,7 @@ class QuoteDetail extends Component {
                 : null}
             </ConditionalWrapper>
 
-<br />
+
             <ConditionalWrapper
               condition={this.state.masttype}
               wrapper={(children) => (
@@ -153,33 +155,33 @@ class QuoteDetail extends Component {
               condition={this.state.mastsize}
               wrapper={(children) => (
                 <React.Fragment>
-                  {children}mm
+                  {children}
                 </React.Fragment>
               )}
             >
-              {this.state.mastsize}
+              {this.state.mastsize + "mm"}
             </ConditionalWrapper>
 
             <ConditionalWrapper
               condition={this.state.closedheight}
               wrapper={(children) => (
                 <React.Fragment>
-                  ,{children}mm
+                  {children}
                 </React.Fragment>
               )}
             >
-              {this.state.closedheight}
+              {"," +this.state.closedheight + "mm"}
             </ConditionalWrapper>
 
             <ConditionalWrapper
               condition={this.state.freeliftheight}
               wrapper={(children) => (
                 <React.Fragment>
-                  ,{children}mm
+                  {children}
                 </React.Fragment>
               )}
             >
-              {this.state.freeliftheight}
+              {"," + this.state.freeliftheight + "mm"}
             </ConditionalWrapper>
 <br />
             <ConditionalWrapper
@@ -190,7 +192,7 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.forks + " Forks"}
+              {this.state.forks + "mm Forks"}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -202,7 +204,7 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.fork2d + " Forks"}
+              {this.state.fork2d + "mm Forks"}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -339,7 +341,7 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Tyre Type - " + this.state.tyre}
+              {this.state.tyre + " Tyres"}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.aircon}
@@ -397,7 +399,7 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Battery - " + this.state.battery}
+              {this.state.battery + " Battery"}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.charger}
@@ -408,7 +410,7 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Charger - " + this.state.charger}
+              {this.state.charger + " Charger"}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.bfs}
@@ -581,6 +583,8 @@ class QuoteDetail extends Component {
             <strong>
               Quote Price : £{this.state.price + parseInt(this.state.markup)}
             </strong>
+
+
             <OrderCreate onOrderCreate={this.handleCreateOrder} />
           </Grid>
         </Grid>

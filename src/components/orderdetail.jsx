@@ -21,12 +21,15 @@ class OrderDetail extends Component {
 
       price: forky.price,
       markup: forky.markup,
+
       capacity: forky.capacity,
       engtype: forky.engtype,
       powertrain: forky.powertrain,
       imgName: forky.imgname,
       masttype: forky.masttype,
       mastsize: forky.mastsize,
+      closedheight: forky.closedheight,
+      freeliftheight: forky.freeliftheight,
 
       forks: forky.forks,
 
@@ -34,6 +37,13 @@ class OrderDetail extends Component {
 
       sideshift: forky.sideshift,
       forkpositioner: forky.forkpositioner,
+
+      pincode:forky.pincode,
+      displaywithcamera: forky.displaywithcamera,
+      liftybutton: forky.liftybutton,
+      roller: forky.roller,
+      controller: forky.controller,
+      safetybluespot: forky.safetybluespot,
 
       tyre: forky.tyre,
       coldstoreprot: forky.coldstoreprot,
@@ -69,13 +79,16 @@ class OrderDetail extends Component {
       <React.Fragment>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <h2>{this.state.model}</h2>
+          <h2>{this.state.model}</h2>
             {this.state.imgName && this.state.imgName.length > 0 ? (
               <ForkliftImg imgName={this.state.imgName} />
             ) : null}
-            <br />
+
+            
+            <br /> {this.state.engType}<br />
+            
             <ConditionalWrapper
-              condition={this.state.capacity}
+              condition={this.state.powertrain}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
@@ -83,10 +96,14 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Lift Capacity " + this.state.capacity + "Kg"}
+              {this.state.powertrain}
             </ConditionalWrapper>
-            <ConditionalWrapper
-              condition={this.state.engtype}
+
+  
+             
+            Capacity : {this.state.capacity}Kg 
+          <ConditionalWrapper
+              condition={this.state.loadcenter}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
@@ -94,27 +111,69 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              <br /> {this.state.engtype}
-              <br />
-              {this.state.powertrain ? this.state.powertrain : null}
-              <br />
+              {this.state.loadcenter
+                ? " @" + this.state.loadcenter + "mm LC"
+                : null}
             </ConditionalWrapper>
-            <br />
-            {this.state.mastsize
-              ? "Mast Height : " + this.state.mastsize
-              : null}
-            <br />
+
+
+            <ConditionalWrapper
+              condition={this.state.masttype}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.masttype}
+            </ConditionalWrapper>
+
+
+            <ConditionalWrapper
+              condition={this.state.mastsize}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                </React.Fragment>
+              )}
+            >
+              {this.state.mastsize + "mm"}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.closedheight}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                </React.Fragment>
+              )}
+            >
+              {"," +this.state.closedheight + "mm"}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.freeliftheight}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                </React.Fragment>
+              )}
+            >
+              {"," + this.state.freeliftheight + "mm"}
+            </ConditionalWrapper>
+<br />
             <ConditionalWrapper
               condition={this.state.forks}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"Fork Length - " + this.state.forks}
+              {this.state.forks + "mm Forks"}
             </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.fork2d}
               wrapper={(children) => (
@@ -124,8 +183,9 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Fork Size - " + this.state.fork2d}
+              {this.state.fork2d + "mm Forks"}
             </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.valve}
               wrapper={(children) => (
@@ -137,6 +197,8 @@ class OrderDetail extends Component {
             >
               {this.state.valve + " Valve"}
             </ConditionalWrapper>
+
+            
             <ConditionalWrapper
               condition={this.state.sideshift}
               wrapper={(children) => (
@@ -146,7 +208,7 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Side Shift - " + this.state.sideshift}
+              {this.state.sideshift + " Side Shift"}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -172,6 +234,69 @@ class OrderDetail extends Component {
             >
               {"Side Lever Hydraulic"}
             </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.controller}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.controller + " Controller"}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.pincode}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {"Pincode"}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.displaywithcamera}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {"Display with Camera"}
+            </ConditionalWrapper>
+
+
+            <ConditionalWrapper
+              condition={this.state.liftybutton}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {"2 Sided Lifty Button"}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.roller}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.roller + "Roller"}
+            </ConditionalWrapper>
+
+
             <ConditionalWrapper
               condition={this.state.coldstoreprot}
               wrapper={(children) => (
@@ -183,6 +308,9 @@ class OrderDetail extends Component {
             >
               {"Cold Store Protection"}
             </ConditionalWrapper>
+
+
+
             <ConditionalWrapper
               condition={this.state.tyre}
               wrapper={(children) => (
@@ -192,7 +320,7 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Tyre Type - " + this.state.tyre}
+              {this.state.tyre + " Tyres"}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.aircon}
@@ -227,6 +355,20 @@ class OrderDetail extends Component {
             >
               {"Rear Grab Handle"}
             </ConditionalWrapper>
+
+
+            <ConditionalWrapper
+              condition={this.state.safetybluespot}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {"Safety Blue Spot"}
+            </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.battery}
               wrapper={(children) => (
@@ -236,7 +378,7 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Battery - " + this.state.battery}
+              {this.state.battery + " Battery"}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.charger}
@@ -247,7 +389,7 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Charger - " + this.state.charger}
+              {this.state.charger + "Charger"}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.bfs}
@@ -346,8 +488,10 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Seat Type - " + this.state.seat}
+              {this.state.seat + " Seat"}
             </ConditionalWrapper>
+
+
             <ConditionalWrapper
               condition={this.state.cabin}
               wrapper={(children) => (
@@ -357,28 +501,69 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"Cabin Type " + this.state.cabin}
+              {this.state.cabin + " Cabin"}
             </ConditionalWrapper>
             <br />
-            {this.state.engtype !== "Warehouse" ? (
+            {this.state.engType !== "Warehouse" ? (
               <React.Fragment>
-                Price Includes :
+                OPS Safety System
                 <br />
-                ISO Safety System
-                <br />
-                Full LED Road Lighting
-                <br />
-                Amber Beacon, Safety Blue Spot
+                Amber Beacon
                 <br />
                 Reverse Alarm
                 <br />
               </React.Fragment>
             ) : null}
-            <br />
+            
 
+            {this.state.engType === "Electric" ? (
+              <React.Fragment>
+                Rear Grab Handle with Horn
+                <br />
+              </React.Fragment>
+            ) : null}
+
+             
+            {(this.state.engType === "Diesel" && this.state.liftcapacity < 6000 ) ? (
+              <React.Fragment>
+                Rear Grab Handle with Horn
+                <br />
+              </React.Fragment>
+            ) : null}
+
+            {(this.state.engType === "Diesel" ) ? (
+              <React.Fragment>
+                Upswept Exhaust
+                <br />
+              </React.Fragment>
+            ) : null}
+            {this.state.engType === "LPG" ? (
+              <React.Fragment>
+                Rear Grab Handle with Horn
+                <br />
+              </React.Fragment>
+            ) : null}
+
+            {this.state.engType === "LPG" ? (
+              <React.Fragment>
+                Upswept Exhaust
+                <br />
+              </React.Fragment>
+            ) : null}
+
+            {this.state.engType !== "Warehouse" ? (
+              <React.Fragment>
+                Full LED Lighting
+                <br />
+              </React.Fragment>
+            ) : null}
+<br />
+            <br />
             <strong>
               Order Price : £{this.state.price + parseInt(this.state.markup)}
             </strong>
+
+            
           </Grid>
         </Grid>
       </React.Fragment>
