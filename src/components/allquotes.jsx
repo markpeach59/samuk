@@ -97,7 +97,9 @@ class AllQuotes extends Component {
                   <TableCell>Email</TableCell>
                   <TableCell>Dealer</TableCell>
                   <TableCell align="right">Model</TableCell>
-                  <TableCell align="right">Cost</TableCell>
+                  <TableCell align="right">Offer</TableCell>
+                  <TableCell align="right">Saving</TableCell>
+                  <TableCell align="right">Total</TableCell>
                   <TableCell align="right">Reassign</TableCell>
                 </TableRow>
               </TableHead>
@@ -123,9 +125,18 @@ class AllQuotes extends Component {
                     <TableCell align="right"> {dealername(x.userid)}</TableCell>
                     <TableCell align="right"> {x.model}</TableCell>
                     <TableCell align="right">
-                      {" £"}
-                      {x.price}
-                    </TableCell>
+                     
+                     {x.offer  ? ( "Yes") : null}
+                     </TableCell>
+ 
+                     <TableCell align="right">
+                     {x.offer  ? ( " £" + x.saving) : null}
+                     </TableCell>
+ 
+ 
+                     <TableCell align="right">
+                     {x.offer  ? (" £" + (x.price - x.saving)): (" £" + (x.price ))}
+                     </TableCell>
                     <TableCell align="right">
                       <Reassignquote
                         quoteid={x._id}

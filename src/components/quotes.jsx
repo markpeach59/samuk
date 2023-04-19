@@ -54,6 +54,8 @@ class Quotes extends Component {
                   <TableCell align="right">Model</TableCell>
                   <TableCell align="right">Cost</TableCell>
                   <TableCell align="right">Markup</TableCell>
+                  <TableCell align="right">Offer</TableCell>
+                  <TableCell align="right">Saving</TableCell>
                   <TableCell align="right">Total</TableCell>
                 </TableRow>
               </TableHead>
@@ -77,10 +79,21 @@ class Quotes extends Component {
                       {" £"}
                       {x.markup}
                     </TableCell>
+
                     <TableCell align="right">
-                      {" £"}
-                      {x.price + x.markup}
+                     
+                    {x.offer  ? ( "Yes") : null}
                     </TableCell>
+
+                    <TableCell align="right">
+                    {x.offer  ? ( " £" + x.saving) : null}
+                    </TableCell>
+
+
+                    <TableCell align="right">
+                    {x.offer  ? (" £" + (x.price + x.markup - x.saving)): (" £" + (x.price + x.markup))}
+                    </TableCell>
+
                   </TableRow>
                 ))}
               </TableBody>

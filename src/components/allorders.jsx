@@ -80,7 +80,9 @@ class Orders extends Component {
                   <TableCell>Email</TableCell>
                   <TableCell>Dealer</TableCell>
                   <TableCell align="right">Model</TableCell>
-                  <TableCell align="right">Cost</TableCell>
+                  <TableCell align="right">Offer</TableCell>
+                  <TableCell align="right">Saving</TableCell>
+                  <TableCell align="right">Total</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -105,9 +107,18 @@ class Orders extends Component {
                     <TableCell align="right"> {dealername(x.userid)}</TableCell>
                     <TableCell align="right"> {x.model}</TableCell>
                     <TableCell align="right">
-                      {" £"}
-                      {x.price}
-                    </TableCell>
+                     
+                     {x.offer  ? ( "Yes") : null}
+                     </TableCell>
+ 
+                     <TableCell align="right">
+                     {x.offer  ? ( " £" + x.saving) : null}
+                     </TableCell>
+ 
+ 
+                     <TableCell align="right">
+                     {x.offer  ? (" £" + (x.price - x.saving)): (" £" + (x.price ))}
+                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

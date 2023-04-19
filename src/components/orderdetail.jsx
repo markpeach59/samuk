@@ -389,7 +389,7 @@ class OrderDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.charger + "Charger"}
+              {this.state.charger + " Charger"}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.bfs}
