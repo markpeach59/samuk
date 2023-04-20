@@ -83,6 +83,26 @@ class AllQuotes extends Component {
       return dn;
     };
 
+    const username = (id) => {
+      //console.log(id);
+      
+      const nm = _.find(u, ["_id", id]).name;
+
+      if (nm === undefined) return " - ";
+
+      return nm;
+    };
+
+    const emailaddr = (id) => {
+      //console.log(id);
+      
+      const nm = _.find(u, ["_id", id]).email;
+
+      if (nm === undefined) return " - ";
+
+      return nm;
+    };
+
     return (
       <React.Fragment>
         <Grid container spacing={2}>
@@ -116,11 +136,12 @@ class AllQuotes extends Component {
                     </TableCell>
                     <TableCell align="right">
                       {" "}
-                      {_.find(u, ["_id", x.userid]).name}
+                      {username(x.userid)}
+                
                     </TableCell>
                     <TableCell align="right">
                       {" "}
-                      {_.find(u, ["_id", x.userid]).email}
+                      {emailaddr(x.userid)}
                     </TableCell>
                     <TableCell align="right"> {dealername(x.userid)}</TableCell>
                     <TableCell align="right"> {x.model}</TableCell>
