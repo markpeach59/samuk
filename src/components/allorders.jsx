@@ -58,12 +58,37 @@ class Orders extends Component {
 
     const dealername = (id) => {
       //console.log(id);
-      const m = _.find(u, ["_id", id]).dealerId;
+
+      const ptr = _.find(u, ["_id", id]);
+
+      if (ptr === undefined) return " - ";
+
+      const m = ptr.dealerId;
 
       if (m === undefined) return " - ";
 
       const dn = _.find(d, ["_id", m]).dealername;
       return dn;
+    };
+
+    const username = (id) => {
+      //console.log(id);
+
+      const ptr = _.find(u, ["_id", id]);
+
+      if (ptr === undefined) return " - ";
+
+      return ptr.name;
+    };
+
+    const emailaddr = (id) => {
+      //console.log(id);
+      
+      const ptr = _.find(u, ["_id", id]);
+
+      if (ptr === undefined) return " - ";
+
+      return ptr.email;
     };
 
     return (
@@ -98,11 +123,12 @@ class Orders extends Component {
                     </TableCell>
                     <TableCell align="right">
                       {" "}
-                      {_.find(u, ["_id", x.userid]).name}
+                      {username(x.userid)}
+                
                     </TableCell>
                     <TableCell align="right">
                       {" "}
-                      {_.find(u, ["_id", x.userid]).email}
+                      {emailaddr(x.userid)}
                     </TableCell>
                     <TableCell align="right"> {dealername(x.userid)}</TableCell>
                     <TableCell align="right"> {x.model}</TableCell>
