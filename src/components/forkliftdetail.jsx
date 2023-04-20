@@ -884,12 +884,12 @@ class ForkliftDetail extends Component {
 
               {this.state.selectedMastSize &&
               this.state.selectedMastSize.closedheight
-                ? " , " + this.state.selectedMastSize.closedheight + "mm"
+                ? " , " + this.state.selectedMastSize.closedheight + "mm Closed"
                 : null}
 
               {this.state.selectedMastSize &&
               this.state.selectedMastSize.freeliftheight
-                ? " , " + this.state.selectedMastSize.freeliftheight + "mm"
+                ? " , " + this.state.selectedMastSize.freeliftheight + "mm Free Lift"
                 : null}   
             </ConditionalWrapper>
             <ConditionalWrapper
@@ -1257,7 +1257,7 @@ class ForkliftDetail extends Component {
                 : null}
             </ConditionalWrapper>
             <ConditionalWrapper
-              condition={this.state.selectedCabin}
+              condition={this.state.cabins}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
@@ -1267,8 +1267,9 @@ class ForkliftDetail extends Component {
             >
               {this.state.selectedCabin
                 ? this.state.selectedCabin.cabinoption
-                : null}
+                : "Plastic top cover"}
             </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.selectedHeater}
               wrapper={(children) => (
