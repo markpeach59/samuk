@@ -75,7 +75,12 @@ class AllQuotes extends Component {
 
     const dealername = (id) => {
       //console.log(id);
-      const m = _.find(u, ["_id", id]).dealerId;
+
+      const ptr = _.find(u, ["_id", id]);
+
+      if (ptr === undefined) return " - ";
+
+      const m = ptr.dealerId;
 
       if (m === undefined) return " - ";
 
@@ -85,22 +90,22 @@ class AllQuotes extends Component {
 
     const username = (id) => {
       //console.log(id);
-      
-      const nm = _.find(u, ["_id", id]).name;
 
-      if (nm === undefined) return " - ";
+      const ptr = _.find(u, ["_id", id]);
 
-      return nm;
+      if (ptr === undefined) return " - ";
+
+      return ptr.name;
     };
 
     const emailaddr = (id) => {
       //console.log(id);
       
-      const nm = _.find(u, ["_id", id]).email;
+      const ptr = _.find(u, ["_id", id]);
 
-      if (nm === undefined) return " - ";
+      if (ptr === undefined) return " - ";
 
-      return nm;
+      return ptr.email;
     };
 
     return (
