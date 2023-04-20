@@ -57,6 +57,8 @@ import Markup from "./markup";
 import { getForkliftDetail } from "../services/forkliftDetailService";
 import { savequote } from "../services/quotesService";
 
+import Offertext from "./offertext";
+
 import "typeface-roboto";
 
 class ForkliftDetail extends Component {
@@ -802,6 +804,12 @@ class ForkliftDetail extends Component {
    
     return (
       <React.Fragment>
+    
+          {this.state.offer ? <div>
+          <Offertext />
+</div>: null}
+       
+
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <h2>{this.state.model}</h2>

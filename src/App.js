@@ -36,7 +36,7 @@ import OrderDetail from "./components/orderdetail";
 import AllQuotes from "./components/allquotes";
 import AllOrders from "./components/allorders";
 import DealerHeader from "./components/dealerheader";
-import Offertext from "./components/offertext";
+
 
 import ListAllUsers from "./components/listallusers";
 import ListAllDealers from "./components/listalldealers";
@@ -155,9 +155,7 @@ class App extends Component {
           <div>
           <DealerHeader />
           </div>
-          <div>
-          <Offertext />
-</div>
+          
           
           <div>
             <Switch>
