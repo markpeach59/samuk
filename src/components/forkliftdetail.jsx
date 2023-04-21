@@ -1256,8 +1256,11 @@ class ForkliftDetail extends Component {
                 ? this.state.selectedSeat.seattype + " Seat"
                 : null}
             </ConditionalWrapper>
+
+           
+
             <ConditionalWrapper
-              condition={this.state.cabins}
+              condition={this.state.cabins !== undefined && this.state.cabins.length > 0}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
