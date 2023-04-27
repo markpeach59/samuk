@@ -19,6 +19,9 @@ import TableCell from "@material-ui/core/TableCell";
 
 import "typeface-roboto";
 
+import Assigndealer from "./assigndealer"
+import {assignDealertouser, removeDealerfromuser} from "../services/userService"
+
 class ListAllUsers extends Component {
   state = {
     users: [],
@@ -37,6 +40,31 @@ class ListAllUsers extends Component {
       dealers,
     });
   }
+
+  handleAssigndealer = (user, newdealerId) => {
+    console.log("Assign Dealer Id for - ", user, " to  ", newdealerId);
+
+
+
+    if (newdealerId === '')
+    {
+      user.dealerId = undefined;
+      this.setState(user);
+
+      removeDealerfromuser(user._id)
+        return;
+    }
+
+    //console.log("the user", user);
+    //assign - but need to check if already set to that dealer first
+
+    user.dealerId = newdealerId;
+    this.setState({ user });
+    //console.log("the Amended user", user);
+     // but also need to push this to backend if changed
+     assignDealertouser(user._id, newdealerId);
+  
+  };
 
   render() {
     const u = this.state.users;
@@ -68,6 +96,7 @@ class ListAllUsers extends Component {
                   <TableCell align="right">Name</TableCell>
                   <TableCell align="right">Email</TableCell>
                   <TableCell align="right">Dealer</TableCell>
+                  <TableCell align="right">&nbsp;</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -76,6 +105,13 @@ class ListAllUsers extends Component {
                     <TableCell align="right"> {x.name}</TableCell>
                     <TableCell align="right"> {x.email}</TableCell>
                     <TableCell align="right"> {dealername(x._id)}</TableCell>
+                    <TableCell align="right">
+                    <Assigndealer
+                        user={x}
+                        dealers={d}
+                        onAssigndealer={this.handleAssigndealer}
+                      />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

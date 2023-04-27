@@ -99,25 +99,26 @@ class QuoteDetail extends Component {
     return (
       <React.Fragment>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
           <h2>{this.state.model}</h2>
             {this.state.imgName && this.state.imgName.length > 0 ? (
               <ForkliftImg imgName={this.state.imgName} />
             ) : null}
 
             
-            <br /> {this.state.engType}<br />
+            <br /> 
+            
+            {this.state.engType ? (this.state.engType + " "):null} 
             
             <ConditionalWrapper
               condition={this.state.powertrain}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.powertrain}
+              {this.state.powertrain + " "}
             </ConditionalWrapper>
 
   
@@ -128,7 +129,6 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
@@ -137,17 +137,16 @@ class QuoteDetail extends Component {
                 : null}
             </ConditionalWrapper>
 
-
+<br />
             <ConditionalWrapper
               condition={this.state.masttype}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.masttype}
+              {this.state.masttype + " "}
             </ConditionalWrapper>
 
 
@@ -170,7 +169,7 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"," +this.state.closedheight + "mm"}
+              {"," +this.state.closedheight + "mm Closed"}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -181,9 +180,33 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {"," + this.state.freeliftheight + "mm"}
+              {"," + this.state.freeliftheight + "mm Free Lift"}
             </ConditionalWrapper>
-<br />
+
+
+
+            <ConditionalWrapper
+              condition={this.state.valve || this.state.forks || this.state.fork2d || this.state.sideshift || this.state.forkpositioner}
+              wrapper={(children) => (
+                <React.Fragment>
+                  <br />
+                </React.Fragment>
+              )}
+            >
+            </ConditionalWrapper>
+
+
+<ConditionalWrapper
+              condition={this.state.valve}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                </React.Fragment>
+              )}
+            >
+              {this.state.valve + " Valve" + ", "}
+            </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.forks}
               wrapper={(children) => (
@@ -192,7 +215,7 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.forks + "mm Forks"}
+              {this.state.forks + "mm Forks, "}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -200,24 +223,13 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.fork2d + "mm Forks"}
+              {this.state.fork2d + "mm Forks, "}
             </ConditionalWrapper>
 
-            <ConditionalWrapper
-              condition={this.state.valve}
-              wrapper={(children) => (
-                <React.Fragment>
-                  {children}
-                  <br />
-                </React.Fragment>
-              )}
-            >
-              {this.state.valve + " Valve"}
-            </ConditionalWrapper>
+          
 
             
             <ConditionalWrapper
@@ -225,11 +237,10 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.sideshift + " Side Shift"}
+              {this.state.sideshift + " Side Shift, "}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -237,11 +248,10 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"Sideshifting Fork Positioner"}
+              {"Sideshifting Fork Positioner, "}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -249,11 +259,10 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"Side Lever Hydraulic"}
+              {"Side Lever Hydraulic, "}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -261,11 +270,10 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.controller + " Controller"}
+              {this.state.controller + " Controller, "}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -273,11 +281,10 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"Pincode"}
+              {"Pincode, "}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -285,11 +292,10 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"Display with Camera"}
+              {"Display with Camera, "}
             </ConditionalWrapper>
 
 
@@ -298,11 +304,10 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"2 Sided Lifty Button"}
+              {"2 Sided Lifty Button, "}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -310,11 +315,10 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.roller + "Roller"}
+              {this.state.roller + " Roller, "}
             </ConditionalWrapper>
 
 
@@ -323,11 +327,10 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"Cold Store Protection"}
+              {"Cold Store Protection, "}
             </ConditionalWrapper>
 
 
@@ -337,179 +340,153 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
               {this.state.tyre + " Tyres"}
             </ConditionalWrapper>
-            <ConditionalWrapper
-              condition={this.state.aircon}
-              wrapper={(children) => (
-                <React.Fragment>
-                  {children}
-                  <br />
-                </React.Fragment>
-              )}
-            >
-              {"Air Con"}
-            </ConditionalWrapper>
-            <ConditionalWrapper
-              condition={this.state.heater}
-              wrapper={(children) => (
-                <React.Fragment>
-                  {children}
-                  <br />
-                </React.Fragment>
-              )}
-            >
-              {"Heater"}
-            </ConditionalWrapper>
-            <ConditionalWrapper
-              condition={this.state.reargrab}
-              wrapper={(children) => (
-                <React.Fragment>
-                  {children}
-                  <br />
-                </React.Fragment>
-              )}
-            >
-              {"Rear Grab Handle"}
-            </ConditionalWrapper>
-
-
-            <ConditionalWrapper
-              condition={this.state.safetybluespot}
-              wrapper={(children) => (
-                <React.Fragment>
-                  {children}
-                  <br />
-                </React.Fragment>
-              )}
-            >
-              {"Safety Blue Spot"}
-            </ConditionalWrapper>
+            
+            
+          <br />
 
             <ConditionalWrapper
               condition={this.state.battery}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.battery + " Battery"}
+              {this.state.battery + " Battery, "}
             </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.charger}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.charger + " Charger"}
+              {this.state.charger + " Charger, "}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.bfs}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"BFS"}
+              {"BFS, "}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.trolley}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
+
                 </React.Fragment>
               )}
             >
-              {"Trolley"}
+              {"Trolley, "}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.blinkey}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
+ 
                 </React.Fragment>
               )}
             >
-              {"Blinkey"}
+              {"Blinkey, "}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.sideextractionbattery}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"Side Extraction Battery"}
+              {"Side Extraction Battery, "}
             </ConditionalWrapper>
+
+
             <ConditionalWrapper
               condition={this.state.armguard}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"Arm Guard"}
+              {"Arm Guard, "}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.platform}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
+              
                 </React.Fragment>
               )}
             >
-              {"Platform"}
+              {"Platform, "}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.loadbackrest}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {"Load Back Rest"}
+              {"Load Backrest, "}
             </ConditionalWrapper>
             <ConditionalWrapper
               condition={this.state.steering}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
+                </React.Fragment>
+              )}
+            >
+              {"Electric Steering, "}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.safetybluespot || this.state.seat || this.state.cabin || this.state.aircon || this.state.heater}
+              wrapper={(children) => (
+                <React.Fragment>
                   <br />
                 </React.Fragment>
               )}
             >
-              {"Electric Steering"}
             </ConditionalWrapper>
+            <ConditionalWrapper
+              condition={this.state.safetybluespot}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  
+                </React.Fragment>
+              )}
+            >
+              {"Safety Blue Spot, "}
+            </ConditionalWrapper>
+
+
             <ConditionalWrapper
               condition={this.state.seat}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.seat + " Seat"}
+              {this.state.seat + " Seat, "}
             </ConditionalWrapper>
 
 
@@ -518,64 +495,78 @@ class QuoteDetail extends Component {
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
-                  <br />
                 </React.Fragment>
               )}
             >
-              {this.state.cabin + " Cabin"}
+              {this.state.cabin + ", "}
             </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.aircon}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                </React.Fragment>
+              )}
+            >
+              {"Air Con, "}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.heater}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                </React.Fragment>
+              )}
+            >
+              {"Heater, "}
+            </ConditionalWrapper>
+
+            
             <br />
+
             {this.state.engType !== "Warehouse" ? (
               <React.Fragment>
-                OPS Safety System
-                <br />
-                Amber Beacon
-                <br />
-                Reverse Alarm
-                <br />
+                OPS Safety System, Amber Beacon, Reverse Alarm
               </React.Fragment>
             ) : null}
             
 
             {this.state.engType === "Electric" ? (
               <React.Fragment>
-                Rear Grab Handle with Horn
-                <br />
+                , Rear Grab Handle with Horn
               </React.Fragment>
             ) : null}
 
              
             {(this.state.engType === "Diesel" && this.state.liftcapacity < 6000 ) ? (
               <React.Fragment>
-                Rear Grab Handle with Horn
-                <br />
+                , Rear Grab Handle with Horn
               </React.Fragment>
             ) : null}
 
             {(this.state.engType === "Diesel" ) ? (
               <React.Fragment>
-                Upswept Exhaust
-                <br />
-              </React.Fragment>
-            ) : null}
-            {this.state.engType === "LPG" ? (
-              <React.Fragment>
-                Rear Grab Handle with Horn
-                <br />
+                , Upswept Exhaust
               </React.Fragment>
             ) : null}
 
             {this.state.engType === "LPG" ? (
               <React.Fragment>
-                Upswept Exhaust
-                <br />
+                , Rear Grab Handle with Horn
+              </React.Fragment>
+            ) : null}
+
+            {this.state.engType === "LPG" ? (
+              <React.Fragment>
+                , Upswept Exhaust
               </React.Fragment>
             ) : null}
 
             {this.state.engType !== "Warehouse" ? (
               <React.Fragment>
-                Full LED Lighting
-                <br />
+                , Full LED Lighting
               </React.Fragment>
             ) : null}
 <br />
@@ -583,7 +574,7 @@ class QuoteDetail extends Component {
             <strong>
               Quote Price : £{this.state.price + parseInt(this.state.markup)}
             </strong>
-
+<br />
 
             <OrderCreate onOrderCreate={this.handleCreateOrder} />
           </Grid>
