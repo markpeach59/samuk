@@ -11,6 +11,11 @@ import Divider from "@material-ui/core/Divider";
 const Batterys = props => {
   const { batterys, onBatterySel, selectedBattery, batteryConstraint } = props;
 
+
+
+  console.log ("Batteries ", batterys);
+
+  
   var aa = "X";
 
 

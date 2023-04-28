@@ -50,6 +50,8 @@ import Batterys from "./battery";
 import Chargers from "./charger";
 import Engines from "./engines";
 
+import Chassis from "./chassis";
+
 import QuoteSave from "./quotesave";
 import Offer from "./offer";
 import Markup from "./markup";
@@ -87,6 +89,10 @@ class ForkliftDetail extends Component {
       defaulttyre: forky.defaulttyre,
 
       engines: forky.engines,
+
+      chassis:forky.chassis,
+
+
       masts: forky.masts,
       valves: forky.valves,
       forks: forky.forks,
@@ -163,6 +169,8 @@ class ForkliftDetail extends Component {
       selectedFork: undefined,
       selectedSideShift: undefined,
       selectedForkpositioner: undefined,
+
+      selectedChassis: undefined,
 
       selectedTyre: undefined,
       selectedColdStoreProt: undefined,
@@ -241,6 +249,9 @@ class ForkliftDetail extends Component {
 
     if (this.state.selectedEngine)
       quote.powertrain = this.state.selectedEngine.enginetype;
+
+
+    // chassis, etc
 
     if (this.state.imgName) quote.imgname = this.state.imgName;
 
@@ -345,6 +356,34 @@ class ForkliftDetail extends Component {
     this.setState({
       selectedEngine: engine,
       powertrain: engine.enginetype,
+      totalprice: newprice,
+    });
+  };
+
+  handleChassisSel = (chassis) => {
+    const oldprice = this.state.selectedChassis
+      ? this.state.selectedChassis.price
+      : 0;
+
+      const oldprice1 = this.state.selectedBattery
+      ? this.state.selectedBattery.price
+      : 0;
+
+      const oldprice2 = this.state.selectedCharger
+      ? this.state.selectedCharger.price
+      : 0;
+
+    const newprice = this.state.totalprice + chassis.price - oldprice - oldprice1 - oldprice2;
+
+    console.log( "Chassis Selected", chassis );
+
+    this.setState({
+      selectedChassis: chassis,
+      powertrain: chassis.label,
+      batterys: chassis.batteries,
+      chargers: undefined,
+      selectedBattery: undefined,
+      selectedCharger: undefined,
       totalprice: newprice,
     });
   };
@@ -1406,6 +1445,15 @@ class ForkliftDetail extends Component {
           <Grid item xs={8}>
             <Markup onMarkup={this.handleMarkup} />
             <ResetFilters onResetFilters={this.handleResetFilters} />
+
+            {this.state.chassis && this.state.chassis.length > 0 ? (
+              <Chassis
+                chassis={this.state.chassis}
+                selectedChassis={this.state.selectedChassis}
+                onChassisSel={this.handleChassisSel}
+              />
+            ) : null}
+        
 
             {this.state.engines && this.state.engines.length > 0 ? (
               <Engines
