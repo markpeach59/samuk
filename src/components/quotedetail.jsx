@@ -204,7 +204,7 @@ class QuoteDetail extends Component {
                 </React.Fragment>
               )}
             >
-              {this.state.valve + " Valve" + ", "}
+              {this.state.valve + " Valve, "}
             </ConditionalWrapper>
 
             <ConditionalWrapper
@@ -574,7 +574,8 @@ class QuoteDetail extends Component {
             <strong>
               Quote Price : £{this.state.price + parseInt(this.state.markup)}
             </strong>
-<br />
+<br /><strong>Or on a 5 year contract Hire at £ per week<br />
+3 year lease purchase at £  per week</strong>
 
             <OrderCreate onOrderCreate={this.handleCreateOrder} />
           </Grid>
