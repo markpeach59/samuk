@@ -194,7 +194,7 @@ class ForkliftDetail extends Component {
 
       selectedPincode: undefined,
       selectedRoller: undefined,
-      selectedCamerawithdisplay: undefined,
+      selectedDisplaywithcamera: undefined,
       selectedLiftybutton: undefined,
 
       selectedController: undefined,
@@ -324,6 +324,10 @@ class ForkliftDetail extends Component {
     if (this.state.selectedBfs) quote.bfs = true;
 
     if (this.state.selectedRoller) quote.roller = this.state.selectedRoller.rollertype;
+
+    if (this.state.defaultroller && this.state.selectedRoller === undefined ) quote.roller = this.state.defaultroller;
+
+
     if (this.state.selectedDisplaywithcamera) quote.displaywithcamera = true;
     if (this.state.selectedLiftybutton) quote.liftybutton = true;
     if (this.state.selectedPincode) quote.pincode = this.state.selectedPincode.pincodetype;
@@ -436,10 +440,12 @@ class ForkliftDetail extends Component {
       
       // price with latest sideshift - no FP selection enforced
       const newprice = this.state.totalprice + sideshift.price - oldssprice - oldfpprice;
-    
 
+    // now if we need to consider any valves that are available
+  if ((this.state.valves !==undefined) && this.state.valves.length > 0 ){
+    
     if(!this.state.selectedValve){
-      console.log("Adding first Valve")
+      //console.log("Adding first Valve")
 
       const adjustedprice = newprice + this.state.valves[0].price;
       this.setState({ selectedSideShift: sideshift, 
@@ -448,13 +454,19 @@ class ForkliftDetail extends Component {
         totalprice: adjustedprice });
 
     } else {
-      console.log("Valve is already selected")
+      //console.log("Valve is already selected")
       this.setState({ selectedSideShift: sideshift, 
         selectedForkpositioner: undefined,
         totalprice: newprice });
 
     }
-   
+  } else {
+    //console.log("No Valves are available")
+    this.setState({ selectedSideShift: sideshift, 
+      totalprice: newprice });
+
+
+  }
   };
 
 
@@ -471,6 +483,7 @@ class ForkliftDetail extends Component {
        // price with latest FP - no sideshift selection enforced
        const newprice = this.state.totalprice + forkpositioner.price - oldssprice - oldfpprice;
       
+       // we are assuming valves are available if forkpositioner is an option
       if(!this.state.selectedValve){
         console.log("Adding 3rd+4th Valve");
         const adjustedprice = newprice + this.state.valves[1].price;
@@ -1026,6 +1039,19 @@ class ForkliftDetail extends Component {
 
 
             <ConditionalWrapper
+              condition={this.state.defaultroller}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {(this.state.defaultroller && !this.state.selectedRoller )? this.state.defaultroller + " Roller": null}
+            </ConditionalWrapper>
+
+
+            <ConditionalWrapper
               condition={this.state.selectedRoller}
               wrapper={(children) => (
                 <React.Fragment>
@@ -1035,6 +1061,17 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedRoller? this.state.selectedRoller.rollertype + " Roller": null}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.selectedLiftybutton}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                </React.Fragment>
+              )}
+            >
+              {"2 Sided Lifty Button, "}
             </ConditionalWrapper>
 
             <ConditionalWrapper

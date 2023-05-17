@@ -310,6 +310,8 @@ class QuoteDetail extends Component {
               {"2 Sided Lifty Button, "}
             </ConditionalWrapper>
 
+            
+
             <ConditionalWrapper
               condition={this.state.roller}
               wrapper={(children) => (

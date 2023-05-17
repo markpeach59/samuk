@@ -14,7 +14,7 @@ const SideShift = props => {
   var aa = "X";
   if (selectedSideShift) {
     aa = selectedSideShift.sideshifttype;
-    //console.log("AA", selectedEngine.name);
+    console.log("AA", selectedSideShift.sideshifttype);
   }
 
   return (

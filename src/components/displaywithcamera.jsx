@@ -11,25 +11,25 @@ import Divider from "@material-ui/core/Divider";
 const Displaywithcamera = props => {
   const { displaywithcameras, onDisplaywithcameraSel, selectedDisplaywithcamera } = props;
 
-  var aa = "";
+  var aa = "XX";
   if (selectedDisplaywithcamera) {
-    aa = selectedDisplaywithcamera.displaywithcameraoption;
+    aa = selectedDisplaywithcamera.displaywithcameratype;
   }
 
   return (
     <React.Fragment>
       <FormControl component="fieldset">
-        <FormLabel component="legend">Displaywithcameras</FormLabel>
+        <FormLabel component="legend">Display with Camera</FormLabel>
 
         <RadioGroup aria-label="displaywithcameras" name="displaywithcameras" row={true}>
           {displaywithcameras.map(displaywithcamera => (
             <FormControlLabel
               key={displaywithcamera._id}
-              value={displaywithcamera.displaywithcameraoption}
+              value={displaywithcamera.displaywithcameratype}
               control={<Radio color="primary" />}
-              label={displaywithcamera.displaywithcameraoption}
+              label={displaywithcamera.displaywithcameratype}
               onChange={() => onDisplaywithcameraSel(displaywithcamera)}
-              checked={aa === displaywithcamera.displaywithcameraoption}
+              checked={aa === displaywithcamera.displaywithcameratype}
             />
           ))}
         </RadioGroup>
