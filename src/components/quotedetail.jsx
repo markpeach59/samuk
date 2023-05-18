@@ -244,6 +244,18 @@ class QuoteDetail extends Component {
             </ConditionalWrapper>
 
             <ConditionalWrapper
+              condition={this.state.sideshift === ""}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                </React.Fragment>
+              )}
+            >
+              {"Side Shift, "}
+            </ConditionalWrapper>
+
+
+            <ConditionalWrapper
               condition={this.state.forkpositioner}
               wrapper={(children) => (
                 <React.Fragment>

@@ -7,12 +7,15 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
+import auth from "../services/authService";
+import { getDealerDetail } from "../services/dealerService";
+
 import EnginesFilter from "./enginesfilter";
 import CapacityFilter from "./capacityfilter";
 import ResetFilters from "./resetfilters";
 
 import { getForklifts } from "../services/forkliftsService";
-import { getEngTypes } from "../services/fakeEngTypeFilterService";
+import { getEngTypes} from "../services/fakeEngTypeFilterService";
 import { getCapacityFilters } from "../services/fakeCapacityFilterService";
 
 import "typeface-roboto";
@@ -24,11 +27,29 @@ class Forklifts extends Component {
   };
 
   async componentDidMount() {
+    const user = auth.getCurrentUser();
+    this.setState({ user });
+    console.log('User is ', user);
+
+    let restricted = false;
+
+    if (user.dealerId){
+      const { data: dealery } = await getDealerDetail(user.dealerId);
+
+      console.log("Dealer ", dealery);
+      if (dealery.isRestricted) {
+        restricted = true;
+      }
+    }
+
+    
+  
+
     const { data: forklifts } = await getForklifts();
     //console.log("Forklifts Returned", forklifts);
     this.setState({
       forklifts,
-      engTypesFilter: getEngTypes(),
+      engTypesFilter: getEngTypes(restricted),
       capacityFilter: getCapacityFilters(),
       loading: false,
     });
