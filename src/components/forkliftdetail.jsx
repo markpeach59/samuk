@@ -11,7 +11,7 @@ import Tyres from "./tyres";
 import Seats from "./seats";
 import Cabins from "./cabins";
 import Valves from "./valves";
-import ResetFilters from "./resetfilters";
+import ResetOptions from "./resetoptions";
 import ForkliftImg from "./forkliftimg";
 
 import ColdStoreProts from "./coldstoreprot";
@@ -157,7 +157,7 @@ class ForkliftDetail extends Component {
     });
   }
 
-  handleResetFilters = () => {
+  handleResetOptions = () => {
     //console.log("Been Reset");
 
     this.setState({
@@ -1478,10 +1478,13 @@ class ForkliftDetail extends Component {
 
             <Offer price={this.state.totalprice} offeron={this.state.offer} bigger={this.state.selectedBattery} />
             <QuoteSave onQuoteSave={this.handleQuoteSave} />
+
+            <Markup onMarkup={this.handleMarkup} />
+
           </Grid>
           <Grid item xs={8}>
-            <Markup onMarkup={this.handleMarkup} />
-            <ResetFilters onResetFilters={this.handleResetFilters} />
+            
+            <ResetOptions onResetOptions={this.handleResetOptions} />
 
             {this.state.chassis && this.state.chassis.length > 0 ? (
               <Chassis
