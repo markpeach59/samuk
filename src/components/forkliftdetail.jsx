@@ -155,6 +155,8 @@ class ForkliftDetail extends Component {
       markup: 0,
       batteryconstraint: false,
     });
+
+    
   }
 
   handleResetOptions = () => {
@@ -1479,7 +1481,7 @@ class ForkliftDetail extends Component {
             <Offer price={this.state.totalprice} offeron={this.state.offer} bigger={this.state.selectedBattery} />
             <QuoteSave onQuoteSave={this.handleQuoteSave} />
 
-            <Markup onMarkup={this.handleMarkup} />
+            <Markup currentMarkup={this.state.markup} onMarkup={this.handleMarkup} />
 
           </Grid>
           <Grid item xs={8}>

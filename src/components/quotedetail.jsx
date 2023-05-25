@@ -3,10 +3,14 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 
 import ForkliftImg from "./forkliftimg";
+
 import {
   getQuoteDetail,
   createOrderFromQuote,
+  saveMarkup
 } from "../services/quotesService";
+
+import Markup from "./markup";
 
 import OrderCreate from "./ordercreate";
 
@@ -76,6 +80,20 @@ class QuoteDetail extends Component {
       sideextractionbattery: forky.sideextractionbattery,
     });
   }
+
+  handleMarkup = async (markup) => {
+    //console.log("Markup Saved - ", markup);
+    this.setState({ markup });
+
+    // need to store this back in MongoDB
+    const handle = this.props.match.params._id;
+    try {
+    await saveMarkup(handle, markup);
+    } catch(error){
+      //console.log("Could not save Markup in DB");
+      // should be resetting markup to prev value
+    }
+  };
 
   handleCreateOrder = async () => {
     // _id of Quote Object
@@ -592,6 +610,8 @@ class QuoteDetail extends Component {
 3 year lease purchase at £  per week</strong>
 
             <OrderCreate onOrderCreate={this.handleCreateOrder} />
+
+            <Markup currentMarkup={this.state.markup} onMarkup={this.handleMarkup} />
           </Grid>
         </Grid>
       </React.Fragment>

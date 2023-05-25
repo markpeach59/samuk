@@ -10,16 +10,30 @@ import "typeface-roboto";
 import { TextField } from "@material-ui/core";
 
 const Markup = (props) => {
-  const { onMarkup } = props;
+  const {currentMarkup, onMarkup } = props;
+
+  //console.log("Markup Props ", props);
+
+  //console.log( 'Inital Markup - ', currentMarkup);
 
   const [themarkup, setThemarkup] = useState(0);
+
+
+
+  //console.log( 'The Markup - ', themarkup);
+ 
+
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const onDialogOpen = () => {
+    
+    setThemarkup(currentMarkup);
+
     setDialogOpen(true);
+
   };
 
   const onDialogClose = () => {

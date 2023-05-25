@@ -26,3 +26,9 @@ export function reassignQuote(id, newuserid) {
     userid: newuserid,
   });
 }
+
+export function saveMarkup(id, newmarkup) {
+    return http.patch(apiEndPoint + "/savemarkup/" + id, {
+      markup: newmarkup,
+    });
+}
