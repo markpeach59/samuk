@@ -29,14 +29,15 @@ class Forklifts extends Component {
   async componentDidMount() {
     const user = auth.getCurrentUser();
     this.setState({ user });
-    console.log('User is ', user);
+    //console.log('User is ', user);
 
     let restricted = false;
 
     if (user.dealerId){
       const { data: dealery } = await getDealerDetail(user.dealerId);
 
-      console.log("Dealer ", dealery);
+      //console.log("Dealer ", dealery);
+      //getting this here as Filter values are set local in the code and not on MongoDB
       if (dealery.isRestricted) {
         restricted = true;
       }

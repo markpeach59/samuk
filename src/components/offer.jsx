@@ -3,7 +3,7 @@ import React from "react";
 const Offer = props => {
     const { price, offeron, bigger } = props;
 
-    console.log('Offer Props', props, " ", offeron)
+    //console.log('Offer Props', props, " ", offeron)
 
     if (offeron && bigger){
 
