@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import { getAllOrders } from "../services/ordersService";
 
+
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
@@ -58,6 +59,7 @@ class Orders extends Component {
                   <TableCell align="right">Offer</TableCell>
                   <TableCell align="right">Saving</TableCell>
                   <TableCell align="right">Total</TableCell>
+                  <TableCell align="right">Confirmed</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -92,6 +94,9 @@ class Orders extends Component {
  
                      <TableCell align="right">
                      {x.offer  ? (" £" + (x.price + x.markup - x.saving)): (" £" + (x.price + x.markup))}
+                     </TableCell>
+                     <TableCell align="right">
+                     {!x.confirmedorder? "No": "Yes"}
                      </TableCell>
                   </TableRow>
                 ))}

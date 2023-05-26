@@ -10,3 +10,7 @@ export function getAllOrders() {
 export function getOrderDetail(id) {
   return http.get(apiEndPoint + "/" + id);
 }
+
+export function confirmOrder(id) {
+  return http.patch(apiEndPoint + "/confirmorder/" + id);
+}

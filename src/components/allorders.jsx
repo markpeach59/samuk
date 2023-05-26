@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 import { getAllOrders } from "../services/allOrdersService";
+import { confirmOrder } from "../services/ordersService";
 import { getUsers } from "../services/userService";
 import { getDealers } from "../services/dealerService";
 
@@ -19,6 +20,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 
 import TableHead from "@material-ui/core/TableHead";
+import Confirmorder from "./confirmorder";
 
 import "typeface-roboto";
 
@@ -45,6 +47,30 @@ class Orders extends Component {
       dealers,
     });
   }
+
+  handleConfirmation = async (orderid) => {
+    
+    //console.log("Confirmation ", orderid);
+
+    const theorder = _.find(this.state.orders, ["_id", orderid]);
+
+    if (theorder === undefined) return;
+
+    //console.log("the Order", theorder);
+    theorder.confirmedorder = true;
+    this.setState({ theorder });
+
+    // need to store this back in MongoDB
+
+   
+    try {
+      await confirmOrder(orderid)
+    } catch(error){
+      console.log("Could not Confirm Order ", orderid, " in DB");
+      // should be resetting markup to prev value
+    }
+    
+  };
 
   render() {
     const t = this.state.orders;
@@ -108,6 +134,7 @@ class Orders extends Component {
                   <TableCell align="right">Offer</TableCell>
                   <TableCell align="right">Saving</TableCell>
                   <TableCell align="right">Total</TableCell>
+                  <TableCell align="right">Confirmed</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -144,6 +171,14 @@ class Orders extends Component {
  
                      <TableCell align="right">
                      {x.offer  ? (" £" + (x.price - x.saving)): (" £" + (x.price ))}
+                     </TableCell>
+                     <TableCell align="right">
+                     {x.confirmedorder && "YES"}
+                      {!x.confirmedorder && 
+                     <Confirmorder  
+                     orderid={x._id}
+                     onConfirmorder={this.handleConfirmation} />
+                    }
                      </TableCell>
                   </TableRow>
                 ))}
