@@ -49,6 +49,7 @@ import Batterycompartments from "./batterycompartment";
 
 import Batterys from "./battery";
 import Chargers from "./charger";
+import Sparebatteries from "./sparebatteries";
 import Engines from "./engines";
 
 import Chassis from "./chassis";
@@ -88,10 +89,11 @@ class ForkliftDetail extends Component {
     const handle = this.props.match.params.modelName;
     //console.log("Params", handle);
     const { data: forky } = await getForkliftDetail(handle);
-    //console.log("Detail", forky);
+    console.log("Detail", forky);
 
     let initialbaseprice = forky.basePrice;
     if (restricted && forky.basePriceR ) initialbaseprice = forky.basePriceR;
+
 
     this.setState({
       model: forky.model,
@@ -150,6 +152,7 @@ class ForkliftDetail extends Component {
       batterycompartments: forky.batterycompartment,
 
       batterys: forky.batteries,
+      spares:forky.spares,
 
       defaultbattery:forky.defaultbattery,
       defaultcharger:forky.defaultcharger,
@@ -208,6 +211,7 @@ class ForkliftDetail extends Component {
 
       selectedBattery: undefined,
       selectedCharger: undefined,
+      selectedSpare: undefined,
 
       selectedArmguard: undefined,
       selectedPlatform: undefined,
@@ -325,6 +329,9 @@ class ForkliftDetail extends Component {
 
     if (this.state.selectedCharger)
       quote.charger = this.state.selectedCharger.chargertype;
+
+    if (this.state.selectedSpare)
+      quote.spare = this.state.selectedSpare.sparetype;
 
     if (this.state.selectedSideextractionbattery)
       quote.sideextractionbattery = true;
@@ -805,6 +812,27 @@ class ForkliftDetail extends Component {
     this.setState({ selectedCharger: charger, totalprice: newprice });
   };
 
+  handleSpareSel = (spare) => {
+    
+    const newprice = this.state.totalprice + spare.price
+
+    if (!this.state.selectedBattery){
+      const battery = this.state.batterys[0];
+      const newprice = this.state.totalprice + spare.price + battery.price;
+
+      this.setState({ selectedSpare: spare, selectedBattery: battery, totalprice: newprice });
+    }
+    else{
+      const newprice = this.state.totalprice + spare.price;
+
+      this.setState({ selectedSpare: spare, totalprice: newprice });
+
+    }
+
+
+    this.setState({ selectedSpare: spare, totalprice: newprice });
+  };
+
   handleSideextractionbatterySel = (sideextractionbattery) => {
     const oldprice = this.state.selectedSideextractionbattery
       ? this.state.selectedSideextractionbattery.price
@@ -1268,6 +1296,25 @@ class ForkliftDetail extends Component {
                 ? this.state.selectedCharger.chargertype + " Charger"
                 : null}
             </ConditionalWrapper>
+
+
+            <ConditionalWrapper
+              condition={this.state.selectedSpare}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedSpare
+                ? this.state.selectedSpare.sparetype + " Spare Battery"
+                : null}
+            </ConditionalWrapper>
+
+
+
+
             <ConditionalWrapper
               condition={this.state.selectedBfs}
               wrapper={(children) => (
@@ -1737,7 +1784,13 @@ class ForkliftDetail extends Component {
               />
             ) : null}
 
-
+            {this.state.spares && this.state.spares.length > 0 ? (
+              <Sparebatteries
+                spares={this.state.spares}
+                selectedSpare={this.state.selectedSpare}
+                onSpareSel={this.handleSpareSel}
+              />
+            ) : null}
 
 
             {this.state.bfss && this.state.bfss.length > 0 ? (

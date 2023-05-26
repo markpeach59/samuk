@@ -65,6 +65,7 @@ class QuoteDetail extends Component {
       sideleverhydraulic: forky.sideleverhydraulic,
       battery: forky.battery,
       charger: forky.charger,
+      spare: forky.spare,
 
       armguard: forky.armguard,
       platform: forky.platform,
@@ -402,6 +403,18 @@ class QuoteDetail extends Component {
             >
               {this.state.charger + " Charger, "}
             </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.spare}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                </React.Fragment>
+              )}
+            >
+              {this.state.spare + " Spare Battery, "}
+            </ConditionalWrapper>
+
             <ConditionalWrapper
               condition={this.state.bfs}
               wrapper={(children) => (
