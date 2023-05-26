@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import auth from "../services/authService";
+import { getDealerDetail } from "../services/dealerService";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -70,10 +71,27 @@ class ForkliftDetail extends Component {
     const user = auth.getCurrentUser();
     this.setState({ user });
 
+
+    let restricted = false;
+
+    if (user.dealerId){
+      const { data: dealery } = await getDealerDetail(user.dealerId);
+
+      //console.log("Dealer ", dealery);
+      //getting this here as Filter values are set local in the code and not on MongoDB
+      if (dealery.isRestricted) {
+        restricted = true;
+      }
+    }
+    console.log('User is restricted');
+
     const handle = this.props.match.params.modelName;
     //console.log("Params", handle);
     const { data: forky } = await getForkliftDetail(handle);
     //console.log("Detail", forky);
+
+    let initialbaseprice = forky.basePrice;
+    if (restricted && forky.basePriceR ) initialbaseprice = forky.basePriceR;
 
     this.setState({
       model: forky.model,
@@ -146,8 +164,8 @@ class ForkliftDetail extends Component {
       blinkeys: forky.blinkey,
       sideextractionbatterys: forky.sideextractionbattery,
 
-      totalprice: forky.basePrice,
-      baseprice: forky.basePrice,
+      totalprice: initialbaseprice,
+      baseprice: initialbaseprice,
 
       offer:forky.offer,
       saving:0,
