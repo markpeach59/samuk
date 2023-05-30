@@ -7,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
+import ToggleSwitch from "./toggleswitch";
+
 import auth from "../services/authService";
 import { getDealerDetail } from "../services/dealerService";
 
@@ -14,7 +16,9 @@ import EnginesFilter from "./enginesfilter";
 import CapacityFilter from "./capacityfilter";
 import ResetFilters from "./resetfilters";
 
-import { getForklifts } from "../services/forkliftsService";
+
+
+import { getForklifts, getRestrictedForklifts } from "../services/forkliftsService";
 import { getEngTypes} from "../services/fakeEngTypeFilterService";
 import { getCapacityFilters } from "../services/fakeCapacityFilterService";
 
@@ -24,6 +28,8 @@ class Forklifts extends Component {
   state = {
     forklifts: [],
     loading: true,
+    restricted: false
+
   };
 
   async componentDidMount() {
@@ -31,7 +37,11 @@ class Forklifts extends Component {
     this.setState({ user });
     //console.log('User is ', user);
 
-    let restricted = false;
+    let isrestricted = false;
+    
+    //localStorage.removeItem("restricted");
+    const test = localStorage.getItem("restricted");
+    if (test) isrestricted = true;
 
     if (user.dealerId){
       const { data: dealery } = await getDealerDetail(user.dealerId);
@@ -39,21 +49,81 @@ class Forklifts extends Component {
       //console.log("Dealer ", dealery);
       //getting this here as Filter values are set local in the code and not on MongoDB
       if (dealery.isRestricted) {
-        restricted = true;
+        isrestricted = true;
       }
     }
 
-    
-  
+    if (isrestricted){
+      localStorage.setItem("restricted", "true");
+      const { data: forklifts2 } = await getRestrictedForklifts();
+      //console.log("Forklifts2 Returned", forklifts2);
+      this.setState({
+        forklifts:forklifts2,
+        engTypesFilter: getEngTypes(isrestricted),
+        capacityFilter: getCapacityFilters(),
+        loading: false,
+        restricted:true
+      });
+
+    }
+else{
 
     const { data: forklifts } = await getForklifts();
     //console.log("Forklifts Returned", forklifts);
     this.setState({
       forklifts,
-      engTypesFilter: getEngTypes(restricted),
+      engTypesFilter: getEngTypes(isrestricted),
       capacityFilter: getCapacityFilters(),
       loading: false,
     });
+  }
+  }
+
+  toggleTheme = async () => {
+
+    //console.log("Hello World", this.state.restricted );
+  
+    
+    const now = !this.state.restricted;
+    const isrestricted = now;
+    
+
+    
+    if (now){
+      localStorage.setItem("restricted", "true");
+      const { data: forklifts2 } = await getRestrictedForklifts();
+      //console.log("Forklifts2 Returned", forklifts2);
+      this.setState({
+        forklifts:forklifts2,
+        engTypesFilter: getEngTypes(isrestricted),
+        capacityFilter: getCapacityFilters(),
+        loading: false,
+        restricted:now
+      });
+
+    } else {
+      localStorage.removeItem("restricted");
+      const { data: forklifts2 } = await getForklifts();
+      //console.log("Forklifts Returned", forklifts2);
+
+      this.setState({
+        forklifts:forklifts2,
+        engTypesFilter: getEngTypes(isrestricted),
+        capacityFilter: getCapacityFilters(),
+        loading: false,
+        restricted:now
+      });
+
+    }
+
+
+
+  
+
+
+    //this.setState ({restricted:now});
+  
+    
   }
 
   handleResetFilters = () => {
@@ -141,6 +211,17 @@ class Forklifts extends Component {
 
     return (
       <React.Fragment>
+        <Grid>
+        {this.state.user &&
+                  (this.state.user.isAdmin || this.state.user.isMaximGB) && (
+                    <ToggleSwitch onToggle={this.toggleTheme}/>
+                  )} 
+
+                  {this.state.user &&
+                  (!this.state.restricted) && (
+                    ""
+                  )}    
+        </Grid>
         <Grid container spacing={2}>
           <Grid item xs={3}>
             {Object.entries(t).map(([key, values]) => (

@@ -82,14 +82,26 @@ class ForkliftDetail extends Component {
       //getting this here as Filter values are set local in the code and not on MongoDB
       if (dealery.isRestricted) {
         restricted = true;
+        console.log('User is restricted');
       }
     }
-    console.log('User is restricted');
+
+    if (user.isMaximGB || user.isAdmin){
+     
+      const test = localStorage.getItem("restricted");
+      if (test){
+        restricted = true;
+        //console.log('User is restricted');
+    } else {
+      //console.log("User is not restricted")
+    }
+    }
+    //console.log('User is restricted');
 
     const handle = this.props.match.params.modelName;
     //console.log("Params", handle);
     const { data: forky } = await getForkliftDetail(handle);
-    console.log("Detail", forky);
+    //console.log("Detail", forky);
 
     let initialbaseprice = forky.basePrice;
     if (restricted && forky.basePriceR ) initialbaseprice = forky.basePriceR;

@@ -13,7 +13,7 @@ const Batterys = props => {
 
 
 
-  console.log ("Batteries ", batterys);
+  //console.log ("Batteries ", batterys);
 
   
   var aa = "X";
