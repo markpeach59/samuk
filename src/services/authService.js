@@ -19,6 +19,7 @@ export  function loginWithJwt(jwt) {
 
 export  function logout() {
   localStorage.removeItem(tokenKey);
+  localStorage.removeItem("restricted");
 }
 
 export function getJwt() {
