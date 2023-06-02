@@ -214,13 +214,19 @@ else{
         <Grid>
         {this.state.user &&
                   (this.state.user.isAdmin || this.state.user.isMaximGB) && (
+                    <React.Fragment >
                     <ToggleSwitch onToggle={this.toggleTheme}/>
+                    </React.Fragment>
                   )} 
 
-                  {this.state.user &&
+                  {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
                   (!this.state.restricted) && (
-                    ""
-                  )}    
+                    "Normal Pricing"
+                  )} 
+                  {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
+                  (this.state.restricted) && (
+                    "Restricted Pricing"
+                  )}     
         </Grid>
         <Grid container spacing={2}>
           <Grid item xs={3}>

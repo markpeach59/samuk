@@ -36,9 +36,11 @@ export function getCurrentUser() {
   }
 }
 
-export default {
+const exportedAuthObject = {
   login,
   loginWithJwt,
   logout,
   getCurrentUser
 };
+
+export default exportedAuthObject;

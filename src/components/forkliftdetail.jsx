@@ -83,6 +83,7 @@ class ForkliftDetail extends Component {
       if (dealery.isRestricted) {
         restricted = true;
         console.log('User is restricted');
+
       }
     }
 
@@ -92,6 +93,7 @@ class ForkliftDetail extends Component {
       if (test){
         restricted = true;
         //console.log('User is restricted');
+        this.setState({ restricted });
     } else {
       //console.log("User is not restricted")
     }
@@ -920,7 +922,18 @@ class ForkliftDetail extends Component {
           {this.state.offer ? <div>
           <Offertext />
 </div>: null}
-       
+<Grid>
+        
+
+                  {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
+                  (!this.state.restricted) && (
+                    "Normal Pricing"
+                  )} 
+                  {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
+                  (this.state.restricted) && (
+                    "Restricted Pricing"
+                  )}     
+        </Grid>
 
         <Grid container spacing={2}>
           <Grid item xs={4}>
