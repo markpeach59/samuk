@@ -22,6 +22,9 @@ class OrderDetail extends Component {
       price: forky.price,
       markup: forky.markup,
 
+      saving: forky.saving,
+      offerprice: forky.offerprice,
+
       capacity: forky.capacity,
       engtype: forky.engtype,
       powertrain: forky.powertrain,
@@ -577,7 +580,16 @@ class OrderDetail extends Component {
             <strong>
               Order Price : £{this.state.price + parseInt(this.state.markup)}
             </strong>
-
+            {this.state.saving ? (
+              <React.Fragment>
+            <div>
+              Saving : £{this.state.saving}
+            </div>
+            <div>
+              Order Offer Price : £{this.state.offerprice + parseInt(this.state.markup)}
+            </div>
+            </React.Fragment>
+            ):null}
             
           </Grid>
         </Grid>

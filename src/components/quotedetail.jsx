@@ -31,6 +31,9 @@ class QuoteDetail extends Component {
       price: forky.price,
       markup: forky.markup,
 
+      saving: forky.saving,
+      offerprice: forky.offerprice,
+
       capacity: forky.capacity,
       engtype: forky.engtype,
       powertrain: forky.powertrain,
@@ -617,8 +620,19 @@ class QuoteDetail extends Component {
 <br />
             <br />
             <strong>
-              Quote Price : £{this.state.price + parseInt(this.state.markup)}
+              Quote Full Price : £{this.state.price + parseInt(this.state.markup)}
             </strong>
+            {this.state.saving ? (
+              <React.Fragment>
+            <div>
+              Saving : £{this.state.saving}
+            </div>
+            <div>
+              Quote Offer Price : £{this.state.offerprice + parseInt(this.state.markup)}
+            </div>
+            </React.Fragment>
+            ):null}
+
 <br /><strong>Or on a 5 year contract Hire at £ per week<br />
 3 year lease purchase at £  per week</strong>
 
