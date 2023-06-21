@@ -1,9 +1,30 @@
 import React from "react";
 
 const Offer = props => {
-    const { price, offeron, bigger } = props;
+    const { price, offeron, bigger, model } = props;
 
     //console.log('Offer Props', props, " ", offeron)
+
+    if ( offeron && model === 'FBAX50-YWL'){
+      const saving = Math.round(price * .03);
+  
+      const newprice = price - saving;
+
+      return (
+<React.Fragment>
+      <div>
+        3% Saving : £{saving}<br />
+        Offer Price : £{newprice}
+      </div>
+    </React.Fragment>
+
+
+      );
+
+    }
+
+
+
 
     if (offeron && bigger){
 

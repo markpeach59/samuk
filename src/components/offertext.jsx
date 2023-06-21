@@ -4,11 +4,20 @@ import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import "typeface-roboto";
 
-class Offertext extends Component {
-  
+const Offertext = props =>  {
+  const {model } = props;
 
+  console.log("MOdel on Offer", model);
 
-  render() {
+  if ( model === 'FBAX50-YWL'){
+    return (<React.Fragment>
+
+      <Typography variant="h6">Current Offer : 3% off this AX Range trunk</Typography>
+      <br />
+      <br />
+              </React.Fragment>)};
+
+ 
     return (
         <React.Fragment>
 
@@ -21,6 +30,6 @@ class Offertext extends Component {
 
     );
     }
-}
+
 
 export default Offertext;

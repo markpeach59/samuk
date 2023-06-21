@@ -920,7 +920,7 @@ class ForkliftDetail extends Component {
       <React.Fragment>
     
           {this.state.offer ? <div>
-          <Offertext />
+          <Offertext model={this.state.model}/>
 </div>: null}
 <Grid>
         
@@ -1568,9 +1568,11 @@ class ForkliftDetail extends Component {
               {this.state.totalprice + parseInt(this.state.markup)}
             </strong>
 
-            <Offer price={this.state.totalprice} offeron={this.state.offer} bigger={this.state.selectedBattery} />
-            <QuoteSave onQuoteSave={this.handleQuoteSave} />
+            {( this.state.offer ) ? (
+            <Offer price={this.state.totalprice} offeron={this.state.offer} bigger={this.state.selectedBattery} model={this.state.model}/>
+            ): null}
 
+            <QuoteSave onQuoteSave={this.handleQuoteSave} />
             <Markup currentMarkup={this.state.markup} onMarkup={this.handleMarkup} />
 
           </Grid>
