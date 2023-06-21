@@ -269,10 +269,13 @@ class ForkliftDetail extends Component {
 
     if (this.state.offer){
 
+     
       if (this.state.defaultbattery) quote.saving = Math.round(quote.price * .10);
       // now override if an optional choice has been made
       if (this.state.selectedBattery) quote.saving = Math.round(quote.price * .15);
       
+      if (this.state.model ==='FBAX50-YWL') quote.saving = Math.round(quote.price * .03);
+
       quote.offerprice = quote.price - quote.saving;
 
     }
