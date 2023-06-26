@@ -334,7 +334,7 @@ class ForkliftDetail extends Component {
     if (this.state.selectedHalolight) quote.halolight = true;
     if (this.state.selectedUpsweptexhaust) quote.upsweptexhaust = true;
     if (this.state.selectedPrecleaner) quote.precleaner = true;
-    if (this.state.selectedHeavyDutyairfilter) quote.heavydutyairfilter = true;
+    if (this.state.selectedHeavydutyairfilter) quote.heavydutyairfilter = true;
 
     if (this.state.selectedColdStoreProt) quote.coldstoreprot = true;
     if (this.state.selectedSeat) quote.seat = this.state.selectedSeat.seattype;
