@@ -57,6 +57,11 @@ class QuoteDetail extends Component {
       controller: forky.controller,
       safetybluespot: forky.safetybluespot,
 
+      precleaner: forky.precleaner,
+      heavydutyairfilter: forky.heavydutyairfilter,
+      halolight: forky.halolight,
+      upsweptexhaust: forky.upsweptexhaust,
+
       tyre: forky.tyre,
       coldstoreprot: forky.coldstoreprot,
       seat: forky.seat,
@@ -513,6 +518,21 @@ class QuoteDetail extends Component {
               )}
             >
             </ConditionalWrapper>
+
+
+            <ConditionalWrapper
+              condition={this.state.halolight}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  
+                </React.Fragment>
+              )}
+            >
+              {"Halo Light, "}
+            </ConditionalWrapper>
+
+
             <ConditionalWrapper
               condition={this.state.safetybluespot}
               wrapper={(children) => (
@@ -570,6 +590,43 @@ class QuoteDetail extends Component {
             >
               {"Heater, "}
             </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.upsweptexhaust}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  
+                </React.Fragment>
+              )}
+            >
+              {"Upswept Exhaust, "}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.precleaner}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  
+                </React.Fragment>
+              )}
+            >
+              {"Pre Cleaner, "}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.heavydutyairfilter}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  
+                </React.Fragment>
+              )}
+            >
+              {"Heavy Duty Air Filter, "}
+            </ConditionalWrapper>
+
 
             
             <br />

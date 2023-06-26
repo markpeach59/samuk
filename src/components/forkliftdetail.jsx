@@ -1755,7 +1755,7 @@ class ForkliftDetail extends Component {
               />
             ) : null}
 
-{this.state.halolights && this.state.halolights.length > 0 ? (
+            {this.state.halolights && this.state.halolights.length > 0 ? (
               <Halolight
                 halolights={this.state.halolights}
                 selectedHalolight={this.state.selectedHalolight}
