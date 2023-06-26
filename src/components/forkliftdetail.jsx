@@ -33,6 +33,7 @@ import Liftybutton from "./liftybutton";
 
 import Controller from "./controller";
 
+import Halolight from "./halolight";
 import Safetybluespot from "./safetybluespot";
 
 import Upsweptexhausts from "./upsweptexhaust";
@@ -143,6 +144,7 @@ class ForkliftDetail extends Component {
       coldstoreprots: forky.coldstoreprot,
       cabins: forky.cabin,
 
+      halolights:forky.halolight,
       upsweptexhausts: forky.upsweptexhaust,
       precleaners: forky.precleaner,
       heavydutyairfilters: forky.heavydutyairfilter,
@@ -221,6 +223,7 @@ class ForkliftDetail extends Component {
       selectedSeat: undefined,
       selectedCabin: undefined,
 
+      selectedHalolight: undefined,
       selectedUpsweptexhaust: undefined,
       selectedPrecleaner: undefined,
       selectedHeavydutyairfilter: undefined,
@@ -328,6 +331,7 @@ class ForkliftDetail extends Component {
 
     if (this.state.selectedTyre) quote.tyre = this.state.selectedTyre.tyretype;
 
+    if (this.state.selectedHalolight) quote.halolight = true;
     if (this.state.selectedUpsweptexhaust) quote.upsweptexhaust = true;
     if (this.state.selectedPrecleaner) quote.precleaner = true;
     if (this.state.selectedHeavyDutyairfilter) quote.heavydutyairfilter = true;
@@ -718,6 +722,15 @@ class ForkliftDetail extends Component {
     const newprice = this.state.totalprice + tyre.price - oldprice;
 
     this.setState({ selectedTyre: tyre, totalprice: newprice });
+  };
+
+  handleHalolight = (halolight) => {
+    const oldprice = this.state.selectedHalolight
+      ? this.state.selectedHalolight.price
+      : 0;
+    const newprice = this.state.totalprice + halolight.price - oldprice;
+
+    this.setState({ selectedHalolight: halolight, totalprice: newprice });
   };
 
   handleUpsweptexhaustSel = (upsweptexhaust) => {
@@ -1414,6 +1427,20 @@ class ForkliftDetail extends Component {
               {this.state.selectedBfs ? "BFS" : null}
             </ConditionalWrapper>
             
+
+            <ConditionalWrapper
+              condition={this.state.selectedHalolight}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedHalolight ? "Halo Light" : null}
+            </ConditionalWrapper>
+
+
             <ConditionalWrapper
               condition={this.state.selectedSafetybluespot}
               wrapper={(children) => (
@@ -1727,6 +1754,15 @@ class ForkliftDetail extends Component {
                 onTyreSel={this.handleTyreSel}
               />
             ) : null}
+
+{this.state.halolights && this.state.halolights.length > 0 ? (
+              <Halolight
+                halolights={this.state.halolights}
+                selectedHalolight={this.state.selectedHalolight}
+                onHalolightSel={this.handleHalolight}
+              />
+            ) : null}   
+
 
             {this.state.safetybluespots && this.state.safetybluespots.length > 0 ? (
               <Safetybluespot
