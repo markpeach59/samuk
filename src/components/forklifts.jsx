@@ -211,22 +211,30 @@ else{
 
     return (
       <React.Fragment>
-        <Grid>
+        <Grid container>
+        <Grid item xs={2}>
         {this.state.user &&
                   (this.state.user.isAdmin || this.state.user.isMaximGB) && (
                     <React.Fragment >
                     <ToggleSwitch onToggle={this.toggleTheme}/>
                     </React.Fragment>
                   )} 
-
-                  {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
+</Grid>
+<Grid>
+{this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
                   (!this.state.restricted) && (
                     "Normal Pricing"
                   )} 
                   {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
                   (this.state.restricted) && (
-                    "Restricted Pricing"
-                  )}     
+                    <React.Fragment >
+<Typography variant="h4" color="orange">For Briggs Personel Only</Typography>
+
+                    </React.Fragment>
+                    
+                  )}   
+</Grid>
+                   
         </Grid>
         <Grid container spacing={2}>
           <Grid item xs={3}>
