@@ -9,11 +9,16 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Divider from "@material-ui/core/Divider";
 
 const Upsweptexhausts = props => {
-  const { upsweptexhausts, onUpsweptexhaustSel, selectedUpsweptexhaust } = props;
+  const { upsweptexhausts, onUpsweptexhaustSel, selectedUpsweptexhaust, selectedCabin } = props;
 
   var aa = "X";
   if (selectedUpsweptexhaust) {
     aa = selectedUpsweptexhaust.upsweptexhausttype;
+  }
+
+  function onCabin () {
+    /* selected FP will always mean 3rd + 4th has been selected */
+    return selectedCabin ? true:false;
   }
 
   return (
@@ -28,6 +33,7 @@ const Upsweptexhausts = props => {
               value={upsweptexhaust.upsweptexhausttype}
               control={<Radio color="primary" />}
               label={upsweptexhaust.upsweptexhausttype}
+              disabled ={onCabin()}
               onChange={() => onUpsweptexhaustSel(upsweptexhaust)}
               checked={aa === upsweptexhaust.upsweptexhausttype}
             />

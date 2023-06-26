@@ -37,6 +37,9 @@ import Safetybluespot from "./safetybluespot";
 
 import Upsweptexhausts from "./upsweptexhaust";
 
+import Precleaners from "./precleaner";
+import Heavydutyairfilters from "./heavydutyairfilter";
+
 import Trolley from "./trolley";
 import Blinkey from "./blinkey";
 import Sideextractionbatterys from "./sideextractionbattery";
@@ -141,6 +144,8 @@ class ForkliftDetail extends Component {
       cabins: forky.cabin,
 
       upsweptexhausts: forky.upsweptexhaust,
+      precleaners: forky.precleaner,
+      heavydutyairfilters: forky.heavydutyairfilter,
 
       reargrabs: forky.reargrab,
       sideleverhydraulics: forky.sideleverhydraulic,
@@ -176,6 +181,8 @@ class ForkliftDetail extends Component {
       bfss: forky.bfs,
 
       safetybluespots:forky.safetybluespot,
+
+
 
       trolleys: forky.trolley,
       blinkeys: forky.blinkey,
@@ -215,6 +222,8 @@ class ForkliftDetail extends Component {
       selectedCabin: undefined,
 
       selectedUpsweptexhaust: undefined,
+      selectedPrecleaner: undefined,
+      selectedHeavydutyairfilter: undefined,
 
       selectedAircon: undefined,
       selectedHeater: undefined,
@@ -320,6 +329,8 @@ class ForkliftDetail extends Component {
     if (this.state.selectedTyre) quote.tyre = this.state.selectedTyre.tyretype;
 
     if (this.state.selectedUpsweptexhaust) quote.upsweptexhaust = true;
+    if (this.state.selectedPrecleaner) quote.precleaner = true;
+    if (this.state.selectedHeavyDutyairfilter) quote.heavydutyairfilter = true;
 
     if (this.state.selectedColdStoreProt) quote.coldstoreprot = true;
     if (this.state.selectedSeat) quote.seat = this.state.selectedSeat.seattype;
@@ -716,6 +727,24 @@ class ForkliftDetail extends Component {
     const newprice = this.state.totalprice + upsweptexhaust.price - oldprice;
 
     this.setState({ selectedUpsweptexhaust: upsweptexhaust, totalprice: newprice });
+  };
+
+  handlePrecleanerSel = (precleaner) => {
+    const oldprice = this.state.selectedPrecleaner
+      ? this.state.selectedPrecleaner.price
+      : 0;
+    const newprice = this.state.totalprice + precleaner.price - oldprice;
+
+    this.setState({ selectedPrecleaner: precleaner, totalprice: newprice });
+  };
+
+  handleHeavydutyairfilterSel = (heavydutyairfilter) => {
+    const oldprice = this.state.selectedHeavydutyairfilter
+      ? this.state.selectedHeavydutyairfilter.price
+      : 0;
+    const newprice = this.state.totalprice + heavydutyairfilter.price - oldprice;
+
+    this.setState({ selectedHeavydutyairfilter: heavydutyairfilter, totalprice: newprice });
   };
 
   handleBatterycompartmentSel = (batterycompartment) => {
@@ -1281,6 +1310,36 @@ class ForkliftDetail extends Component {
                 ? "Upswept Exhaust"
                 : null}
             </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.selectedPrecleaner}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedPrecleaner
+                ? "Pre Cleaner"
+                : null}
+            </ConditionalWrapper>
+
+            <ConditionalWrapper
+              condition={this.state.selectedHeavydutyairfilter}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              {this.state.selectedHeavydutyairfilter
+                ? "Heavy Duty Air Filter"
+                : null}
+            </ConditionalWrapper>
+
+
             <ConditionalWrapper
               condition={this.state.selectedBatterycompartment}
               wrapper={(children) => (
@@ -1497,7 +1556,8 @@ class ForkliftDetail extends Component {
 
             {(this.state.engType === "Diesel" ) ? (
               <React.Fragment>
-                Upswept Exhaust
+                
+                
                 <br />
               </React.Fragment>
             ) : null}
@@ -1510,7 +1570,7 @@ class ForkliftDetail extends Component {
 
             {this.state.engType === "LPG" ? (
               <React.Fragment>
-                Upswept Exhaust
+                
                 <br />
               </React.Fragment>
             ) : null}
@@ -1676,13 +1736,7 @@ class ForkliftDetail extends Component {
               />
             ) : null}   
 
-            {this.state.upsweptexhausts && this.state.upsweptexhausts.length > 0 ? (
-              <Upsweptexhausts
-                upsweptexhausts={this.state.upsweptexhausts}
-                selectedUpsweptexhaust={this.state.selectedUpsweptexhaust}
-                onUpsweptexhaustSel={this.handleUpsweptexhaustSel}
-              />
-            ) : null}
+           
 
             {this.state.coldstoreprots &&
             this.state.coldstoreprots.length > 0 ? (
@@ -1865,6 +1919,7 @@ class ForkliftDetail extends Component {
                 cabins={this.state.cabins}
                 selectedCabin={this.state.selectedCabin}
                 onCabinSel={this.handleCabinSel}
+                selectedUpsweptexhaust={this.state.selectedUpsweptexhaust}
               />
             ) : null}
 
@@ -1881,6 +1936,32 @@ class ForkliftDetail extends Component {
                 aircons={this.state.aircons}
                 selectedAircon={this.state.selectedAircon}
                 onAirconSel={this.handleAirconSel}
+              />
+            ) : null}
+
+
+            {this.state.upsweptexhausts && this.state.upsweptexhausts.length > 0 ? (
+              <Upsweptexhausts
+                upsweptexhausts={this.state.upsweptexhausts}
+                selectedUpsweptexhaust={this.state.selectedUpsweptexhaust}
+                onUpsweptexhaustSel={this.handleUpsweptexhaustSel}
+                selectedCabin ={this.state.selectedCabin}
+              />
+            ) : null} 
+
+            {this.state.precleaners && this.state.precleaners.length > 0 ? (
+              <Precleaners
+                precleaners={this.state.precleaners}
+                selectedPrecleaner={this.state.selectedPrecleaner}
+                onPrecleanerSel={this.handlePrecleanerSel}
+              />
+            ) : null}
+
+            {this.state.heavydutyairfilters && this.state.heavydutyairfilters.length > 0 ? (
+              <Heavydutyairfilters
+              heavydutyairfilters={this.state.heavydutyairfilters}
+                selectedHeavydutyairfilter={this.state.selectedHeavydutyairfilter}
+                onHeavydutyairfilterSel={this.handleHeavydutyairfilterSel}
               />
             ) : null}
           </Grid>
