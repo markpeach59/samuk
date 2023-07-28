@@ -877,7 +877,7 @@ class ForkliftDetail extends Component {
     const newprice = this.state.totalprice + spare.price
 
     // if optional battery upgrade exists - but not selected - select this as well as spare
-    if (this.state.batterys && !this.state.selectedBattery){
+    if (this.state.batterys !== undefined && !this.state.selectedBattery){
       const battery = this.state.batterys[0];
       const newprice = this.state.totalprice + spare.price + battery.price;
 
