@@ -228,7 +228,7 @@ else{
                   {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
                   (this.state.restricted) && (
                     <React.Fragment >
-<Typography variant="h4" color="orange">For Briggs Personel Only</Typography>
+<Typography variant="h4" >For Briggs Personel Only</Typography>
 
                     </React.Fragment>
                     
