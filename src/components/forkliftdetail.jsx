@@ -873,9 +873,11 @@ class ForkliftDetail extends Component {
 
   handleSpareSel = (spare) => {
     
+    // calc new price here - but repeated calc below - this line not needed
     const newprice = this.state.totalprice + spare.price
 
-    if (!this.state.selectedBattery){
+    // if optional battery upgrade exists - but not selected - select this as well as spare
+    if (this.state.batterys && !this.state.selectedBattery){
       const battery = this.state.batterys[0];
       const newprice = this.state.totalprice + spare.price + battery.price;
 
