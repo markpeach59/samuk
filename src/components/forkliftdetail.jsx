@@ -112,6 +112,9 @@ class ForkliftDetail extends Component {
     let initialbaseprice = forky.basePrice;
     if (restricted && forky.basePriceR ) initialbaseprice = forky.basePriceR;
 
+    let initialChassis = forky.chassis;
+    if (restricted && forky.chassisR ) initialChassis = forky.chassisR;
+
 
     this.setState({
       model: forky.model,
@@ -128,7 +131,7 @@ class ForkliftDetail extends Component {
 
       engines: forky.engines,
 
-      chassis:forky.chassis,
+      chassis:initialChassis,
 
 
       masts: forky.masts,
