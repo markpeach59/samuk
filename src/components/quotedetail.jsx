@@ -640,14 +640,12 @@ class QuoteDetail extends Component {
 
             {this.state.engType === "Electric" ? (
               <React.Fragment>
-                , Rear Grab Handle with Horn
               </React.Fragment>
             ) : null}
 
              
             {(this.state.engType === "Diesel" && this.state.liftcapacity < 6000 ) ? (
               <React.Fragment>
-                , Rear Grab Handle with Horn
               </React.Fragment>
             ) : null}
 
@@ -659,7 +657,6 @@ class QuoteDetail extends Component {
 
             {this.state.engType === "LPG" ? (
               <React.Fragment>
-                , Rear Grab Handle with Horn
               </React.Fragment>
             ) : null}
 

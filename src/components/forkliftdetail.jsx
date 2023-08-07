@@ -1546,37 +1546,26 @@ class ForkliftDetail extends Component {
 
             {this.state.engType === "Electric" ? (
               <React.Fragment>
-                Rear Grab Handle with Horn
-                <br />
               </React.Fragment>
             ) : null}
 
              
             {(this.state.engType === "Diesel" && this.state.liftcapacity < 6000 ) ? (
               <React.Fragment>
-                Rear Grab Handle with Horn
-                <br />
               </React.Fragment>
             ) : null}
 
             {(this.state.engType === "Diesel" ) ? (
               <React.Fragment>
-                
-                
-                <br />
               </React.Fragment>
             ) : null}
             {this.state.engType === "LPG" ? (
               <React.Fragment>
-                Rear Grab Handle with Horn
-                <br />
               </React.Fragment>
             ) : null}
 
             {this.state.engType === "LPG" ? (
               <React.Fragment>
-                
-                <br />
               </React.Fragment>
             ) : null}
 
