@@ -82,26 +82,10 @@ class ForkliftDetail extends Component {
     if (user.dealerId){
       const { data: dealery } = await getDealerDetail(user.dealerId);
 
-      //console.log("Dealer ", dealery);
-      //getting this here as Filter values are set local in the code and not on MongoDB
-      if (dealery.isRestricted) {
-        restricted = true;
-        console.log('User is restricted');
-
-      }
+      
     }
 
-    if (user.isMaximGB || user.isAdmin){
-     
-      const test = localStorage.getItem("restricted");
-      if (test){
-        restricted = true;
-        //console.log('User is restricted');
-        this.setState({ restricted });
-    } else {
-      //console.log("User is not restricted")
-    }
-    }
+    
     //console.log('User is restricted');
 
     const handle = this.props.match.params.modelName;
@@ -972,18 +956,7 @@ class ForkliftDetail extends Component {
           {this.state.offer ? <div>
           <Offertext model={this.state.model}/>
 </div>: null}
-<Grid>
-        
 
-                  {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
-                  (!this.state.restricted) && (
-                    "Normal Pricing"
-                  )} 
-                  {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
-                  (this.state.restricted) && (
-                    "Restricted Pricing"
-                  )}     
-        </Grid>
 
         <Grid container spacing={2}>
           <Grid item xs={4}>

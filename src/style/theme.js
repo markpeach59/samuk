@@ -12,7 +12,7 @@ const myTheme = createTheme({
   overrides: {
     MuiAppBar: {
       colorPrimary: {
-        backgroundColor: "#C22424",
+        backgroundColor: "#F48D31",
       },
     },
   },

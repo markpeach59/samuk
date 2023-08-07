@@ -45,7 +45,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      Maxim (GB) {new Date().getFullYear()}
+      SAMUK {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -79,9 +79,7 @@ class App extends Component {
                   <Button color="inherit">Quotes</Button>
                 </Link>
 
-                <Link to={{ pathname: "/orders" }} style={{ color: "#fff" }}>
-                  <Button color="inherit">Orders</Button>
-                </Link>
+            
 
                 {this.state.user &&
                   (this.state.user.isAdmin || this.state.user.isMaximGB) && (
@@ -93,15 +91,7 @@ class App extends Component {
                     </Link>
                   )}
 
-                {this.state.user &&
-                  (this.state.user.isAdmin || this.state.user.isMaximGB) && (
-                    <Link
-                      to={{ pathname: "/allorders" }}
-                      style={{ color: "#fff" }}
-                    >
-                      <Button color="inherit">All Orders</Button>
-                    </Link>
-                  )}
+                
 
                 {this.state.user && this.state.user.isAdmin && (
                   <Link
@@ -190,7 +180,7 @@ class App extends Component {
                 component={ListAllDealers}
               />
               <ProtectedRoute path="/allquotes" component={AllQuotes} />
-              <ProtectedRoute path="/allorders" component={AllOrders} />
+              
               <Route path="/not-found" component={NotFound} />
               <Redirect from="/" exact to="/forklifts" />
               <Redirect to="/not-found" />

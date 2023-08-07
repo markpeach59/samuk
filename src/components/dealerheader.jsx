@@ -6,7 +6,7 @@ import "typeface-roboto";
 class DealerHeader extends Component {
   constructor(props) {
     super(props);
-    this.state = { headerlogo: "/img/Maximal-Logo.png" };
+    this.state = { headerlogo: "/img/SAMUK_Logo.png" };
   }
 
   async componentDidMount() {

@@ -48,35 +48,20 @@ class Forklifts extends Component {
 
       //console.log("Dealer ", dealery);
       //getting this here as Filter values are set local in the code and not on MongoDB
-      if (dealery.isRestricted) {
-        isrestricted = true;
-      }
+      
     }
 
-    if (isrestricted){
-      localStorage.setItem("restricted", "true");
-      const { data: forklifts2 } = await getRestrictedForklifts();
-      //console.log("Forklifts2 Returned", forklifts2);
-      this.setState({
-        forklifts:forklifts2,
-        engTypesFilter: getEngTypes(isrestricted),
-        capacityFilter: getCapacityFilters(),
-        loading: false,
-        restricted:true
-      });
-
-    }
-else{
+  
 
     const { data: forklifts } = await getForklifts();
     //console.log("Forklifts Returned", forklifts);
     this.setState({
       forklifts,
-      engTypesFilter: getEngTypes(isrestricted),
+      engTypesFilter: getEngTypes(false),
       capacityFilter: getCapacityFilters(),
       loading: false,
     });
-  }
+
   }
 
   toggleTheme = async () => {
@@ -89,32 +74,7 @@ else{
     
 
     
-    if (now){
-      localStorage.setItem("restricted", "true");
-      const { data: forklifts2 } = await getRestrictedForklifts();
-      //console.log("Forklifts2 Returned", forklifts2);
-      this.setState({
-        forklifts:forklifts2,
-        engTypesFilter: getEngTypes(isrestricted),
-        capacityFilter: getCapacityFilters(),
-        loading: false,
-        restricted:now
-      });
-
-    } else {
-      localStorage.removeItem("restricted");
-      const { data: forklifts2 } = await getForklifts();
-      //console.log("Forklifts Returned", forklifts2);
-
-      this.setState({
-        forklifts:forklifts2,
-        engTypesFilter: getEngTypes(isrestricted),
-        capacityFilter: getCapacityFilters(),
-        loading: false,
-        restricted:now
-      });
-
-    }
+    
 
 
 
@@ -211,31 +171,7 @@ else{
 
     return (
       <React.Fragment>
-        <Grid container>
-        <Grid item xs={2}>
-        {this.state.user &&
-                  (this.state.user.isAdmin || this.state.user.isMaximGB) && (
-                    <React.Fragment >
-                    <ToggleSwitch onToggle={this.toggleTheme}/>
-                    </React.Fragment>
-                  )} 
-</Grid>
-<Grid>
-{this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
-                  (!this.state.restricted) && (
-                    "Normal Pricing"
-                  )} 
-                  {this.state.user && (this.state.user.isAdmin || this.state.user.isMaximGB) && 
-                  (this.state.restricted) && (
-                    <React.Fragment >
-<Typography variant="h4" >For Briggs Personel Only</Typography>
-
-                    </React.Fragment>
-                    
-                  )}   
-</Grid>
-                   
-        </Grid>
+        
         <Grid container spacing={2}>
           <Grid item xs={3}>
             {Object.entries(t).map(([key, values]) => (
