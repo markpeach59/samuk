@@ -135,7 +135,7 @@ class QuoteDetail extends Component {
             
             <br /> 
             
-            {this.state.engType ? (this.state.engType + " "):null} 
+            {this.state.engtype ? (this.state.engtype + " "):null} 
             
             <ConditionalWrapper
               condition={this.state.powertrain}
@@ -631,42 +631,42 @@ class QuoteDetail extends Component {
             
             <br />
 
-            {this.state.engType !== "Warehouse" ? (
+            {this.state.engtype !== "Warehouse" ? (
               <React.Fragment>
                 OPS Safety System, Amber Beacon, Reverse Alarm
               </React.Fragment>
             ) : null}
             
 
-            {this.state.engType === "Electric" ? (
+            {this.state.engtype === "Electric" ? (
               <React.Fragment>
               </React.Fragment>
             ) : null}
 
              
-            {(this.state.engType === "Diesel" && this.state.liftcapacity < 6000 ) ? (
+            {(this.state.engtype === "Diesel" && this.state.liftcapacity < 6000 ) ? (
               <React.Fragment>
               </React.Fragment>
             ) : null}
 
-            {(this.state.engType === "Diesel" ) ? (
-              <React.Fragment>
-                , Upswept Exhaust
-              </React.Fragment>
-            ) : null}
-
-            {this.state.engType === "LPG" ? (
-              <React.Fragment>
-              </React.Fragment>
-            ) : null}
-
-            {this.state.engType === "LPG" ? (
+            {(this.state.engtype === "Diesel" ) ? (
               <React.Fragment>
                 , Upswept Exhaust
               </React.Fragment>
             ) : null}
 
-            {this.state.engType !== "Warehouse" ? (
+            {this.state.engtype === "LPG" ? (
+              <React.Fragment>
+              </React.Fragment>
+            ) : null}
+
+            {this.state.engtype === "LPG" ? (
+              <React.Fragment>
+                , Upswept Exhaust
+              </React.Fragment>
+            ) : null}
+
+            {this.state.engtype !== "Warehouse" ? (
               <React.Fragment>
                 , Full LED Lighting
               </React.Fragment>
