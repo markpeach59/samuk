@@ -160,6 +160,7 @@ class ForkliftDetail extends Component {
       batterycompartments: forky.batterycompartment,
 
       batterys: forky.batteries,
+      chargers:forky.chargers,
       spares:forky.spares,
 
       defaultbattery:forky.defaultbattery,
@@ -835,18 +836,22 @@ class ForkliftDetail extends Component {
       ? this.state.selectedBattery.price
       : 0;
 
-    const oldprice2 = this.state.selectedCharger
-      ? this.state.selectedCharger.price
-      : 0;
     const newprice =
-      this.state.totalprice + battery.price - oldprice - oldprice2;
+      this.state.totalprice + battery.price - oldprice;
 
+    this.setState({
+      selectedBattery: battery,
+      totalprice: newprice,
+    });
+
+/*
     this.setState({
       selectedBattery: battery,
       selectedCharger: undefined,
       chargers: battery.chargers,
       totalprice: newprice,
     });
+*/
   };
 
   handleChargerSel = (charger) => {
