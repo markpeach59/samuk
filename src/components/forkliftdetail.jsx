@@ -1595,7 +1595,7 @@ class ForkliftDetail extends Component {
 
 
 <ConditionalWrapper
-              condition={this.state.defaultcharger}
+              condition={this.state.defaultcharger &&! this.state.selectedCharger}
               wrapper={(children) => (
                 <React.Fragment>
                   {children}
