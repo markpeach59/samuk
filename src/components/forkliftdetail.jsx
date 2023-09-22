@@ -94,6 +94,12 @@ class ForkliftDetail extends Component {
     //console.log("Detail", forky);
 
     let initialbaseprice = forky.basePrice;
+
+    let percentageOff = forky.percentOffBase;
+    if (percentageOff){
+        initialbaseprice = initialbaseprice - Math.floor(initialbaseprice * percentageOff / 100);
+    }
+
     if (restricted && forky.basePriceR ) initialbaseprice = forky.basePriceR;
 
     let initialChassis = forky.chassis;
@@ -180,6 +186,8 @@ class ForkliftDetail extends Component {
 
       totalprice: initialbaseprice,
       baseprice: initialbaseprice,
+
+      percentOffBase: forky.percentOffBase,
 
       offer:forky.offer,
       saving:0,
@@ -412,9 +420,19 @@ class ForkliftDetail extends Component {
   };
 
   handleChassisSel = (chassis) => {
-    const oldprice = this.state.selectedChassis
+
+
+    // old price cannot be a const 
+    let oldprice = this.state.selectedChassis
       ? this.state.selectedChassis.price
       : 0;
+
+      let percentageOff = this.state.percentOffBase;
+      if (percentageOff && oldprice > 0 ){
+        //console.log('Percentage Off', percentageOff);
+        oldprice = oldprice - Math.floor(oldprice * percentageOff / 100);
+      }
+
 
       const oldprice1 = this.state.selectedBattery
       ? this.state.selectedBattery.price
@@ -424,7 +442,15 @@ class ForkliftDetail extends Component {
       ? this.state.selectedCharger.price
       : 0;
 
-    const newprice = this.state.totalprice + chassis.price - oldprice - oldprice1 - oldprice2;
+    
+    let chassisprice = chassis.price;
+    
+    if (percentageOff){
+        chassisprice = chassisprice - Math.floor(chassisprice * percentageOff / 100);
+    }
+    
+    
+    const newprice = this.state.totalprice + chassisprice - oldprice - oldprice1 - oldprice2;
 
     console.log( "Chassis Selected", chassis );
 
