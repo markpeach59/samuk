@@ -1028,7 +1028,39 @@ class ForkliftDetail extends Component {
             </ConditionalWrapper>
 
 <br />
+
+
             
+            {this.state.model ==='FDTA25' && !this.state.selectedEngine ? <React.Fragment>
+                  M Series
+                  <br />      
+                </React.Fragment>:null }
+
+            {this.state.model === 'FDTA25' && this.state.selectedEngine ? <React.Fragment>
+                  A Series
+                  <br />      
+                </React.Fragment>:null }
+
+                {this.state.model === 'FDTA30' && !this.state.selectedEngine ? <React.Fragment>
+                  M Series
+                  <br />      
+                </React.Fragment>:null }
+
+            {this.state.model === 'FDTA30' && this.state.selectedEngine ? <React.Fragment>
+                  A Series
+                  <br />      
+                </React.Fragment>:null }
+
+                {this.state.model === 'FDTA35' && !this.state.selectedEngine ? <React.Fragment>
+                  M Series
+                  <br />      
+                </React.Fragment>:null }
+
+            {this.state.model === 'FDTA35' && this.state.selectedEngine ? <React.Fragment>
+                  A Series
+                  <br />      
+                </React.Fragment>:null }
+
 
             {this.state.modeldescription ? this.state.modeldescription.map(item => {return (<ConditionalWrapper key={item._id} condition={item.description} wrapper={(children) => (
                 <React.Fragment>
