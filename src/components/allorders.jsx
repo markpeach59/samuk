@@ -33,7 +33,7 @@ class Orders extends Component {
 
   async componentDidMount() {
     const { data: orders } = await getAllOrders();
-    //console.log("Orders Returned", orders);
+    // console.log("Orders Returned", orders);
 
     const { data: users } = await getUsers();
     //console.log("Users Returned", users);

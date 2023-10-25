@@ -101,7 +101,7 @@ class App extends Component {
                     >
                       <Button color="inherit">All Orders</Button>
                     </Link>
-                  )}
+                  )}                
 
                 {this.state.user && this.state.user.isAdmin && (
                   <Link
@@ -190,6 +190,7 @@ class App extends Component {
                 component={ListAllDealers}
               />
               <ProtectedRoute path="/allquotes" component={AllQuotes} />
+              <ProtectedRoute path="/allorders" component={AllOrders} />
               
               <Route path="/not-found" component={NotFound} />
               <Redirect from="/" exact to="/forklifts" />
