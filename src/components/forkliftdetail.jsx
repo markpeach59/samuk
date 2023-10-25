@@ -116,13 +116,14 @@ class ForkliftDetail extends Component {
       liftcapacity: forky.capacity,
 
       modeldescription: forky.modeldescription,
+      series:forky.series,
+     
       loadcenter: forky.loadcenter,
       defaulttyre: forky.defaulttyre,
 
       engines: forky.engines,
 
       chassis:initialChassis,
-
 
       masts: forky.masts,
       valves: forky.valves,
@@ -1027,6 +1028,7 @@ class ForkliftDetail extends Component {
             </ConditionalWrapper>
 
 <br />
+            
 
             {this.state.modeldescription ? this.state.modeldescription.map(item => {return (<ConditionalWrapper key={item._id} condition={item.description} wrapper={(children) => (
                 <React.Fragment>

@@ -79,7 +79,9 @@ class App extends Component {
                   <Button color="inherit">Quotes</Button>
                 </Link>
 
-            
+                <Link to={{ pathname: "/orders" }} style={{ color: "#fff" }}>
+                  <Button color="inherit">Orders</Button>
+                </Link>
 
                 {this.state.user &&
                   (this.state.user.isAdmin || this.state.user.isMaximGB) && (
@@ -91,7 +93,15 @@ class App extends Component {
                     </Link>
                   )}
 
-                
+                {this.state.user &&
+                  (this.state.user.isAdmin || this.state.user.isMaximGB) && (
+                    <Link
+                      to={{ pathname: "/allorders" }}
+                      style={{ color: "#fff" }}
+                    >
+                      <Button color="inherit">All Orders</Button>
+                    </Link>
+                  )}
 
                 {this.state.user && this.state.user.isAdmin && (
                   <Link
