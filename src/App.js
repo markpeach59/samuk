@@ -41,6 +41,8 @@ import DealerHeader from "./components/dealerheader";
 import ListAllUsers from "./components/listallusers";
 import ListAllDealers from "./components/listalldealers";
 
+import ViewOfferBox from "./components/viewofferbox";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -83,6 +85,8 @@ class App extends Component {
                   <Button color="inherit">Orders</Button>
                 </Link>
 
+                <React.Fragment><ViewOfferBox /></React.Fragment>
+                
                 {this.state.user &&
                   (this.state.user.isAdmin || this.state.user.isMaximGB) && (
                     <Link
