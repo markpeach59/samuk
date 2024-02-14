@@ -9,6 +9,23 @@ const Offertext = props =>  {
 
   console.log("MOdel on Offer", model);
 
+  if ( model === 'AA'){
+    return (<React.Fragment>
+
+      <Typography variant="h6">Current Feburary & March Offer : 2.5% off AA Range trunks</Typography>
+      <br />
+      <br />
+    </React.Fragment>)};
+
+if ( model === 'Reach'){
+  return (<React.Fragment>
+
+    <Typography variant="h6">Current Feburary & March Offer : 3% off Lithium Powered Reach trunks</Typography>
+    <br />
+    <br />
+  </React.Fragment>)};
+  
+
   if ( model === 'FBAX50-YWL'){
     return (<React.Fragment>
 
