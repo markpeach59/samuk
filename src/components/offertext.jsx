@@ -12,7 +12,7 @@ const Offertext = props =>  {
   if ( model === 'AA'){
     return (<React.Fragment>
 
-      <Typography variant="h6">Current Feburary & March Offer : 2.5% off AA Range trunks</Typography>
+      <Typography variant="h6">Current March & April Offer : 2.5% off AA Range trunks</Typography>
       <br />
       <br />
     </React.Fragment>)};
@@ -20,7 +20,7 @@ const Offertext = props =>  {
 if ( model === 'Reach'){
   return (<React.Fragment>
 
-    <Typography variant="h6">Current Feburary & March Offer : 3% off Lithium Powered Reach trunks</Typography>
+    <Typography variant="h6">Current March & April Offer : 3% off Lithium Powered Reach trunks</Typography>
     <br />
     <br />
   </React.Fragment>)};
