@@ -217,6 +217,7 @@ class ForkliftDetail extends Component {
 
       selectedChassis: undefined,
       batterys: undefined,
+      chargers: undefined,
 
       selectedTyre: undefined,
       selectedColdStoreProt: undefined,
