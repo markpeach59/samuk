@@ -56,6 +56,7 @@ import Chargers from "./charger";
 import Sparebatteries from "./sparebatteries";
 import Engines from "./engines";
 
+import Voltage from "./voltage";
 import Chassis from "./chassis";
 
 import QuoteSave from "./quotesave";
@@ -68,6 +69,8 @@ import { savequote } from "../services/quotesService";
 import Offertext from "./offertext";
 
 import OfferAAR from "./offerAAR";
+
+import Viewlevels from "./viewlevels";
 
 import "typeface-roboto";
 
@@ -124,6 +127,9 @@ class ForkliftDetail extends Component {
       defaulttyre: forky.defaulttyre,
 
       engines: forky.engines,
+
+      voltagerequired: forky.voltagerequired,
+      voltage:forky.voltage,
 
       chassis:initialChassis,
 
@@ -205,6 +211,15 @@ class ForkliftDetail extends Component {
   handleResetOptions = () => {
     //console.log("Been Reset");
 
+    let dbatt = this.state.defaultbattery;
+    let dcharg = this.state.defaultcharger;
+
+    console.log( 'VR ', this.state.voltagerequired);
+    if (this.state.voltagerequired){
+      dbatt = undefined;
+      dcharg = undefined;
+    }
+
     this.setState({
       powertrain: this.state.iengine,
       selectedEngine: undefined,
@@ -214,6 +229,8 @@ class ForkliftDetail extends Component {
       selectedFork: undefined,
       selectedSideShift: undefined,
       selectedForkpositioner: undefined,
+
+      selectedVoltage: undefined,
 
       selectedChassis: undefined,
       batterys: undefined,
@@ -267,6 +284,10 @@ class ForkliftDetail extends Component {
       offer: this.state.offer,
 
       batteryconstraint: false,
+
+      defaultbattery: dbatt,
+      defaultcharger: dcharg,
+
     });
   };
 
@@ -293,6 +314,15 @@ class ForkliftDetail extends Component {
 
     }
 
+    if (this.state.selectedVoltage && this.state.selectedVoltage.label === 'Standard') {
+
+      if (this.state.defaultbattery) quote.saving = Math.round(quote.price * .10);
+      // now override if an optional choice has been made
+      if (this.state.selectedBattery) quote.saving = Math.round(quote.price * .15);
+
+      quote.offerprice = quote.price - quote.saving;
+
+    }
 
     quote.capacity = this.state.liftcapacity;
     quote.engtype = this.state.engType;
@@ -310,6 +340,12 @@ class ForkliftDetail extends Component {
     if (this.state.selectedChassis && this.state.selectedChassis.label==='Lithium Version' ) {
       quote.saving = Math.round(quote.price * .03);
       quote.offerprice = quote.price - quote.saving;
+    }
+
+     // the Entry level and Heavy Duty have no offer
+     if (this.state.selectedVoltage && this.state.selectedVoltage.label !== 'Standard') {
+      quote.saving = undefined;
+      quote.offerprice = undefined;
     }
 
     if (this.state.selectedEngine)
@@ -431,6 +467,37 @@ class ForkliftDetail extends Component {
     this.setState({
       selectedEngine: engine,
       powertrain: engine.enginetype,
+      totalprice: newprice,
+    });
+  };
+
+  handleVoltageSel = (voltage) => {
+
+    let baseprice = this.state.selectedVoltage
+    ? this.state.selectedVoltage.price
+    : 0;
+
+    let newbaseprice = voltage.price;
+    
+    
+
+    console.log( 'Prices ', newbaseprice,' ', baseprice);
+
+
+      const oldprice = this.state.selectedBattery
+      ? this.state.selectedBattery.price
+      : 0;
+
+
+    const newprice = this.state.totalprice + newbaseprice - baseprice - oldprice;
+
+    console.log( "Voltage Selected", voltage );
+
+    this.setState({
+      selectedVoltage: voltage,
+      defaultbattery: voltage.defaultbattery,
+      batterys: voltage.batteries,
+      selectedBattery: undefined,
       totalprice: newprice,
     });
   };
@@ -1004,6 +1071,9 @@ class ForkliftDetail extends Component {
           <Offertext model={this.state.model}/>
 </div>: null}
 
+{( this.state.modeldescription && this.state.modeldescription[0].description==='AX Series' )? <div>
+          <Offertext model={this.state.model}/>
+</div>: null}
 
 {( this.state.modeldescription && this.state.modeldescription[0].description==='AA Series' ) ? (
             <Offertext model={'AA'} />
@@ -1036,6 +1106,11 @@ class ForkliftDetail extends Component {
               {this.state.powertrain}
             </ConditionalWrapper>
 
+            {( this.state.voltagerequired && !this.state.selectedVoltage ) ? (
+              <React.Fragment>
+                 <Typography style={{color: 'red'}}>Please select Entry Level, Standard or Heavy Duty Battery Model</Typography>
+              </React.Fragment>
+            ) : null}
   
              
             Capacity : {this.state.liftcapacity}Kg 
@@ -1709,15 +1784,20 @@ class ForkliftDetail extends Component {
             ) : null}
 
 <br /><br />
-
+{!(this.state.voltagerequired && !this.state.selectedVoltage )?(
             <strong>
               Quote Price : £
               {this.state.totalprice + parseInt(this.state.markup)}
             </strong>
+):null}
 
             {( this.state.offer ) ? (
             <Offer price={this.state.totalprice} offeron={this.state.offer} bigger={this.state.selectedBattery} model={this.state.model}/>
             ): null}
+
+{ (this.state.selectedVoltage && this.state.selectedVoltage.label === 'Standard') ? (
+            <Offer price={this.state.totalprice} offeron={true} bigger={this.state.selectedBattery} model={this.state.model}/>
+            ):null}
 
 
 {( this.state.modeldescription && this.state.modeldescription[0].description==='AA Series' ) ? (
@@ -1736,6 +1816,19 @@ class ForkliftDetail extends Component {
           <Grid item xs={8}>
             
             <ResetOptions onResetOptions={this.handleResetOptions} />
+
+            {this.state.voltage && this.state.voltage.length > 0 ? (
+              <React.Fragment><Viewlevels /><br /><br /></React.Fragment>
+            ) : null}
+
+            {this.state.voltage && this.state.voltage.length > 0 ? (
+              <Voltage
+              voltages={this.state.voltage}
+              selectedVoltage={this.state.selectedVoltage}
+              onVoltageSel={this.handleVoltageSel}
+            />
+            ) : null}
+
 
             {this.state.chassis && this.state.chassis.length > 0 ? (
               <Chassis
