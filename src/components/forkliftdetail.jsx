@@ -72,6 +72,8 @@ import OfferAAR from "./offerAAR";
 
 import Viewlevels from "./viewlevels";
 
+import Typography from "@material-ui/core/Typography";
+
 import "typeface-roboto";
 
 class ForkliftDetail extends Component {
@@ -1809,7 +1811,7 @@ class ForkliftDetail extends Component {
             <OfferAAR price={this.state.totalprice} modeldescription={this.state.modeldescription} chassis={this.state.selectedChassis} />
             ): null}
             
-            <QuoteSave onQuoteSave={this.handleQuoteSave} />
+            <QuoteSave onQuoteSave={this.handleQuoteSave} forklift={this.state}/>
             <Markup currentMarkup={this.state.markup} onMarkup={this.handleMarkup} />
 
           </Grid>
