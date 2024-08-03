@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import auth from "../services/authService";
-import { getDealerDetail } from "../services/dealerService";
+
 
 import Grid from "@material-ui/core/Grid";
 
@@ -83,15 +83,6 @@ class ForkliftDetail extends Component {
     const user = auth.getCurrentUser();
     this.setState({ user });
 
-
-    let restricted = false;
-
-    if (user.dealerId){
-      const { data: dealery } = await getDealerDetail(user.dealerId);
-
-      
-    }
-
     
     //console.log('User is restricted');
 
@@ -107,11 +98,9 @@ class ForkliftDetail extends Component {
         initialbaseprice = initialbaseprice - Math.floor(initialbaseprice * percentageOff / 100);
     }
 
-    if (restricted && forky.basePriceR ) initialbaseprice = forky.basePriceR;
 
     let initialChassis = forky.chassis;
-    if (restricted && forky.chassisR ) initialChassis = forky.chassisR;
-
+    
 
     this.setState({
       model: forky.model,
@@ -316,12 +305,16 @@ class ForkliftDetail extends Component {
 
     }
 
-    if (this.state.selectedVoltage && this.state.selectedVoltage.label === 'Standard') {
+    if (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'S') {
 
-      if (this.state.defaultbattery) quote.saving = Math.round(quote.price * .10);
-      // now override if an optional choice has been made
-      if (this.state.selectedBattery) quote.saving = Math.round(quote.price * .15);
+      quote.saving = Math.round(quote.price * .15);
+      quote.offerprice = quote.price - quote.saving;
 
+    }
+
+    if (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'H') {
+
+      quote.saving = Math.round(quote.price * .10);
       quote.offerprice = quote.price - quote.saving;
 
     }
@@ -344,8 +337,8 @@ class ForkliftDetail extends Component {
       quote.offerprice = quote.price - quote.saving;
     }
 
-     // the Entry level and Heavy Duty have no offer
-     if (this.state.selectedVoltage && this.state.selectedVoltage.label !== 'Standard') {
+     // the Entry level has no offer - [0] would be L for Light
+     if (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'L') {
       quote.saving = undefined;
       quote.offerprice = undefined;
     }
@@ -1797,8 +1790,12 @@ class ForkliftDetail extends Component {
             <Offer price={this.state.totalprice} offeron={this.state.offer} bigger={this.state.selectedBattery} model={this.state.model}/>
             ): null}
 
-{ (this.state.selectedVoltage && this.state.selectedVoltage.label === 'Standard') ? (
-            <Offer price={this.state.totalprice} offeron={true} bigger={this.state.selectedBattery} model={this.state.model}/>
+{ (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'S') ? (
+            <Offer price={this.state.totalprice} offeron={true} bigger={true} model={this.state.model}/>
+            ):null}
+   
+   { (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'H') ? (
+            <Offer price={this.state.totalprice} offeron={true} bigger={false} model={this.state.model}/>
             ):null}
 
 

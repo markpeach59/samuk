@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 
 import Typography from "@material-ui/core/Typography";
@@ -7,7 +7,7 @@ import "typeface-roboto";
 const Offertext = props =>  {
   const {model } = props;
 
-  console.log("MOdel on Offer", model);
+  console.log("Model on Offer", model);
 
   if ( model === 'AA'){
     return (<React.Fragment>
@@ -38,10 +38,6 @@ if ( model === 'Reach'){
     return (
         <React.Fragment>
 
-<Typography variant="h6">Current Offer : 10% off the standard AX Range trunk with standard battery - 
-15% off the standard AX Range trunk with a bigger batter
-</Typography>
-<br />
 <br />
         </React.Fragment>
 
