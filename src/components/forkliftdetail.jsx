@@ -70,8 +70,6 @@ import Offertext from "./offertext";
 
 import OfferAAR from "./offerAAR";
 
-import Viewlevels from "./viewlevels";
-
 import Typography from "@material-ui/core/Typography";
 
 import "typeface-roboto";
@@ -1816,9 +1814,6 @@ class ForkliftDetail extends Component {
             
             <ResetOptions onResetOptions={this.handleResetOptions} />
 
-            {this.state.voltage && this.state.voltage.length > 0 ? (
-              <React.Fragment><Viewlevels /><br /><br /></React.Fragment>
-            ) : null}
 
             {this.state.voltage && this.state.voltage.length > 0 ? (
               <Voltage
