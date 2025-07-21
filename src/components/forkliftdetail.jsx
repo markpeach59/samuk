@@ -1447,6 +1447,19 @@ class ForkliftDetail extends Component {
                 : null}
             </ConditionalWrapper>
 
+
+         {this.state.model === 'FDTA80'  ? <React.Fragment>
+                  "Upswept Exhaust"
+                  <br />      
+                </React.Fragment>:null }
+
+         {this.state.model === 'FDTA100'  ? <React.Fragment>
+                  "Upswept Exhaust"
+                  <br />      
+                </React.Fragment>:null }
+
+
+
             <ConditionalWrapper
               condition={this.state.selectedUpsweptexhaust}
               wrapper={(children) => (
