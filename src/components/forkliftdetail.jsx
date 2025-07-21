@@ -1449,12 +1449,12 @@ class ForkliftDetail extends Component {
 
 
          {this.state.model === 'FDTA80'  ? <React.Fragment>
-                  "Upswept Exhaust"
+                  Upswept Exhaust
                   <br />      
                 </React.Fragment>:null }
 
          {this.state.model === 'FDTA100'  ? <React.Fragment>
-                  "Upswept Exhaust"
+                  Upswept Exhaust
                   <br />      
                 </React.Fragment>:null }
 
@@ -1676,8 +1676,10 @@ class ForkliftDetail extends Component {
               )}
             >
               {this.state.selectedCabin
-                ? this.state.selectedCabin.cabinoption
-                : "Plastic top cover"}
+               ? this.state.selectedCabin.cabinoption
+    :  (this.state.model === "FDTA80" || this.state.model === "FDTA100")
+      ? "Closed Roof"
+      : "Plastic top cover"}
             </ConditionalWrapper>
 
             <ConditionalWrapper
