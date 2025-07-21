@@ -1055,7 +1055,8 @@ class ForkliftDetail extends Component {
     const ConditionalWrapper = ({ condition, wrapper, children }) =>
       condition ? wrapper(children) : null;
 
-    //console.log("modeldescription", this.state.modeldescription);
+     if (this.state.modeldescription && this.state.modeldescription[0].description==='Available - POA')
+        return ( <React.Fragment><h2>{this.state.model}</h2><h3>Available - POA</h3></React.Fragment>);
    
     return (
       <React.Fragment>
