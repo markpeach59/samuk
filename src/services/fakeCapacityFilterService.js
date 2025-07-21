@@ -11,9 +11,9 @@ export const capacityFilters = [
   { _id: "1007", capFilter: 4500 },
   { _id: "1008", capFilter: 5000 },
  // { _id: "1009", capFilter: 6000 },
-  { _id: "10010", capFilter: 7000 }
-  // { _id: "1008", capFilter: 8000 },
-  //{ _id: "1011", capFilter: 10000 },
+  { _id: "1009", capFilter: 7000 },
+  { _id: "1010", capFilter: 8000 },
+  { _id: "1011", capFilter: 10000 },
 ];
 
 export function getCapacityFilters() {
