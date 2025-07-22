@@ -653,15 +653,27 @@ return
         }
 
 
+        if (this.state.valves.length === 1 && this.state.selectedValve === this.state.valves[0]){
+console.log(" 3rd+4th Valve - already choosen");
+        
+        this.setState({
+          selectedSideShift: undefined,
+          selectedForkpositioner: forkpositioner,
+          selectedValve: this.state.valves[0],
+          totalprice: new
+        });
+return
+
+        }
 
        // we are assuming valves are available if forkpositioner is an option
       if(!this.state.selectedValve){
         console.log("Adding 3rd+4th Valve");
-        const adjustedprice = newprice + this.state.valves[1].price;
+        const adjustedprice = newprice;
         this.setState({
           selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
-          selectedValve: this.state.valves[1],
+      
           totalprice: adjustedprice
         });
       }
