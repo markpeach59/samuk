@@ -12,7 +12,9 @@ import {
 
 import Markup from "./markup";
 
-import OrderCreate from "./ordercreate";
+//import OrderCreate from "./ordercreate";
+import Generateorder from "./generateorder";
+
 
 import "typeface-roboto";
 
