@@ -632,6 +632,28 @@ class ForkliftDetail extends Component {
        // price with latest FP - no sideshift selection enforced
        const newprice = this.state.totalprice + forkpositioner.price - oldssprice - oldfpprice;
       
+       if (this.state.valves === undefined || this.state.valves.length === 0){
+        //console.log("No Valves are available")
+        this.setState({ selectedSideShift: undefined, 
+          selectedForkpositioner: forkpositioner,
+          totalprice: newprice });
+        return;}
+
+        if (this.state.valves.length === 1 && this.state.selectedValve === undefined){
+console.log("Adding 3rd+4th Valve - only choice of valves");
+        const adjustedprice = newprice + this.state.valves[0].price;
+        this.setState({
+          selectedSideShift: undefined,
+          selectedForkpositioner: forkpositioner,
+          selectedValve: this.state.valves[0],
+          totalprice: adjustedprice
+        });
+return
+
+        }
+
+
+
        // we are assuming valves are available if forkpositioner is an option
       if(!this.state.selectedValve){
         console.log("Adding 3rd+4th Valve");
