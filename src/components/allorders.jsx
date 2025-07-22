@@ -135,6 +135,7 @@ class Orders extends Component {
                   <TableCell align="right">Saving</TableCell>
                   <TableCell align="right">Total</TableCell>
                   <TableCell align="right">Confirmed</TableCell>
+                  <TableCell align="right">PO#</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -180,6 +181,9 @@ class Orders extends Component {
                      onConfirmorder={this.handleConfirmation} />
                     }
                      </TableCell>
+                     <TableCell align="right">
+                     {!x.ponumber? "": x.ponumber}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

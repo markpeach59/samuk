@@ -696,8 +696,10 @@ class QuoteDetail extends Component {
 <br />90 Day terms : £{Math.ceil(this.state.price * 1.015) + parseInt(this.state.markup)}
 </strong>
             <br />
+<br /><br />
 
-            <OrderCreate onOrderCreate={this.handleCreateOrder} />
+<Generateorder onOrderCreate={this.handleCreateOrder} />
+<br />
 
             <Markup currentMarkup={this.state.markup} onMarkup={this.handleMarkup} />
           </Grid>
