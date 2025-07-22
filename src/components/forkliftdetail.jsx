@@ -669,11 +669,11 @@ return
        // we are assuming valves are available if forkpositioner is an option
       if(!this.state.selectedValve){
         console.log("Adding 3rd+4th Valve");
-        const adjustedprice = newprice;
+        const adjustedprice = newprice + this.state.valves[1].price
         this.setState({
           selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
-      
+          selectedValve: this.state.valves[1],
           totalprice: adjustedprice
         });
       }
