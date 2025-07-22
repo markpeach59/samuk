@@ -687,8 +687,13 @@ class QuoteDetail extends Component {
             </React.Fragment>
             ):null}
 
-<br /><strong>Or on a 5 year contract Hire at £ per week<br />
-3 year lease purchase at £  per week</strong>
+<br /><strong>
+
+30 Day terms : £{Math.ceil(this.state.price * 1.005) + parseInt(this.state.markup)}
+<br /><br />60 Day terms : £{Math.ceil(this.state.price * 1.01) + parseInt(this.state.markup)}
+90 Day terms : £{Math.ceil(this.state.price * 1.015) + parseInt(this.state.markup)}
+</strong>
+            <br />
 
             <OrderCreate onOrderCreate={this.handleCreateOrder} />
 
