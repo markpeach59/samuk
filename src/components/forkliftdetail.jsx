@@ -659,8 +659,8 @@ console.log(" 3rd+4th Valve - already choosen");
         this.setState({
           selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
-          selectedValve: this.state.valves[0],
-          totalprice: new
+        
+          totalprice: newprice
         });
 return
 
