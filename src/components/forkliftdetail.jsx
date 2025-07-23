@@ -1913,7 +1913,7 @@ return
 <br />
             {( !this.state.selectedSeat && this.state.seatrequired ) ? (
               <React.Fragment>
-                Please select a Seat Option
+                <Typography style={{color: 'red'}}>Please select a Seat Option</Typography>
               </React.Fragment>
             ) : null}
 
