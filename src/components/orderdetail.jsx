@@ -22,8 +22,11 @@ class OrderDetail extends Component {
       price: forky.price,
       markup: forky.markup,
 
-      saving: forky.saving,
-      offerprice: forky.offerprice,
+      // New comprehensive discount data
+      hasDiscount: forky.hasDiscount,
+      discountPercentage: forky.discountPercentage,
+      discountAmount: forky.discountAmount,
+      discountedPrice: forky.discountedPrice,
 
       ponumber: forky.ponumber,
 
@@ -593,13 +596,13 @@ class OrderDetail extends Component {
             <strong>
               Order Price : £{this.state.price + parseInt(this.state.markup)}
             </strong>
-            {this.state.saving ? (
+            {this.state.hasDiscount ? (
               <React.Fragment>
             <div>
-              Saving : £{this.state.saving}
+              Discount ({this.state.discountPercentage}%) : £{this.state.discountAmount}
             </div>
             <div>
-              Order Offer Price : £{this.state.offerprice + parseInt(this.state.markup)}
+              Order Discounted Price : £{this.state.discountedPrice + parseInt(this.state.markup)}
             </div>
             </React.Fragment>
             ):null}

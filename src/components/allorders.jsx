@@ -162,16 +162,16 @@ class Orders extends Component {
                     <TableCell align="right"> {x.model}</TableCell>
                     <TableCell align="right">
                      
-                     {x.offer  ? ( "Yes") : null}
+                     {x.hasDiscount  ? ( "Yes") : null}
                      </TableCell>
  
                      <TableCell align="right">
-                     {x.offer  ? ( " £" + x.saving) : null}
+                     {x.hasDiscount  ? ( " £" + x.discountAmount) : null}
                      </TableCell>
  
  
                      <TableCell align="right">
-                     {x.offer  ? (" £" + (x.price - x.saving)): (" £" + (x.price ))}
+                     {x.hasDiscount  ? (" £" + (x.discountedPrice)): (" £" + (x.price ))}
                      </TableCell>
                      <TableCell align="right">
                      {x.confirmedorder && "YES"}
