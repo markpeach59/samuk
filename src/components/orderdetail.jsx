@@ -25,6 +25,8 @@ class OrderDetail extends Component {
       saving: forky.saving,
       offerprice: forky.offerprice,
 
+      ponumber: forky.ponumber,
+
       capacity: forky.capacity,
       engtype: forky.engtype,
       powertrain: forky.powertrain,
@@ -576,6 +578,17 @@ class OrderDetail extends Component {
               </React.Fragment>
             ) : null}
 <br />
+            <ConditionalWrapper
+              condition={this.state.ponumber}
+              wrapper={(children) => (
+                <React.Fragment>
+                  {children}
+                  <br />
+                </React.Fragment>
+              )}
+            >
+              <strong>PO Number: {this.state.ponumber}</strong>
+            </ConditionalWrapper>
             <br />
             <strong>
               Order Price : £{this.state.price + parseInt(this.state.markup)}
