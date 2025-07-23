@@ -68,7 +68,6 @@ import { savequote } from "../services/quotesService";
 
 import Offertext from "./offertext";
 
-import OfferAAR from "./offerAAR";
 
 import Typography from "@material-ui/core/Typography";
 
@@ -190,12 +189,96 @@ class ForkliftDetail extends Component {
       offer:forky.offer,
       saving:0,
 
+      // New discount-related state
+      hasDiscount: false,
+      discountedPrice: null,
+      discountPercentage: 0,
+      discountAmount: 0,
+
       markup: 0,
       batteryconstraint: false,
+    }, () => {
+      // Calculate initial discount after state is set
+      const discountData = this.calculateDiscount(initialbaseprice);
+      this.setState({
+        hasDiscount: discountData.hasDiscount,
+        discountedPrice: discountData.discountedPrice,
+        discountPercentage: discountData.percentage,
+        discountAmount: discountData.amount,
+      });
     });
 
     
   }
+
+  // Centralized discount calculation method
+  calculateDiscount = (price, stateOverrides = {}) => {
+    const currentState = { ...this.state, ...stateOverrides };
+    
+    let percentage = 0;
+    let hasDiscount = false;
+    
+    // Check all discount conditions
+    if (currentState.offer) {
+      hasDiscount = true;
+      if (currentState.model === 'FBAX50-YWL') {
+        percentage = 0.03;
+      } else if (currentState.selectedBattery) {
+        percentage = 0.15;
+      } else {
+        percentage = 0.10;
+      }
+    }
+    
+    if (currentState.selectedVoltage?.label[0] === 'S') {
+      hasDiscount = true;
+      percentage = 0.15;
+    }
+    
+    if (currentState.selectedVoltage?.label[0] === 'H') {
+      hasDiscount = true;
+      percentage = 0.10;
+    }
+    
+    if (currentState.modeldescription?.[0]?.description === 'AA Series') {
+      hasDiscount = true;
+      percentage = 0.025;
+    }
+    
+    if (currentState.selectedChassis?.label === 'Lithium Version') {
+      hasDiscount = true;
+      percentage = 0.03;
+    }
+    
+    // IMPORTANT: Entry Level voltage overrides all discounts
+    if (currentState.selectedVoltage?.label[0] === 'L') {
+      hasDiscount = false;
+      percentage = 0;
+    }
+    
+    const amount = hasDiscount ? Math.round(price * percentage) : 0;
+    const discountedPrice = hasDiscount ? price - amount : null;
+    
+    return { 
+      hasDiscount, 
+      percentage, 
+      amount, 
+      discountedPrice 
+    };
+  };
+
+  // Helper method to update state with discount calculation
+  updateStateWithDiscount = (newState, newPrice, stateOverrides = {}) => {
+    const discountData = this.calculateDiscount(newPrice, stateOverrides);
+    this.setState({
+      ...newState,
+      totalprice: newPrice,
+      hasDiscount: discountData.hasDiscount,
+      discountedPrice: discountData.discountedPrice,
+      discountPercentage: discountData.percentage,
+      discountAmount: discountData.amount,
+    });
+  };
 
   handleResetOptions = () => {
     //console.log("Been Reset");
@@ -272,6 +355,12 @@ class ForkliftDetail extends Component {
       totalprice: this.state.baseprice,
       offer: this.state.offer,
 
+      // Reset discount-related state
+      hasDiscount: false,
+      discountedPrice: null,
+      discountPercentage: 0,
+      discountAmount: 0,
+
       batteryconstraint: false,
 
       defaultbattery: dbatt,
@@ -290,31 +379,13 @@ class ForkliftDetail extends Component {
 
     quote.offer = this.state.offer;
 
-    if (this.state.offer){
-
-     
-      if (this.state.defaultbattery) quote.saving = Math.round(quote.price * .10);
-      // now override if an optional choice has been made
-      if (this.state.selectedBattery) quote.saving = Math.round(quote.price * .15);
-      
-      if (this.state.model ==='FBAX50-YWL') quote.saving = Math.round(quote.price * .03);
-
-      quote.offerprice = quote.price - quote.saving;
-
-    }
-
-    if (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'S') {
-
-      quote.saving = Math.round(quote.price * .15);
-      quote.offerprice = quote.price - quote.saving;
-
-    }
-
-    if (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'H') {
-
-      quote.saving = Math.round(quote.price * .10);
-      quote.offerprice = quote.price - quote.saving;
-
+    // Use the centralized discount calculation
+    if (this.state.hasDiscount) {
+      quote.saving = this.state.discountAmount;
+      quote.offerprice = this.state.discountedPrice;
+    } else {
+      quote.saving = undefined;
+      quote.offerprice = undefined;
     }
 
     quote.capacity = this.state.liftcapacity;
@@ -323,23 +394,6 @@ class ForkliftDetail extends Component {
     quote.baseprice = this.state.basePrice;
 
     quote.modeldescription = this.state.modeldescription;
-
-    // implement AA and Reach discounts for Feb and March 2024
-    if (this.state.modeldescription && this.state.modeldescription[0].description==='AA Series'){
-      quote.saving = Math.round(quote.price * .025);
-      quote.offerprice = quote.price - quote.saving;
-    }
-
-    if (this.state.selectedChassis && this.state.selectedChassis.label==='Lithium Version' ) {
-      quote.saving = Math.round(quote.price * .03);
-      quote.offerprice = quote.price - quote.saving;
-    }
-
-     // the Entry level has no offer - [0] would be L for Light
-     if (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'L') {
-      quote.saving = undefined;
-      quote.offerprice = undefined;
-    }
 
     if (this.state.selectedEngine)
       quote.powertrain = this.state.selectedEngine.enginetype;
@@ -457,10 +511,19 @@ class ForkliftDetail extends Component {
 
     const newprice = this.state.totalprice + engine.price - oldprice;
 
+    // Calculate new discounted price
+    const discountData = this.calculateDiscount(newprice, {
+      selectedEngine: engine,
+    });
+
     this.setState({
       selectedEngine: engine,
       powertrain: engine.enginetype,
       totalprice: newprice,
+      hasDiscount: discountData.hasDiscount,
+      discountedPrice: discountData.discountedPrice,
+      discountPercentage: discountData.percentage,
+      discountAmount: discountData.amount,
     });
   };
 
@@ -486,12 +549,22 @@ class ForkliftDetail extends Component {
 
     console.log( "Voltage Selected", voltage );
 
+    // Calculate new discounted price
+    const discountData = this.calculateDiscount(newprice, {
+      selectedVoltage: voltage,
+      selectedBattery: undefined,
+    });
+
     this.setState({
       selectedVoltage: voltage,
       defaultbattery: voltage.defaultbattery,
       batterys: voltage.batteries,
       selectedBattery: undefined,
       totalprice: newprice,
+      hasDiscount: discountData.hasDiscount,
+      discountedPrice: discountData.discountedPrice,
+      discountPercentage: discountData.percentage,
+      discountAmount: discountData.amount,
     });
   };
 
@@ -530,6 +603,13 @@ class ForkliftDetail extends Component {
 
     console.log( "Chassis Selected", chassis );
 
+    // Calculate new discounted price
+    const discountData = this.calculateDiscount(newprice, {
+      selectedChassis: chassis,
+      selectedBattery: undefined,
+      selectedCharger: undefined,
+    });
+
     this.setState({
       selectedChassis: chassis,
       powertrain: chassis.label,
@@ -538,6 +618,10 @@ class ForkliftDetail extends Component {
       selectedBattery: undefined,
       selectedCharger: undefined,
       totalprice: newprice,
+      hasDiscount: discountData.hasDiscount,
+      discountedPrice: discountData.discountedPrice,
+      discountPercentage: discountData.percentage,
+      discountAmount: discountData.amount,
     });
   };
 
@@ -551,10 +635,20 @@ class ForkliftDetail extends Component {
       : 0;
     const newprice = this.state.totalprice + mastsize.price - oldprice;
 
+    // Calculate new discounted price
+    const discountData = this.calculateDiscount(newprice, {
+      selectedMastSize: mastsize,
+      selectedMast: masttype,
+    });
+
     this.setState({
       selectedMastSize: mastsize,
       selectedMast: masttype,
       totalprice: newprice,
+      hasDiscount: discountData.hasDiscount,
+      discountedPrice: discountData.discountedPrice,
+      discountPercentage: discountData.percentage,
+      discountAmount: discountData.amount,
     });
 
     //console.log("VVV", mastsize);
@@ -566,7 +660,7 @@ class ForkliftDetail extends Component {
       : 0;
     const newprice = this.state.totalprice + fork.price - oldprice;
 
-    this.setState({ selectedFork: fork, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedFork: fork }, newprice, { selectedFork: fork });
   };
 
   handleFork2dSel = (fork2d) => {
@@ -575,7 +669,7 @@ class ForkliftDetail extends Component {
       : 0;
     const newprice = this.state.totalprice + fork2d.price - oldprice;
 
-    this.setState({ selectedFork2d: fork2d, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedFork2d: fork2d }, newprice, { selectedFork2d: fork2d });
   };
 
   handleSideShiftSel = (sideshift) => {
@@ -597,23 +691,34 @@ class ForkliftDetail extends Component {
       //console.log("Adding first Valve")
 
       const adjustedprice = newprice + this.state.valves[0].price;
-      this.setState({ selectedSideShift: sideshift, 
-      	selectedForkpositioner: undefined,
+      this.updateStateWithDiscount({ 
+        selectedSideShift: sideshift, 
+        selectedForkpositioner: undefined,
         selectedValve: this.state.valves[0],
-        totalprice: adjustedprice });
+      }, adjustedprice, { 
+        selectedSideShift: sideshift, 
+        selectedForkpositioner: undefined,
+        selectedValve: this.state.valves[0],
+      });
 
     } else {
       //console.log("Valve is already selected")
-      this.setState({ selectedSideShift: sideshift, 
+      this.updateStateWithDiscount({ 
+        selectedSideShift: sideshift, 
         selectedForkpositioner: undefined,
-        totalprice: newprice });
+      }, newprice, { 
+        selectedSideShift: sideshift, 
+        selectedForkpositioner: undefined,
+      });
 
     }
   } else {
     //console.log("No Valves are available")
-    this.setState({ selectedSideShift: sideshift, 
-      totalprice: newprice });
-
+    this.updateStateWithDiscount({ 
+      selectedSideShift: sideshift, 
+    }, newprice, { 
+      selectedSideShift: sideshift, 
+    });
 
   }
   };
@@ -634,19 +739,26 @@ class ForkliftDetail extends Component {
       
        if (this.state.valves === undefined || this.state.valves.length === 0){
         //console.log("No Valves are available")
-        this.setState({ selectedSideShift: undefined, 
+        this.updateStateWithDiscount({ 
+          selectedSideShift: undefined, 
           selectedForkpositioner: forkpositioner,
-          totalprice: newprice });
+        }, newprice, { 
+          selectedSideShift: undefined, 
+          selectedForkpositioner: forkpositioner,
+        });
         return;}
 
         if (this.state.valves.length === 1 && this.state.selectedValve === undefined){
 console.log("Adding 3rd+4th Valve - only choice of valves");
         const adjustedprice = newprice + this.state.valves[0].price;
-        this.setState({
+        this.updateStateWithDiscount({
           selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
           selectedValve: this.state.valves[0],
-          totalprice: adjustedprice
+        }, adjustedprice, {
+          selectedSideShift: undefined,
+          selectedForkpositioner: forkpositioner,
+          selectedValve: this.state.valves[0],
         });
 return
 
@@ -656,11 +768,12 @@ return
         if (this.state.valves.length === 1 && this.state.selectedValve === this.state.valves[0]){
 console.log(" 3rd+4th Valve - already choosen");
         
-        this.setState({
+        this.updateStateWithDiscount({
           selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
-        
-          totalprice: newprice
+        }, newprice, {
+          selectedSideShift: undefined,
+          selectedForkpositioner: forkpositioner,
         });
 return
 
@@ -670,30 +783,38 @@ return
       if(!this.state.selectedValve){
         console.log("Adding 3rd+4th Valve");
         const adjustedprice = newprice + this.state.valves[1].price
-        this.setState({
+        this.updateStateWithDiscount({
           selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
           selectedValve: this.state.valves[1],
-          totalprice: adjustedprice
+        }, adjustedprice, {
+          selectedSideShift: undefined,
+          selectedForkpositioner: forkpositioner,
+          selectedValve: this.state.valves[1],
         });
       }
       else if (this.state.selectedValve === this.state.valves[0]){
         console.log("upgrade 3rd to 3rd+4th Valve");
         const oldvalveprice = this.state.valves[0].price;
         const adjustedprice = newprice + this.state.valves[1].price - oldvalveprice;
-        this.setState({
+        this.updateStateWithDiscount({
           selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
           selectedValve: this.state.valves[1],
-          totalprice: adjustedprice
+        }, adjustedprice, {
+          selectedSideShift: undefined,
+          selectedForkpositioner: forkpositioner,
+          selectedValve: this.state.valves[1],
         });
 
       } else {
         console.log("3rd+4th Valve already selected")
-        this.setState({
+        this.updateStateWithDiscount({
           selectedSideShift: undefined,
           selectedForkpositioner: forkpositioner,
-          totalprice: newprice,
+        }, newprice, {
+          selectedSideShift: undefined,
+          selectedForkpositioner: forkpositioner,
         });
 
       }
@@ -708,7 +829,7 @@ return
       : 0;
     const newprice = this.state.totalprice + valve.price - oldprice;
 
-    this.setState({ selectedValve: valve, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedValve: valve }, newprice, { selectedValve: valve });
   };
 
   handleReargrabSel = (reargrab) => {
@@ -717,7 +838,7 @@ return
       : 0;
     const newprice = this.state.totalprice + reargrab.price - oldprice;
 
-    this.setState({ selectedReargrab: reargrab, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedReargrab: reargrab }, newprice, { selectedReargrab: reargrab });
   };
 
   handleSideleverhydraulicSel = (sideleverhydraulic) => {
@@ -727,10 +848,9 @@ return
     const newprice =
       this.state.totalprice + sideleverhydraulic.price - oldprice;
 
-    this.setState({
+    this.updateStateWithDiscount({
       selectedSideleverhydraulic: sideleverhydraulic,
-      totalprice: newprice,
-    });
+    }, newprice, { selectedSideleverhydraulic: sideleverhydraulic });
   };
 
   handlePlatformSel = (platform) => {
@@ -739,7 +859,7 @@ return
       : 0;
     const newprice = this.state.totalprice + platform.price - oldprice;
 
-    this.setState({ selectedPlatform: platform, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedPlatform: platform }, newprice, { selectedPlatform: platform });
   };
 
   handleArmguardSel = (armguard) => {
@@ -748,42 +868,42 @@ return
       : 0;
     const newprice = this.state.totalprice + armguard.price - oldprice;
 
-    this.setState({ selectedArmguard: armguard, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedArmguard: armguard }, newprice, { selectedArmguard: armguard });
   };
 
   handleBfsSel = (bfs) => {
     const oldprice = this.state.selectedBfs ? this.state.selectedBfs.price : 0;
     const newprice = this.state.totalprice + bfs.price - oldprice;
 
-    this.setState({ selectedBfs: bfs, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedBfs: bfs }, newprice, { selectedBfs: bfs });
   };
 
   handleRollerSel = (roller) => {
     const oldprice = this.state.selectedRoller ? this.state.selectedRoller.price : 0;
     const newprice = this.state.totalprice + roller.price - oldprice;
 
-    this.setState({ selectedRoller: roller, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedRoller: roller }, newprice, { selectedRoller: roller });
   };
 
   handlePincodeSel = (pincode) => {
     const oldprice = this.state.selectedPincode ? this.state.selectedPincode.price : 0;
     const newprice = this.state.totalprice + pincode.price - oldprice;
 
-    this.setState({ selectedPincode: pincode, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedPincode: pincode }, newprice, { selectedPincode: pincode });
   };
 
   handleLiftybuttonSel = (liftybutton) => {
     const oldprice = this.state.selectedLiftybutton ? this.state.selectedLiftybutton.price : 0;
     const newprice = this.state.totalprice + liftybutton.price - oldprice;
 
-    this.setState({ selectedLiftybutton: liftybutton, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedLiftybutton: liftybutton }, newprice, { selectedLiftybutton: liftybutton });
   };
 
   handleDisplaywithcameraSel = (displaywithcamera) => {
     const oldprice = this.state.selectedDisplaywithcamera ? this.state.selectedDisplaywithcamera.price : 0;
     const newprice = this.state.totalprice + displaywithcamera.price - oldprice;
 
-    this.setState({ selectedDisplaywithcamera: displaywithcamera, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedDisplaywithcamera: displaywithcamera }, newprice, { selectedDisplaywithcamera: displaywithcamera });
   };
 
   handleControllerSel = (controller) => {
@@ -792,14 +912,14 @@ return
       : 0;
     const newprice = this.state.totalprice + controller.price - oldprice;
 
-    this.setState({ selectedController: controller, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedController: controller }, newprice, { selectedController: controller });
   };
 
   handleSafetybluespotSel = (safetybluespot) => {
     const oldprice = this.state.selectedSafetybluespot ? this.state.selectedSafetybluespot.price : 0;
     const newprice = this.state.totalprice + safetybluespot.price - oldprice;
 
-    this.setState({ selectedSafetybluespot: safetybluespot, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedSafetybluespot: safetybluespot }, newprice, { selectedSafetybluespot: safetybluespot });
   };
 
 
@@ -809,7 +929,7 @@ return
       : 0;
     const newprice = this.state.totalprice + trolley.price - oldprice;
 
-    this.setState({ selectedTrolley: trolley, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedTrolley: trolley }, newprice, { selectedTrolley: trolley });
   };
 
   handleBlinkeySel = (blinkey) => {
@@ -818,7 +938,7 @@ return
       : 0;
     const newprice = this.state.totalprice + blinkey.price - oldprice;
 
-    this.setState({ selectedBlinkey: blinkey, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedBlinkey: blinkey }, newprice, { selectedBlinkey: blinkey });
   };
 
   handleLoadbackrestSel = (loadbackrest) => {
@@ -827,7 +947,7 @@ return
       : 0;
     const newprice = this.state.totalprice + loadbackrest.price - oldprice;
 
-    this.setState({ selectedLoadbackrest: loadbackrest, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedLoadbackrest: loadbackrest }, newprice, { selectedLoadbackrest: loadbackrest });
   };
 
   handleSteeringSel = (steering) => {
@@ -836,7 +956,7 @@ return
       : 0;
     const newprice = this.state.totalprice + steering.price - oldprice;
 
-    this.setState({ selectedSteering: steering, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedSteering: steering }, newprice, { selectedSteering: steering });
   };
 
   handleTyreSel = (tyre) => {
@@ -845,7 +965,7 @@ return
       : 0;
     const newprice = this.state.totalprice + tyre.price - oldprice;
 
-    this.setState({ selectedTyre: tyre, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedTyre: tyre }, newprice, { selectedTyre: tyre });
   };
 
   handleHalolight = (halolight) => {
@@ -854,7 +974,7 @@ return
       : 0;
     const newprice = this.state.totalprice + halolight.price - oldprice;
 
-    this.setState({ selectedHalolight: halolight, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedHalolight: halolight }, newprice, { selectedHalolight: halolight });
   };
 
   handleUpsweptexhaustSel = (upsweptexhaust) => {
@@ -863,7 +983,7 @@ return
       : 0;
     const newprice = this.state.totalprice + upsweptexhaust.price - oldprice;
 
-    this.setState({ selectedUpsweptexhaust: upsweptexhaust, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedUpsweptexhaust: upsweptexhaust }, newprice, { selectedUpsweptexhaust: upsweptexhaust });
   };
 
   handlePrecleanerSel = (precleaner) => {
@@ -872,7 +992,7 @@ return
       : 0;
     const newprice = this.state.totalprice + precleaner.price - oldprice;
 
-    this.setState({ selectedPrecleaner: precleaner, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedPrecleaner: precleaner }, newprice, { selectedPrecleaner: precleaner });
   };
 
   handleHeavydutyairfilterSel = (heavydutyairfilter) => {
@@ -881,7 +1001,7 @@ return
       : 0;
     const newprice = this.state.totalprice + heavydutyairfilter.price - oldprice;
 
-    this.setState({ selectedHeavydutyairfilter: heavydutyairfilter, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedHeavydutyairfilter: heavydutyairfilter }, newprice, { selectedHeavydutyairfilter: heavydutyairfilter });
   };
 
   handleBatterycompartmentSel = (batterycompartment) => {
@@ -907,10 +1027,11 @@ return
       console.log('Battery Selection State -', this.state.selectedBattery.batterytype );
       console.log('Compartment - ', batterycompartment.batterycompartmenttype);
 
-      this.setState({ 
+      this.updateStateWithDiscount({ 
         selectedBatterycompartment: batterycompartment, 
-        totalprice: newprice,
         batteryconstraint: constraint,
+      }, newprice, { 
+        selectedBatterycompartment: batterycompartment, 
       });
       
      } else {
@@ -931,13 +1052,15 @@ return
       
       const adjustedprice = newprice + this.state.batterys[0].price;
 
-      this.setState({ 
+      this.updateStateWithDiscount({ 
         selectedBatterycompartment: batterycompartment, 
         selectedBattery: this.state.batterys[0],
         selectedCharger: undefined,
         chargers: this.state.batterys[0].chargers, 
-        totalprice: adjustedprice,
         batteryconstraint: constraint,
+      }, adjustedprice, { 
+        selectedBatterycompartment: batterycompartment, 
+        selectedBattery: this.state.batterys[0],
       });
 
     
@@ -955,10 +1078,11 @@ return
       this.state.totalprice + batterycompartment.price - oldprice;
       
 
-      this.setState({ 
+      this.updateStateWithDiscount({ 
         selectedBatterycompartment: batterycompartment, 
-        totalprice: newprice,
         batteryconstraint: constraint,
+      }, newprice, { 
+        selectedBatterycompartment: batterycompartment, 
       });
       
 
@@ -975,10 +1099,9 @@ return
     const newprice =
       this.state.totalprice + battery.price - oldprice;
 
-    this.setState({
+    this.updateStateWithDiscount({
       selectedBattery: battery,
-      totalprice: newprice,
-    });
+    }, newprice, { selectedBattery: battery });
 
 /*
     this.setState({
@@ -996,7 +1119,7 @@ return
       : 0;
     const newprice = this.state.totalprice + charger.price - oldprice;
 
-    this.setState({ selectedCharger: charger, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedCharger: charger }, newprice, { selectedCharger: charger });
   };
 
   handleSpareSel = (spare) => {
@@ -1009,17 +1132,14 @@ return
       const battery = this.state.batterys[0];
       const newprice = this.state.totalprice + spare.price + battery.price;
 
-      this.setState({ selectedSpare: spare, selectedBattery: battery, totalprice: newprice });
+      this.updateStateWithDiscount({ selectedSpare: spare, selectedBattery: battery }, newprice, { selectedSpare: spare, selectedBattery: battery });
     }
     else{
       const newprice = this.state.totalprice + spare.price;
 
-      this.setState({ selectedSpare: spare, totalprice: newprice });
+      this.updateStateWithDiscount({ selectedSpare: spare }, newprice, { selectedSpare: spare });
 
     }
-
-
-    this.setState({ selectedSpare: spare, totalprice: newprice });
   };
 
   handleSideextractionbatterySel = (sideextractionbattery) => {
@@ -1029,10 +1149,9 @@ return
     const newprice =
       this.state.totalprice + sideextractionbattery.price - oldprice;
 
-    this.setState({
+    this.updateStateWithDiscount({
       selectedSideextractionbattery: sideextractionbattery,
-      totalprice: newprice,
-    });
+    }, newprice, { selectedSideextractionbattery: sideextractionbattery });
   };
 
   handleSeatSel = (seat) => {
@@ -1041,7 +1160,7 @@ return
       : 0;
     const newprice = this.state.totalprice + seat.price - oldprice;
 
-    this.setState({ selectedSeat: seat, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedSeat: seat }, newprice, { selectedSeat: seat });
   };
 
   handleCabinSel = (cabin) => {
@@ -1050,7 +1169,7 @@ return
       : 0;
     const newprice = this.state.totalprice + cabin.price - oldprice;
 
-    this.setState({ selectedCabin: cabin, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedCabin: cabin }, newprice, { selectedCabin: cabin });
   };
 
   handleColdStoreProtSel = (coldstoreprot) => {
@@ -1059,10 +1178,9 @@ return
       : 0;
     const newprice = this.state.totalprice + coldstoreprot.price - oldprice;
 
-    this.setState({
+    this.updateStateWithDiscount({
       selectedColdStoreProt: coldstoreprot,
-      totalprice: newprice,
-    });
+    }, newprice, { selectedColdStoreProt: coldstoreprot });
   };
 
   handleHeaterSel = (heater) => {
@@ -1071,7 +1189,7 @@ return
       : 0;
     const newprice = this.state.totalprice + heater.price - oldprice;
 
-    this.setState({ selectedHeater: heater, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedHeater: heater }, newprice, { selectedHeater: heater });
   };
 
   handleAirconSel = (aircon) => {
@@ -1080,7 +1198,7 @@ return
       : 0;
     const newprice = this.state.totalprice + aircon.price - oldprice;
 
-    this.setState({ selectedAircon: aircon, totalprice: newprice });
+    this.updateStateWithDiscount({ selectedAircon: aircon }, newprice, { selectedAircon: aircon });
   };
 
   
@@ -1834,27 +1952,16 @@ return
             </strong>
 ):null}
 
-            {( this.state.offer ) ? (
-            <Offer price={this.state.totalprice} offeron={this.state.offer} bigger={this.state.selectedBattery} model={this.state.model}/>
-            ): null}
+            {this.state.hasDiscount ? (
+              <Offer 
+                hasDiscount={this.state.hasDiscount}
+                discountedPrice={this.state.discountedPrice}
+                discountAmount={this.state.discountAmount}
+                discountPercentage={this.state.discountPercentage}
+              />
+            ) : null}
+            
 
-{ (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'S') ? (
-            <Offer price={this.state.totalprice} offeron={true} bigger={true} model={this.state.model}/>
-            ):null}
-   
-   { (this.state.selectedVoltage && this.state.selectedVoltage.label[0] === 'H') ? (
-            <Offer price={this.state.totalprice} offeron={true} bigger={false} model={this.state.model}/>
-            ):null}
-
-
-{( this.state.modeldescription && this.state.modeldescription[0].description==='AA Series' ) ? (
-            <OfferAAR price={this.state.totalprice} modeldescription={this.state.modeldescription} chassis={this.state.selectedChassis} />
-            ): null}
-
-
-{( this.state.selectedChassis && this.state.selectedChassis.label==='Lithium Version' ) ? (
-            <OfferAAR price={this.state.totalprice} modeldescription={this.state.modeldescription} chassis={this.state.selectedChassis} />
-            ): null}
             
             <QuoteSave onQuoteSave={this.handleQuoteSave} forklift={this.state}/>
             <Markup currentMarkup={this.state.markup} onMarkup={this.handleMarkup} />
