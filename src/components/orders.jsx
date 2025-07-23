@@ -57,6 +57,7 @@ class Orders extends Component {
                   <TableCell align="right">Cost</TableCell>
                   <TableCell align="right">Markup</TableCell>
                   <TableCell align="right">Offer</TableCell>
+                  <TableCell align="right">Percentage</TableCell>
                   <TableCell align="right">Saving</TableCell>
                   <TableCell align="right">Total</TableCell>
                   <TableCell align="right">Confirmed</TableCell>
@@ -85,6 +86,14 @@ class Orders extends Component {
                     <TableCell align="right">
                      
                      {x.hasDiscount  ? ( "Yes") : null}
+                     </TableCell>
+ 
+                     <TableCell align="right">
+                     {x.hasDiscount  ? (
+                       (x.discountPercentage * 100) % 1 === 0 
+                         ? (x.discountPercentage * 100).toFixed(0) + "%" 
+                         : (x.discountPercentage * 100).toFixed(1) + "%"
+                     ) : null}
                      </TableCell>
  
                      <TableCell align="right">
