@@ -706,9 +706,9 @@ class QuoteDetail extends Component {
 
 <br /><strong>
 
-30 Day terms : £{Math.ceil(this.state.price * 1.005) + parseInt(this.state.markup)}
-<br />60 Day terms : £{Math.ceil(this.state.price * 1.01) + parseInt(this.state.markup)}
-<br />90 Day terms : £{Math.ceil(this.state.price * 1.015) + parseInt(this.state.markup)}
+30 Day terms : £{Math.ceil((this.state.hasDiscount ? this.state.discountedPrice : this.state.price) * 1.005) + parseInt(this.state.markup)}
+<br />60 Day terms : £{Math.ceil((this.state.hasDiscount ? this.state.discountedPrice : this.state.price) * 1.01) + parseInt(this.state.markup)}
+<br />90 Day terms : £{Math.ceil((this.state.hasDiscount ? this.state.discountedPrice : this.state.price) * 1.015) + parseInt(this.state.markup)}
 </strong>
             <br />
 <br /><br />
