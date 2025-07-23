@@ -599,7 +599,9 @@ class OrderDetail extends Component {
             {this.state.hasDiscount ? (
               <React.Fragment>
             <div>
-              Discount {(this.state.discountPercentage * 100).toFixed(1)}% : £{this.state.discountAmount}
+              Discount {(this.state.discountPercentage * 100) % 1 === 0 
+                ? (this.state.discountPercentage * 100).toFixed(0) 
+                : (this.state.discountPercentage * 100).toFixed(1)}% : £{this.state.discountAmount}
             </div>
             <div>
               Order Discounted Price : £{this.state.discountedPrice + parseInt(this.state.markup)}
