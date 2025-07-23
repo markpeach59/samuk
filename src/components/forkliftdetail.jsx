@@ -384,15 +384,6 @@ class ForkliftDetail extends Component {
     quote.discountPercentage = this.state.discountPercentage;
     quote.discountAmount = this.state.discountAmount;
     quote.discountedPrice = this.state.discountedPrice;
-    
-    // Keep legacy fields for backward compatibility
-    if (this.state.hasDiscount) {
-      quote.saving = this.state.discountAmount;
-      quote.offerprice = this.state.discountedPrice;
-    } else {
-      quote.saving = undefined;
-      quote.offerprice = undefined;
-    }
 
     quote.capacity = this.state.liftcapacity;
     quote.engtype = this.state.engType;
