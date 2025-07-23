@@ -549,22 +549,14 @@ class ForkliftDetail extends Component {
 
     console.log( "Voltage Selected", voltage );
 
-    // Calculate new discounted price
-    const discountData = this.calculateDiscount(newprice, {
-      selectedVoltage: voltage,
-      selectedBattery: undefined,
-    });
-
-    this.setState({
+    this.updateStateWithDiscount({
       selectedVoltage: voltage,
       defaultbattery: voltage.defaultbattery,
       batterys: voltage.batteries,
       selectedBattery: undefined,
-      totalprice: newprice,
-      hasDiscount: discountData.hasDiscount,
-      discountedPrice: discountData.discountedPrice,
-      discountPercentage: discountData.percentage,
-      discountAmount: discountData.amount,
+    }, newprice, {
+      selectedVoltage: voltage,
+      selectedBattery: undefined,
     });
   };
 
@@ -603,25 +595,17 @@ class ForkliftDetail extends Component {
 
     console.log( "Chassis Selected", chassis );
 
-    // Calculate new discounted price
-    const discountData = this.calculateDiscount(newprice, {
-      selectedChassis: chassis,
-      selectedBattery: undefined,
-      selectedCharger: undefined,
-    });
-
-    this.setState({
+    this.updateStateWithDiscount({
       selectedChassis: chassis,
       powertrain: chassis.label,
       batterys: chassis.batteries,
       chargers: undefined,
       selectedBattery: undefined,
       selectedCharger: undefined,
-      totalprice: newprice,
-      hasDiscount: discountData.hasDiscount,
-      discountedPrice: discountData.discountedPrice,
-      discountPercentage: discountData.percentage,
-      discountAmount: discountData.amount,
+    }, newprice, {
+      selectedChassis: chassis,
+      selectedBattery: undefined,
+      selectedCharger: undefined,
     });
   };
 
@@ -635,20 +619,12 @@ class ForkliftDetail extends Component {
       : 0;
     const newprice = this.state.totalprice + mastsize.price - oldprice;
 
-    // Calculate new discounted price
-    const discountData = this.calculateDiscount(newprice, {
+    this.updateStateWithDiscount({
       selectedMastSize: mastsize,
       selectedMast: masttype,
-    });
-
-    this.setState({
+    }, newprice, {
       selectedMastSize: mastsize,
       selectedMast: masttype,
-      totalprice: newprice,
-      hasDiscount: discountData.hasDiscount,
-      discountedPrice: discountData.discountedPrice,
-      discountPercentage: discountData.percentage,
-      discountAmount: discountData.amount,
     });
 
     //console.log("VVV", mastsize);
