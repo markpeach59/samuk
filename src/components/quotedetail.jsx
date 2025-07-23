@@ -35,6 +35,12 @@ class QuoteDetail extends Component {
 
       saving: forky.saving,
       offerprice: forky.offerprice,
+      
+      // New comprehensive discount data
+      hasDiscount: forky.hasDiscount,
+      discountPercentage: forky.discountPercentage,
+      discountAmount: forky.discountAmount,
+      discountedPrice: forky.discountedPrice,
 
       capacity: forky.capacity,
       engtype: forky.engtype,

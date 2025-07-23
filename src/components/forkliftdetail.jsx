@@ -379,7 +379,13 @@ class ForkliftDetail extends Component {
 
     quote.offer = this.state.offer;
 
-    // Use the centralized discount calculation
+    // Store all discount-related data
+    quote.hasDiscount = this.state.hasDiscount;
+    quote.discountPercentage = this.state.discountPercentage;
+    quote.discountAmount = this.state.discountAmount;
+    quote.discountedPrice = this.state.discountedPrice;
+    
+    // Keep legacy fields for backward compatibility
     if (this.state.hasDiscount) {
       quote.saving = this.state.discountAmount;
       quote.offerprice = this.state.discountedPrice;
