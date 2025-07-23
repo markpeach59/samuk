@@ -123,6 +123,7 @@ class AllQuotes extends Component {
                   <TableCell>Dealer</TableCell>
                   <TableCell align="right">Model</TableCell>
                   <TableCell align="right">Offer</TableCell>
+                  <TableCell align="right">Percentage</TableCell>
                   <TableCell align="right">Saving</TableCell>
                   <TableCell align="right">Total</TableCell>
                   <TableCell align="right">Reassign</TableCell>
@@ -153,6 +154,14 @@ class AllQuotes extends Component {
                     <TableCell align="right">
                      
                      {x.hasDiscount  ? ( "Yes") : null}
+                     </TableCell>
+ 
+                     <TableCell align="right">
+                     {x.hasDiscount  ? (
+                       (x.discountPercentage * 100) % 1 === 0 
+                         ? (x.discountPercentage * 100).toFixed(0) + "%" 
+                         : (x.discountPercentage * 100).toFixed(1) + "%"
+                     ) : null}
                      </TableCell>
  
                      <TableCell align="right">
