@@ -1935,12 +1935,16 @@ return
             
 <br />
 
+{!(this.state.voltagerequired && !this.state.selectedVoltage) && !(this.state.chassisrequired && !this.state.selectedChassis)?(
+<React.Fragment>
 <br /><strong>
 
 30 Day terms : £{Math.ceil((this.state.hasDiscount ? this.state.discountedPrice : this.state.totalprice) * 1.005) + parseInt(this.state.markup)}
 <br />60 Day terms : £{Math.ceil((this.state.hasDiscount ? this.state.discountedPrice : this.state.totalprice) * 1.01) + parseInt(this.state.markup)}
 <br />90 Day terms : £{Math.ceil((this.state.hasDiscount ? this.state.discountedPrice : this.state.totalprice) * 1.015) + parseInt(this.state.markup)}
 </strong>
+</React.Fragment>
+):null}
             <br />
 <br /><br />
 
