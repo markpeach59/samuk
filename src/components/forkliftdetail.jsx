@@ -1223,6 +1223,12 @@ return
                  <Typography style={{color: 'red'}}>Please select Entry Level, Standard or Heavy Duty Battery Model</Typography>
               </React.Fragment>
             ) : null}
+
+            {( this.state.chassisrequired && !this.state.selectedChassis ) ? (
+              <React.Fragment>
+                 <Typography style={{color: 'red'}}>Please select a Chassis Option</Typography>
+              </React.Fragment>
+            ) : null}
   
              
             Capacity : {this.state.liftcapacity}Kg 
@@ -1911,7 +1917,7 @@ return
             ) : null}
 
 <br /><br />
-{!(this.state.voltagerequired && !this.state.selectedVoltage )?(
+{!(this.state.voltagerequired && !this.state.selectedVoltage) && !(this.state.chassisrequired && !this.state.selectedChassis)?(
             <strong>
               Quote Price : £
               {this.state.totalprice + parseInt(this.state.markup)}
