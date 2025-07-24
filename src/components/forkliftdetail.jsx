@@ -508,19 +508,11 @@ class ForkliftDetail extends Component {
 
     const newprice = this.state.totalprice + engine.price - oldprice;
 
-    // Calculate new discounted price
-    const discountData = this.calculateDiscount(newprice, {
-      selectedEngine: engine,
-    });
-
-    this.setState({
+    this.updateStateWithDiscount({
       selectedEngine: engine,
       powertrain: engine.enginetype,
-      totalprice: newprice,
-      hasDiscount: discountData.hasDiscount,
-      discountedPrice: discountData.discountedPrice,
-      discountPercentage: discountData.percentage,
-      discountAmount: discountData.amount,
+    }, newprice, {
+      selectedEngine: engine,
     });
   };
 
