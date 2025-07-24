@@ -116,6 +116,7 @@ class ForkliftDetail extends Component {
 
       engines: forky.engines,
 
+      chassisrequired: forky.chassisrequired,
       voltagerequired: forky.voltagerequired,
       voltage:forky.voltage,
 
