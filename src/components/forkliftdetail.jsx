@@ -293,6 +293,12 @@ class ForkliftDetail extends Component {
       dcharg = undefined;
     }
 
+    console.log( 'CR ', this.state.chassisrequired);
+    if (this.state.chassisrequired){
+      dbatt = undefined;
+      dcharg = undefined;
+    }
+
     this.setState({
       powertrain: this.state.iengine,
       selectedEngine: undefined,
@@ -356,16 +362,18 @@ class ForkliftDetail extends Component {
       totalprice: this.state.baseprice,
       offer: this.state.offer,
 
-      // Reset discount-related state
-      hasDiscount: false,
-      discountedPrice: null,
-      discountPercentage: 0,
-      discountAmount: 0,
+      
 
       batteryconstraint: false,
 
       defaultbattery: dbatt,
       defaultcharger: dcharg,
+
+      // Reset discount-related state
+      hasDiscount: false,
+      discountedPrice: null,
+      discountPercentage: 0,
+      discountAmount: 0,
 
     });
   };
@@ -1173,6 +1181,9 @@ return
     const ConditionalWrapper = ({ condition, wrapper, children }) =>
       condition ? wrapper(children) : null;
 
+    if (this.state.modeldescription && this.state.modeldescription[0].description==='Coming Soon')
+        return ( <React.Fragment><h2>{this.state.model}</h2><h3>Coming Soon</h3></React.Fragment>);
+    
      if (this.state.modeldescription && this.state.modeldescription[0].description==='Available - POA')
         return ( <React.Fragment><h2>{this.state.model}</h2><h3>Available - POA</h3></React.Fragment>);
    
