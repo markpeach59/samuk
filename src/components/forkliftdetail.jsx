@@ -1099,7 +1099,7 @@ return
   handleSpareSel = (spare) => {
     
     // calc new price here - but repeated calc below - this line not needed
-    const newprice = this.state.totalprice + spare.price
+    //const newprice = this.state.totalprice + spare.price
 
     // if optional battery upgrade exists - but not selected - select this as well as spare
     if (this.state.batterys !== undefined && this.state.batterys.length > 0 && !this.state.selectedBattery){
