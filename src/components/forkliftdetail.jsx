@@ -76,6 +76,19 @@ import "typeface-roboto";
 class ForkliftDetail extends Component {
   state = {};
 
+  // Helper function to safely convert prices to numbers
+  safePrice = (value) => {
+    if (value === null || value === undefined || value === '') {
+      return 0;
+    }
+    const num = Number(value);
+    if (isNaN(num)) {
+      console.warn('Invalid price value detected:', value);
+      return 0;
+    }
+    return num;
+  };
+
   async componentDidMount() {
     const user = auth.getCurrentUser();
     this.setState({ user });
@@ -88,7 +101,10 @@ class ForkliftDetail extends Component {
     const { data: forky } = await getForkliftDetail(handle);
     //console.log("Detail", forky);
 
-    let initialbaseprice = forky.basePrice;
+    // Safely convert base price to number to prevent string concatenation issues
+    let initialbaseprice = this.safePrice(forky.basePrice);
+    
+    console.log('Initial base price from API:', forky.basePrice, 'Converted to:', initialbaseprice);
 
     let percentageOff = forky.percentOffBase;
     if (percentageOff){
@@ -512,10 +528,10 @@ class ForkliftDetail extends Component {
 
   handleEngineSel = (engine) => {
     const oldprice = this.state.selectedEngine
-      ? this.state.selectedEngine.price
+      ? this.safePrice(this.state.selectedEngine.price)
       : 0;
 
-    const newprice = this.state.totalprice + engine.price - oldprice;
+    const newprice = this.safePrice(this.state.totalprice) + this.safePrice(engine.price) - oldprice;
 
     this.updateStateWithDiscount({
       selectedEngine: engine,
